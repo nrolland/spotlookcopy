@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'SpotLook' target in the 'SpotLook' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
