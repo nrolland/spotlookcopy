@@ -577,7 +577,7 @@
 	//[sp setExtensionHidden:NO];
 	 
 	/* display the NSSavePanel */
-	runResult = [sp runModalForDirectory:[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] file:@"tracks.png"];
+	runResult = [sp runModalForDirectory:[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] file:@"Untitled.png"];
 	 
 	/* if successful, save file under designated name */
 	if (runResult == NSOKButton) {

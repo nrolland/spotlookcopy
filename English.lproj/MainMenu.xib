@@ -8,15 +8,15 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="3051"/>
-			<integer value="1246"/>
 			<integer value="3053"/>
+			<integer value="3206"/>
+			<integer value="3065"/>
+			<integer value="1246"/>
+			<integer value="3051"/>
 			<integer value="1110"/>
 			<integer value="3289"/>
 			<integer value="103"/>
-			<integer value="3206"/>
 			<integer value="3072"/>
-			<integer value="3065"/>
 			<integer value="836"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -1442,7 +1442,7 @@ AAAAAAAAAAAAAAAAAAB0ZXh0AAAAAENvcHlyaWdodCBBcHBsZSwgSW5jLiwgMjAwOAA</bytes>
 									<reference key="NSOnImage" ref="852870041"/>
 									<reference key="NSMixedImage" ref="653102128"/>
 								</object>
-								<object class="NSMenuItem" id="885059624">
+								<object class="NSMenuItem" id="716866188">
 									<reference key="NSMenu" ref="283772958"/>
 									<string key="NSTitle">Open FAQ</string>
 									<string key="NSKeyEquiv"/>
@@ -1450,7 +1450,7 @@ AAAAAAAAAAAAAAAAAAB0ZXh0AAAAAENvcHlyaWdodCBBcHBsZSwgSW5jLiwgMjAwOAA</bytes>
 									<reference key="NSOnImage" ref="852870041"/>
 									<reference key="NSMixedImage" ref="653102128"/>
 								</object>
-								<object class="NSMenuItem" id="750493907">
+								<object class="NSMenuItem" id="650243548">
 									<reference key="NSMenu" ref="283772958"/>
 									<string key="NSTitle">Open Discussion</string>
 									<string key="NSKeyEquiv"/>
@@ -42117,7 +42117,7 @@ AAgAAQABAAEAAQ</bytes>
 					<object class="NSButton" id="608311852">
 						<reference key="NSNextResponder" ref="261818807"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{14, 10}, {32, 32}}</string>
+						<string key="NSFrame">{{14, 10}, {36, 38}}</string>
 						<reference key="NSSuperview" ref="261818807"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="909747989">
@@ -43236,14 +43236,6 @@ AAgAAQABAAEAAQ</bytes>
 					<int key="connectionID">1395</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">cvItem</string>
-						<reference key="source" ref="261818807"/>
-						<reference key="destination" ref="446045564"/>
-					</object>
-					<int key="connectionID">1425</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">content: arrangedObjects</string>
 						<reference key="source" ref="97135858"/>
@@ -44357,7 +44349,7 @@ AAgAAQABAAEAAQ</bytes>
 					<object class="IBActionConnection" key="connection">
 						<string key="label">openFAQ:</string>
 						<reference key="source" ref="42996464"/>
-						<reference key="destination" ref="885059624"/>
+						<reference key="destination" ref="716866188"/>
 					</object>
 					<int key="connectionID">3369</int>
 				</object>
@@ -44607,9 +44599,9 @@ AAgAAQABAAEAAQ</bytes>
 						<reference key="object" ref="283772958"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="885059624"/>
+							<reference ref="716866188"/>
 							<reference ref="934442205"/>
-							<reference ref="750493907"/>
+							<reference ref="650243548"/>
 						</object>
 						<reference key="parent" ref="825418237"/>
 					</object>
@@ -45717,12 +45709,12 @@ AAgAAQABAAEAAQ</bytes>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">3362</int>
-						<reference key="object" ref="885059624"/>
+						<reference key="object" ref="716866188"/>
 						<reference key="parent" ref="283772958"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">3370</int>
-						<reference key="object" ref="750493907"/>
+						<reference key="object" ref="650243548"/>
 						<reference key="parent" ref="283772958"/>
 					</object>
 				</object>
@@ -46514,7 +46506,7 @@ AAgAAQABAAEAAQ</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">3370</int>
+			<int key="maxID">3389</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -46560,6 +46552,7 @@ AAgAAQABAAEAAQ</bytes>
 							<string>openQuickLook:</string>
 							<string>openSelectedResults:</string>
 							<string>openTrackInspector:</string>
+							<string>openTrackInspectorFromTrack:</string>
 							<string>openUserGuide:</string>
 							<string>pathControlClick:</string>
 							<string>resetDefaultTracks:</string>
@@ -46570,6 +46563,7 @@ AAgAAQABAAEAAQ</bytes>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -46704,10 +46698,6 @@ AAgAAQABAAEAAQ</bytes>
 				<object class="IBPartialClassDescription">
 					<string key="className">SLTrackView</string>
 					<string key="superclassName">NSView</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">cvItem</string>
-						<string key="NS.object.0">NSCollectionViewItem</string>
-					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">SLTrackView.h</string>

@@ -2,8 +2,6 @@
 #import <ApplicationServices/ApplicationServices.h>
 
 @interface SLTrackView : NSView {
-	IBOutlet NSCollectionViewItem *cvItem;
-
     NSRect rubberbandRect;
     NSSet *rubberbandGraphics;
     BOOL rubberbandIsDeselecting;

@@ -335,6 +335,5 @@ static NSRect LLRectFromPoints(NSPoint point1, NSPoint point2) {
 @synthesize query;
 @synthesize isSelected;
 @synthesize rubberbandGraphics;
-@synthesize cvItem;
 
 @end
