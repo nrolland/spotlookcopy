@@ -28,6 +28,7 @@
 		03BF3DF30D8AD4FD001A4385 /* SpotLook.icns in Resources */ = {isa = PBXBuildFile; fileRef = 03BF3DF20D8AD4FD001A4385 /* SpotLook.icns */; };
 		03C0C8C90D30512F002FC405 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03C0C8C80D30512F002FC405 /* ApplicationServices.framework */; };
 		03D520360D8CD7BE002AEA90 /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D520350D8CD7BE002AEA90 /* ImageAndTextCell.m */; };
+		03DE1D0E0D99CC48008713FF /* NSView+SL.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DE1D0D0D99CC48008713FF /* NSView+SL.m */; };
 		03F1C1260D973D880092C98D /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 03F1C1250D973D880092C98D /* Credits.html */; };
 		03F1C1F30D9783800092C98D /* SpotLookRunning.png in Resources */ = {isa = PBXBuildFile; fileRef = 03F1C1F20D9783800092C98D /* SpotLookRunning.png */; };
 		03F1C35A0D9817D40092C98D /* UserDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 03F1C3590D9817D40092C98D /* UserDefaults.plist */; };
@@ -77,6 +78,8 @@
 		03C0C8C80D30512F002FC405 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/ApplicationServices.framework; sourceTree = DEVELOPER_DIR; };
 		03D520340D8CD7BE002AEA90 /* ImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageAndTextCell.h; sourceTree = "<group>"; };
 		03D520350D8CD7BE002AEA90 /* ImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageAndTextCell.m; sourceTree = "<group>"; };
+		03DE1D0C0D99CC48008713FF /* NSView+SL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+SL.h"; sourceTree = "<group>"; };
+		03DE1D0D0D99CC48008713FF /* NSView+SL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+SL.m"; sourceTree = "<group>"; };
 		03F1C1250D973D880092C98D /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		03F1C1F20D9783800092C98D /* SpotLookRunning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SpotLookRunning.png; sourceTree = "<group>"; };
 		03F1C3590D9817D40092C98D /* UserDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = UserDefaults.plist; sourceTree = "<group>"; };
@@ -147,6 +150,8 @@
 				03800A270D8F175900AFBB36 /* SLArrayController.m */,
 				0334F51F0D971076007F5762 /* NSMetadataItem+SL.h */,
 				0334F51E0D971076007F5762 /* NSMetadataItem+SL.m */,
+				03DE1D0C0D99CC48008713FF /* NSView+SL.h */,
+				03DE1D0D0D99CC48008713FF /* NSView+SL.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -319,6 +324,7 @@
 				03800A280D8F175900AFBB36 /* SLArrayController.m in Sources */,
 				031EFA830D94C159005F349A /* Updater.m in Sources */,
 				0334F5200D971076007F5762 /* NSMetadataItem+SL.m in Sources */,
+				03DE1D0E0D99CC48008713FF /* NSView+SL.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

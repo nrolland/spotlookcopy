@@ -8,6 +8,7 @@
 #import "QuickLook.h"
 #import "ImageAndTextCell.h"
 #import "Updater.h"
+#import "NSView+SL.h"
 
 // reset with
 // $ rm -r ~/Library/Application\ Support/SpotLook; rm -r ~/Library/Preferences/ch.seriot.SpotLook.plist
@@ -384,6 +385,7 @@
 	[[scrollView horizontalRulerView] setRuleThickness:16.0];
 	[[scrollView horizontalRulerView] setReservedThicknessForMarkers:0.0];
 	[[scrollView horizontalRulerView] setReservedThicknessForAccessoryView:0.0];
+	//[scrollView setBackgroundColor:[NSColor windowBackgroundColor]]; // FIXME unused?
 
 	// TODO: useful?
 	[dateTypesMenu selectItemWithTitle:[[NSUserDefaults standardUserDefaults] valueForKey:@"dateType"]];
@@ -537,6 +539,53 @@
 	} else {
 		[trackInspector close];
 	}
+}	
+
+- (IBAction)exportAsImage:(id)sender {
+/*
+	// TODO: collectionView or scrollView?
+	// in fact we would like the collectionView BUT with the rulerView above
+	
+	NSView *view = [[NSView alloc] initWithFrame:[scrollView frame]];
+	[[[scrollView horizontalRulerView] image] drawInRect:[view frame] fromRect:[scrollView frame] operation:NSCompositeSourceOver fraction:1.0];
+	
+	NSRulerView *ruler = [scrollView horizontalRulerView];
+	CGFloat rulerHeight = [ruler frame].size.height;
+	CGFloat collectionViewHeight = [collectionView frame].size.height;
+	
+	
+	NSImage *image = [[NSImage alloc] initWithSize:NSMakeSize([ruler frame].size.width, rulerHeight+collectionViewHeight)];
+	[image lockFocus];
+	[[[scrollView horizontalRulerView] image] compositeToPoint:NSMakePoint(0, collectionViewHeight) fromRect:[[scrollView horizontalRulerView] frame] operation:NSCompositeSourceOver];
+	[[collectionView image] compositeToPoint:NSMakePoint(0, 0) fromRect:[collectionView frame] operation:NSCompositeSourceOver];
+	[image unlockFocus];
+*/	
+
+	NSImage *image = [scrollView image];
+		
+	NSSavePanel *sp;
+	int runResult;
+	 
+	/* create or get the shared instance of NSSavePanel */
+	sp = [NSSavePanel savePanel];
+	 
+	/* set up new attributes */
+//	NSView *accessoryView = [[NSView alloc] initWithFrame:[scrollView frame]];
+//	[sp setAccessoryView:accessoryView];
+	//[sp setRequiredFileType:@"png"];
+	[sp setAllowedFileTypes:[NSArray arrayWithObject:@"png"]];
+	//[sp setExtensionHidden:NO];
+	 
+	/* display the NSSavePanel */
+	runResult = [sp runModalForDirectory:[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] file:@"tracks.png"];
+	 
+	/* if successful, save file under designated name */
+	if (runResult == NSOKButton) {
+		if (![[image TIFFRepresentation] writeToFile:[sp filename] atomically:YES])
+			 NSBeep();
+	}
+	
+//	[accessoryView release];
 }
 
 - (IBAction)openSelectedResults:(id)sender {

@@ -22,8 +22,8 @@
 	IBOutlet NSSplitView *splitView;
 	IBOutlet NSSearchField *searchField;
 	IBOutlet NSSlider *slider;
-	//IBOutlet SLCollectionView *collectionView;
 	IBOutlet NSView *appIconView;
+	IBOutlet NSCollectionView *collectionView;
 	
 	IBOutlet NSTreeController *treeController;
 	IBOutlet NSOutlineView *outlineView;
@@ -93,6 +93,8 @@
 - (IBAction)openQuickLook:(id)sender;
 - (BOOL)userDidPressLeftInView:(id)sender;
 - (BOOL)userDidPressRightInView:(id)sender;
+
+- (IBAction)exportAsImage:(id)sender;
 
 @property (retain) NSArrayController *allResultsController;
 @property (retain) NSPopUpButton *dateTypesMenu;
