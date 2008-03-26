@@ -96,6 +96,10 @@
 
 - (IBAction)exportAsImage:(id)sender;
 
+- (IBAction)openUserGuide:(id)sender;
+- (IBAction)openFAQ:(id)sender;
+- (IBAction)openDiscussion:(id)sender;
+
 @property (retain) NSArrayController *allResultsController;
 @property (retain) NSPopUpButton *dateTypesMenu;
 @property (retain) NSArrayController *activeTracksResultsController;

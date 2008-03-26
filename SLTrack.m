@@ -142,6 +142,22 @@ static NSData *genericTiff;
 	[super didChangeValueForKey:key];
 }
 
+- (BOOL)hasScope {
+	return [self.scope length] > 0;
+}
+
+- (void)setHasScope:(NSNumber *)n {
+	[self willChangeValueForKey:@"URLPath"];
+
+	if([n boolValue]) {
+		self.scope = NSHomeDirectory();
+	} else {
+		self.scope = @"";
+	}
+	
+	[self didChangeValueForKey:@"URLPath"];
+}
+
 - (void)createPredicate {
 	[query stopQuery];
 	
@@ -150,7 +166,7 @@ static NSData *genericTiff;
 	NSDate *toDate = [[NSApp delegate] valueForKey:@"toDate"];
 		
 	NSString *dateType = [(AppDelegate *)[NSApp delegate] currentDateAttribute];
-		
+	
 	NSPredicate *fromPredicate = [NSPredicate predicateWithFormat:@"%K >= %@", dateType, fromDate];
 	NSPredicate *toPredicate = [NSPredicate predicateWithFormat:@"%K <= %@", dateType, toDate];
 	NSPredicate *timePredicate = [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:fromPredicate, toPredicate, nil]];
@@ -182,7 +198,9 @@ static NSData *genericTiff;
 	
 	[query setPredicate:predicateToRun];
 	
-	NSArray *scopes = [[NSUserDefaults standardUserDefaults] boolForKey:@"ignoreTracksSearchScopes"] ? nil : [NSArray arrayWithObject:self.scope];
+	BOOL noScopeFromDefaults = [[NSUserDefaults standardUserDefaults] boolForKey:@"ignoreTracksSearchScopes"];
+	BOOL noScopeFromTracks = [self.scope isEqualToString:@""];
+	NSArray *scopes = (noScopeFromDefaults || noScopeFromTracks) ? nil : [NSArray arrayWithObject:self.scope];
 	[query setSearchScopes:scopes];
 	
     [query setValueListAttributes:[NSArray arrayWithObjects:(NSString *)kMDQueryResultContentRelevance, nil]];

@@ -667,6 +667,21 @@
 	[NSApp terminate:self];
 }
 
+- (IBAction)openUserGuide:(id)sender {
+    NSURL *url = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"UserGuideURL"]];
+    [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
+- (IBAction)openFAQ:(id)sender {
+    NSURL *url = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"FAQURL"]];
+    [[NSWorkspace sharedWorkspace] openURL:url];	
+}
+
+- (IBAction)openDiscussion:(id)sender {
+    NSURL *url = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"DiscussionURL"]];
+    [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
 #pragma mark -
 #pragma mark QuickLook
 
