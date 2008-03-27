@@ -718,7 +718,7 @@
 	</dict>
 	<dict>
 		<key>name</key>
-		<string>Photoshop</string>
+		<string>Adobe Photoshop</string>
 		<key>nameContentKeywords</key>
 		<string>Content</string>
 		<key>uti</key>
@@ -726,7 +726,7 @@
 	</dict>
 	<dict>
 		<key>name</key>
-		<string>Illustrator</string>
+		<string>Adobe Illustrator</string>
 		<key>nameContentKeywords</key>
 		<string>Content</string>
 		<key>uti</key>
