@@ -188,6 +188,29 @@
 	</dict>
 	<dict>
 		<key>name</key>
+		<string>Interface Builder</string>
+		<key>tracks</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>Interface Builder Cocoa Document</string>
+				<key>nameContentKeywords</key>
+				<string>Content</string>
+				<key>uti</key>
+				<string>com.apple.interfacebuilder.document.cocoa</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Interface Builder Document</string>
+				<key>nameContentKeywords</key>
+				<string>Content</string>
+				<key>uti</key>
+				<string>com.apple.interfacebuilder.document</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
 		<string>XCode</string>
 		<key>tracks</key>
 		<array>
@@ -494,6 +517,7 @@
 		<key>uti</key>
 		<string>public.archive</string>
 	</dict>
+<!--
 	<dict>
 		<key>name</key>
 		<string>Smart Folders</string>
@@ -502,6 +526,7 @@
 		<key>uti</key>
 		<string>com.apple.finder.smart-folder</string>
 	</dict>
+-->
 	<dict>
 		<key>name</key>
 		<string>RTF</string>
@@ -532,7 +557,7 @@
 		<key>nameContentKeywords</key>
 		<string>Content</string>
 		<key>uti</key>
-		<string>com.flyingmeat.voodoopad.vdoc</string>
+		<string>com.flyingmeat.voodoopad.vpdoc</string>
 	</dict>
 	<dict>
 		<key>name</key>
@@ -582,6 +607,7 @@
 		<key>uti</key>
 		<string>com.apple.systempreference.prefpane</string>
 	</dict>
+<!--
 	<dict>
 		<key>name</key>
 		<string>Assembly</string>
@@ -590,6 +616,7 @@
 		<key>uti</key>
 		<string>public.assembly-source</string>
 	</dict>
+-->
 	<dict>
 		<key>name</key>
 		<string>Images</string>
@@ -771,6 +798,14 @@
 		<string>Content</string>
 		<key>uti</key>
 		<string>com.microsoft.entourage.virtual.task</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Apple Crash Reports</string>
+		<key>nameContentKeywords</key>
+		<string>Content</string>
+		<key>uti</key>
+		<string>com.apple.crashreport</string>
 	</dict>
 </array>
 </plist>
