@@ -27,7 +27,6 @@
 @property BOOL isSelected;
 @property (retain) NSString *trackName;
 @property CGLayerRef resultsLayer;
-@property (retain) NSCollectionViewItem *cvItem;
 @property (retain) NSSet *rubberbandGraphics;
 @property BOOL rubberbandIsDeselecting;
 

@@ -3,7 +3,7 @@
 
 // default groups titles
 #define TRACKS @"TRACKS"
-#define TRACKSGROUPS @"TRACKS GROUPS"
+#define TRACKSGROUPS @"TRACK GROUPS"
 
 @interface AppDelegate : NSObject {
 
