@@ -11,6 +11,8 @@
 @interface SLRulerView : NSRulerView {
 	NSDictionary *textAttributes;
 	NSDictionary *noAntialiasingTextAttributes;
+
+    NSRect rubberbandRect;
 }
 
 @end

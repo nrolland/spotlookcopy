@@ -14,7 +14,24 @@ static CGFloat positionForDates(NSDate *date, NSDate *fromDate, NSDate *toDate, 
 	return dateInterval / fullInterval * width;
 }
 
+static NSRect LLRectFromPoints(NSPoint point1, NSPoint point2) {
+    return NSMakeRect(((point1.x <= point2.x) ? point1.x : point2.x), ((point1.y <= point2.y) ? point1.y : point2.y), ((point1.x <= point2.x) ? point2.x - point1.x : point1.x - point2.x), ((point1.y <= point2.y) ? point2.y - point1.y : point1.y - point2.y));
+}
+
 @implementation SLRulerView
+
+- (NSDate *)dateForPosition:(int)x {
+	float width = [self frame].size.width;
+	NSDate *fromDate = [[NSApp delegate] valueForKey:@"fromDate"];
+	NSDate *toDate = [[NSApp delegate] valueForKey:@"toDate"];
+	
+	float ratio = x / width;
+	
+	NSTimeInterval total = [toDate timeIntervalSinceDate:fromDate];
+	NSTimeInterval timePos = total * ratio;
+	NSDate *newDate = [fromDate addTimeInterval:timePos];
+	return newDate;
+}
 
 - (void)dealloc {
 	[textAttributes release];
@@ -148,8 +165,71 @@ static CGFloat positionForDates(NSDate *date, NSDate *fromDate, NSDate *toDate, 
 	}
 
 	CGContextSetAllowsAntialiasing(c, true);	
+
+    if (!NSEqualRects(rubberbandRect, NSZeroRect)) {
+        [[NSColor redColor] set];
+        NSFrameRect(rubberbandRect);
+    }
+}
+
+- (void)zoomWithRect:(NSRect)rect {
+	int start = rect.origin.x;
+	int stop  = rect.origin.x + rect.size.width;
 	
-	//[super drawHashMarksAndLabelsInRect:aRect];
+	NSDate *from = [self dateForPosition:start];
+	NSDate *to = [self dateForPosition:stop];
+	
+//	NSLog(@"%d %d", start, stop);
+//	NSLog(@"%@ %@", from, to);
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"datesDidChange" object:[NSArray arrayWithObjects:from, to, nil]];
+}
+
+- (void)mouseDown:(NSEvent *)theEvent {
+	//NSLog(@"mouseDown");
+	
+	if (!([theEvent modifierFlags] & NSAlternateKeyMask)) {
+        return;
+    }
+	
+    NSPoint origPoint, curPoint;
+    
+    origPoint = curPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+
+    while (1) {
+        theEvent = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
+        curPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+		
+		// keep curPoint in self bounds
+		curPoint.x = curPoint.x > [self bounds].size.width ? [self bounds].size.width : curPoint.x;
+		curPoint.x = curPoint.x < 0.0 ? 0.0 : curPoint.x;
+		curPoint.y = curPoint.y > [self bounds].size.height ? [self bounds].size.height : curPoint.y;
+		curPoint.y = curPoint.y < 0.0 ? 0.0 : curPoint.y-1;
+		
+		// if we did move
+        if (!NSEqualPoints(origPoint, curPoint)) {
+            NSRect newRubberbandRect = LLRectFromPoints(origPoint, curPoint);
+			
+            if (!NSEqualRects(rubberbandRect, newRubberbandRect)) {
+//                [self setNeedsDisplayInRect:rubberbandRect];
+//                [self setNeedsDisplayInRect:newRubberbandRect];
+				
+				[self setNeedsDisplay:YES];
+				
+                rubberbandRect = newRubberbandRect;
+            }
+        }
+		
+        if ([theEvent type] == NSLeftMouseUp) {
+            break;
+        }
+        
+    }
+
+	[self zoomWithRect:rubberbandRect];
+	[self setNeedsDisplay:YES];
+	
+    rubberbandRect = NSZeroRect;
 }
 
 @end

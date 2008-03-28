@@ -388,6 +388,8 @@
 	[[scrollView horizontalRulerView] setReservedThicknessForMarkers:0.0];
 	[[scrollView horizontalRulerView] setReservedThicknessForAccessoryView:0.0];
 	//[scrollView setBackgroundColor:[NSColor windowBackgroundColor]]; // FIXME unused?
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(datesDidChange:) name:@"datesDidChange" object:nil];
 
 	// TODO: useful?
 	[dateTypesMenu selectItemWithTitle:[[NSUserDefaults standardUserDefaults] valueForKey:@"dateType"]];
@@ -418,6 +420,15 @@
 	[tracksController setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 
 	[tracksSetController setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];	
+}
+
+- (void)datesDidChange:(NSNotification *)notification {
+	NSArray *dates = [notification object];
+	NSAssert([dates count] == 2, @"dates notification object should have two dates");
+	NSDate *from = [dates objectAtIndex:0];
+	NSDate *to = [dates objectAtIndex:1];
+	[self setValue:from forKey:@"fromDate"];
+	[self setValue:to forKey:@"toDate"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
