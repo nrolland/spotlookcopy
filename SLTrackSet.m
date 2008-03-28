@@ -38,4 +38,8 @@
 	return YES;
 }
 
+- (BOOL)hasUTI {
+	return NO;
+}
+
 @end

@@ -16,8 +16,8 @@
 static NSData *genericTiff;
 
 + (void)initialize {
-    NSArray *keys = [NSArray arrayWithObjects:@"uti", nil];
-    [self setKeys:keys triggerChangeNotificationsForDependentKey:@"icon"];
+//    NSArray *keys = [NSArray arrayWithObjects:@"uti", @"scope", nil];
+//    [self setKeys:keys triggerChangeNotificationsForDependentKey:@"icon"];
 	genericTiff = [[[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericDocumentIconResource)] TIFFRepresentation] retain]; // TODO: where should it be released?
 }
 
@@ -56,12 +56,21 @@ static NSData *genericTiff;
 
 - (NSImage *)icon {
 	if(icon == nil) {
-		NSImage *i = [[NSWorkspace sharedWorkspace] iconForFileType:self.uti];
-		NSData *tiff = [i TIFFRepresentation];
-		if(![self.uti isEqualToString:@"public.item"] && ![self.uti isEqualToString:@"public.data"] && [tiff isEqualToData:genericTiff]) {
+		NSImage *i;
+		
+		if(self.uti != nil && [self.uti length] > 0) {
+			i = [[NSWorkspace sharedWorkspace] iconForFileType:self.uti];
+			// FIXME: very slow, we should maybe set the icons in a separate thread
+			NSData *tiff = [i TIFFRepresentation];
+			if(![self.uti isEqualToString:@"public.item"] && ![self.uti isEqualToString:@"public.data"] && [tiff isEqualToData:genericTiff]) {
+				i = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kUnknownFSObjectIcon)];
+			}
+		} else if(self.scope != nil && [self.scope length] > 0) {
+			i = [[NSWorkspace sharedWorkspace] iconForFile:self.scope];
+		} else {
 			i = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kUnknownFSObjectIcon)];
 		}
-
+		
 		[self setValue:i forKey:@"icon"];
 	}
 	return icon;
@@ -127,10 +136,16 @@ static NSData *genericTiff;
 		}
 	}
 	
-	if([key isEqualToString:@"uti"]) {
-		[self setValue:[[NSWorkspace sharedWorkspace] iconForFileType:self.uti] forKey:@"icon"];
+	if([key isEqualToString:@"uti"] || [key isEqualToString:@"scope"]) {
+		[self willChangeValueForKey:@"icon"];
+		if(icon) {
+			[icon release];
+			icon = nil;
+		}
+		[self didChangeValueForKey:@"icon"];
+		//[self setValue:[[NSWorkspace sharedWorkspace] iconForFileType:self.uti] forKey:@"icon"];
 	}
-
+	
 	if([key isEqualToString:@"nameContentKeywords"] || [key isEqualToString:@"uti"] || [key isEqualToString:@"scope"] || [key isEqualToString:@"showAll"]) {
 		// create and start query only if importation is over
 		if([[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:@"defaultTracksImported"]) {
@@ -148,18 +163,51 @@ static NSData *genericTiff;
 
 - (void)setHasScope:(NSNumber *)n {
 	[self willChangeValueForKey:@"URLPath"];
+	[self willChangeValueForKey:@"icon"];
 
 	if([n boolValue]) {
 		self.scope = NSHomeDirectory();
 	} else {
 		self.scope = @"";
 	}
+
+	if(icon != nil) {
+		[icon release];
+		icon = nil;
+	}
 	
+	[self didChangeValueForKey:@"icon"];
 	[self didChangeValueForKey:@"URLPath"];
+}
+
+- (BOOL)hasUTI {
+	return self.uti != nil && [self.uti length] > 0;
+}
+
+- (void)setHasUTI:(NSNumber *)n {
+	[self willChangeValueForKey:@"icon"];
+
+	if([n boolValue]) {
+		self.uti = @"com.adobe.pdf";
+	} else {
+		self.uti = @"";
+	}
+	
+	if(icon != nil) {
+		[icon release];
+		icon = nil;
+	}
+	
+	[self didChangeValueForKey:@"icon"];
 }
 
 - (void)createPredicate {
 	[query stopQuery];
+	
+	if((!self.scope || [self.scope length] == 0) && (!self.uti || [self.uti length] == 0)) {
+		NSLog(@"self.scope %@ self.uti %@", self.scope, self.uti);
+		return;
+	}
 	
 	NSString *searchKey = [[NSApp delegate] valueForKey:@"searchKey"];
 	NSDate *fromDate = [[NSApp delegate] valueForKey:@"fromDate"];
@@ -185,14 +233,19 @@ static NSData *genericTiff;
 		NSAssert2(NO, @"Error: track %@ nameContentKeywords is %@", self.name, nck);
 	}
 	
-	NSPredicate *utiPredicate = [NSPredicate predicateWithFormat:@"kMDItemContentTypeTree == %@", self.uti];
 	
-	NSMutableArray *subPredicates = [[NSMutableArray alloc] initWithObjects:timePredicate, utiPredicate, nil];
+	NSMutableArray *subPredicates = [[NSMutableArray alloc] initWithObjects:timePredicate, nil];
+
+	if(self.uti != nil && [self.uti length] > 0) {
+		NSPredicate *utiPredicate = [NSPredicate predicateWithFormat:@"kMDItemContentTypeTree == %@", self.uti];
+		[subPredicates addObject:utiPredicate];
+	}
+
 	if(!showAll) { [subPredicates addObject:searchKeyPredicate]; }
 		
 	NSPredicate *predicateToRun = [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates];	
 	[subPredicates release];
-	
+
 	predicateToRun = [NSPredicate spotlightFriendlyPredicate:predicateToRun];
 	//NSLog(@"predicateToRun %@", predicateToRun);
 	
