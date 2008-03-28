@@ -41,10 +41,10 @@ static NSRect LLRectFromPoints(NSPoint point1, NSPoint point2) {
 - (id)initWithScrollView:(NSScrollView *)scrollView orientation:(NSRulerOrientation)orientation {
 	self = [super initWithScrollView:scrollView orientation:orientation];
 	
-	textAttributes = [[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSFont fontWithName:@"Lucida Grande" size:9.0], [NSColor grayColor], nil]
+	textAttributes = [[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSFont fontWithName:@"Lucida Grande" size:9.0], [NSColor darkGrayColor], nil]
 												  forKeys:[NSArray arrayWithObjects:NSFontAttributeName, NSForegroundColorAttributeName, nil]] retain];
 	
-	noAntialiasingTextAttributes = [[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSFont fontWithName:@"Monaco" size:9.0], [NSColor grayColor], nil]
+	noAntialiasingTextAttributes = [[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSFont fontWithName:@"Monaco" size:9.0], [NSColor darkGrayColor], nil]
 												  forKeys:[NSArray arrayWithObjects:NSFontAttributeName, NSForegroundColorAttributeName, nil]] retain];
 	
 	return self;
@@ -167,8 +167,9 @@ static NSRect LLRectFromPoints(NSPoint point1, NSPoint point2) {
 	CGContextSetAllowsAntialiasing(c, true);	
 
     if (!NSEqualRects(rubberbandRect, NSZeroRect)) {
-        [[NSColor redColor] set];
-        NSFrameRect(rubberbandRect);
+        [[[NSColor yellowColor] colorWithAlphaComponent:1.0] set];
+        //NSRectFill(rubberbandRect); // FIXME: why alpha does not draw?
+        NSFrameRectWithWidth(rubberbandRect, 2);
     }
 }
 
@@ -195,7 +196,8 @@ static NSRect LLRectFromPoints(NSPoint point1, NSPoint point2) {
     NSPoint origPoint, curPoint;
     
     origPoint = curPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-
+	origPoint.y = 0;
+	
     while (1) {
         theEvent = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
         curPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
@@ -203,8 +205,7 @@ static NSRect LLRectFromPoints(NSPoint point1, NSPoint point2) {
 		// keep curPoint in self bounds
 		curPoint.x = curPoint.x > [self bounds].size.width ? [self bounds].size.width : curPoint.x;
 		curPoint.x = curPoint.x < 0.0 ? 0.0 : curPoint.x;
-		curPoint.y = curPoint.y > [self bounds].size.height ? [self bounds].size.height : curPoint.y;
-		curPoint.y = curPoint.y < 0.0 ? 0.0 : curPoint.y-1;
+		curPoint.y = [self bounds].size.height-1;
 		
 		// if we did move
         if (!NSEqualPoints(origPoint, curPoint)) {

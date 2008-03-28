@@ -3,20 +3,20 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
 		<string key="IBDocument.SystemVersion">9C7010</string>
-		<string key="IBDocument.InterfaceBuilderVersion">644</string>
+		<string key="IBDocument.InterfaceBuilderVersion">648</string>
 		<string key="IBDocument.AppKitVersion">949.26</string>
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="106"/>
+			<integer value="1246"/>
+			<integer value="3289"/>
 			<integer value="3207"/>
+			<integer value="3061"/>
 			<integer value="836"/>
 			<integer value="3051"/>
-			<integer value="3061"/>
-			<integer value="3289"/>
+			<integer value="339"/>
 			<integer value="3072"/>
 			<integer value="3053"/>
-			<integer value="1246"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -877,6 +877,7 @@ AAAAAAAAAAAAAAAAAAB0ZXh0AAAAAENvcHlyaWdodCBBcHBsZSwgSW5jLiwgMjAwOAA</bytes>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{600, 441}</string>
+				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
 			</object>
 			<object class="NSMenu" id="769852780">
 				<string key="NSTitle">MainMenu</string>
@@ -1145,6 +1146,25 @@ AAAAAAAAAAAAAAAAAAB0ZXh0AAAAAENvcHlyaWdodCBBcHBsZSwgSW5jLiwgMjAwOAA</bytes>
 							<string key="NSTitle">View</string>
 							<object class="NSMutableArray" key="NSMenuItems">
 								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMenuItem" id="336001365">
+									<reference key="NSMenu" ref="225105528"/>
+									<string key="NSTitle">Reset Dates</string>
+									<string key="NSKeyEquiv">d</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="852870041"/>
+									<reference key="NSMixedImage" ref="653102128"/>
+								</object>
+								<object class="NSMenuItem" id="645847018">
+									<reference key="NSMenu" ref="225105528"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsSeparator">YES</bool>
+									<string key="NSTitle"/>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="852870041"/>
+									<reference key="NSMixedImage" ref="653102128"/>
+								</object>
 								<object class="NSMenuItem" id="468015535">
 									<reference key="NSMenu" ref="225105528"/>
 									<string key="NSTitle">Show Toolbar</string>
@@ -42039,6 +42059,7 @@ AAgAAQABAAEAAQ</bytes>
 					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
+				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
 			</object>
 			<object class="NSArrayController" id="872743973">
 				<object class="NSMutableArray" key="NSDeclaredKeys">
@@ -42736,6 +42757,7 @@ AAgAAQABAAEAAQ</bytes>
 					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
+				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
 			</object>
 			<object class="NSCustomObject" id="113466520">
 				<string key="NSClassName">Updater</string>
@@ -44479,6 +44501,14 @@ AAgAAQABAAEAAQ</bytes>
 					</object>
 					<int key="connectionID">3400</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">resetDates:</string>
+						<reference key="source" ref="42996464"/>
+						<reference key="destination" ref="336001365"/>
+					</object>
+					<int key="connectionID">3407</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -44858,6 +44888,8 @@ AAgAAQABAAEAAQ</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="754920663"/>
 							<reference ref="468015535"/>
+							<reference ref="336001365"/>
+							<reference ref="645847018"/>
 						</object>
 						<reference key="parent" ref="647646905"/>
 					</object>
@@ -45867,6 +45899,16 @@ AAgAAQABAAEAAQ</bytes>
 						<reference key="object" ref="142802729"/>
 						<reference key="parent" ref="75160481"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">3401</int>
+						<reference key="object" ref="336001365"/>
+						<reference key="parent" ref="225105528"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">3402</int>
+						<reference key="object" ref="645847018"/>
+						<reference key="parent" ref="225105528"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -45908,7 +45950,6 @@ AAgAAQABAAEAAQ</bytes>
 					<string>1246.IBEditorWindowLastContentRect</string>
 					<string>1246.IBPluginDependency</string>
 					<string>1246.ImportedFromIB2</string>
-					<string>1246.lastResizeAction</string>
 					<string>1276.IBPluginDependency</string>
 					<string>1276.ImportedFromIB2</string>
 					<string>129.IBPluginDependency</string>
@@ -45982,7 +46023,6 @@ AAgAAQABAAEAAQ</bytes>
 					<string>21.IBWindowTemplateEditedContentRect</string>
 					<string>21.ImportedFromIB2</string>
 					<string>21.NSWindowTemplate.visibleAtLaunch</string>
-					<string>21.lastResizeAction</string>
 					<string>21.windowTemplate.hasMinSize</string>
 					<string>21.windowTemplate.minSize</string>
 					<string>241.IBPluginDependency</string>
@@ -46020,22 +46060,18 @@ AAgAAQABAAEAAQ</bytes>
 					<string>3049.IBPluginDependency</string>
 					<string>3051.IBEditorWindowLastContentRect</string>
 					<string>3051.IBPluginDependency</string>
-					<string>3051.lastResizeAction</string>
 					<string>3053.IBEditorWindowLastContentRect</string>
 					<string>3053.IBPluginDependency</string>
-					<string>3053.lastResizeAction</string>
 					<string>3055.IBPluginDependency</string>
 					<string>3055.ImportedFromIB2</string>
 					<string>3058.IBPluginDependency</string>
 					<string>3058.ImportedFromIB2</string>
 					<string>3061.IBEditorWindowLastContentRect</string>
 					<string>3061.IBPluginDependency</string>
-					<string>3061.lastResizeAction</string>
 					<string>3064.IBPluginDependency</string>
 					<string>3064.ImportedFromIB2</string>
 					<string>3069.IBEditorWindowLastContentRect</string>
 					<string>3069.IBPluginDependency</string>
-					<string>3069.lastResizeAction</string>
 					<string>3072.IBPluginDependency</string>
 					<string>3072.ImportedFromIB2</string>
 					<string>3074.IBEditorWindowLastContentRect</string>
@@ -46062,7 +46098,6 @@ AAgAAQABAAEAAQ</bytes>
 					<string>3206.IBPluginDependency</string>
 					<string>3206.IBWindowTemplateEditedContentRect</string>
 					<string>3206.NSWindowTemplate.visibleAtLaunch</string>
-					<string>3206.lastResizeAction</string>
 					<string>3207.IBPluginDependency</string>
 					<string>3208.IBPluginDependency</string>
 					<string>3209.IBPluginDependency</string>
@@ -46077,7 +46112,6 @@ AAgAAQABAAEAAQ</bytes>
 					<string>3286.IBPluginDependency</string>
 					<string>3289.IBEditorWindowLastContentRect</string>
 					<string>3289.IBPluginDependency</string>
-					<string>3289.lastResizeAction</string>
 					<string>3290.IBPluginDependency</string>
 					<string>3291.IBPluginDependency</string>
 					<string>3299.IBPluginDependency</string>
@@ -46086,7 +46120,6 @@ AAgAAQABAAEAAQ</bytes>
 					<string>3302.IBPluginDependency</string>
 					<string>3306.IBEditorWindowLastContentRect</string>
 					<string>3306.IBPluginDependency</string>
-					<string>3306.lastResizeAction</string>
 					<string>3307.IBPluginDependency</string>
 					<string>3308.IBPluginDependency</string>
 					<string>3311.IBPluginDependency</string>
@@ -46110,6 +46143,8 @@ AAgAAQABAAEAAQ</bytes>
 					<string>3398.IBPluginDependency</string>
 					<string>340.IBPluginDependency</string>
 					<string>340.ImportedFromIB2</string>
+					<string>3401.IBPluginDependency</string>
+					<string>3402.IBPluginDependency</string>
 					<string>341.IBPluginDependency</string>
 					<string>341.ImportedFromIB2</string>
 					<string>448.IBPluginDependency</string>
@@ -46174,7 +46209,6 @@ AAgAAQABAAEAAQ</bytes>
 					<string>835.IBPluginDependency</string>
 					<string>835.IBWindowTemplateEditedContentRect</string>
 					<string>835.ImportedFromIB2</string>
-					<string>835.lastResizeAction</string>
 					<string>836.IBPluginDependency</string>
 					<string>836.ImportedFromIB2</string>
 					<string>837.IBPluginDependency</string>
@@ -46220,7 +46254,7 @@ AAgAAQABAAEAAQ</bytes>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{422, 715}, {187, 43}}</string>
+					<string>{{430, 749}, {187, 43}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -46232,19 +46266,6 @@ AAgAAQABAAEAAQ</bytes>
 					<string>{{56, 659}, {663, 56}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<object class="NSDictionary">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSMutableArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>IBResizeActionFinalFrame</string>
-							<string>IBResizeActionInitialFrame</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>{{0, 0}, {663, 56}}</string>
-							<string>{{0, 0}, {663, 56}}</string>
-						</object>
-					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -46289,7 +46310,7 @@ AAgAAQABAAEAAQ</bytes>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{315, 605}, {154, 153}}</string>
+					<string>{{323, 639}, {154, 153}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -46318,24 +46339,11 @@ AAgAAQABAAEAAQ</bytes>
 					<string>{{49, -92}, {900, 591}}</string>
 					<reference ref="9"/>
 					<reference ref="9"/>
-					<object class="NSDictionary">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSMutableArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>IBResizeActionFinalFrame</string>
-							<string>IBResizeActionInitialFrame</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>{{94, 239}, {900, 591}}</string>
-							<string>{{94, 239}, {900, 591}}</string>
-						</object>
-					</object>
 					<reference ref="9"/>
 					<string>{600, 400}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{547, 685}, {197, 73}}</string>
+					<string>{{555, 719}, {197, 73}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -46368,70 +46376,18 @@ AAgAAQABAAEAAQ</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{34, 498}, {90, 22}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<object class="NSDictionary">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSMutableArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>IBResizeActionFinalFrame</string>
-							<string>IBResizeActionInitialFrame</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>{{0, 0}, {90, 22}}</string>
-							<string>{{0, 0}, {90, 22}}</string>
-						</object>
-					</object>
 					<string>{{37, 553}, {90, 22}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<object class="NSDictionary">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSMutableArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>IBResizeActionFinalFrame</string>
-							<string>IBResizeActionInitialFrame</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>{{0, 0}, {90, 22}}</string>
-							<string>{{0, 0}, {90, 22}}</string>
-						</object>
-					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{30, 635}, {155, 22}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<object class="NSDictionary">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSMutableArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>IBResizeActionFinalFrame</string>
-							<string>IBResizeActionInitialFrame</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>{{42, 766}, {155, 22}}</string>
-							<string>{{42, 679}, {232, 109}}</string>
-						</object>
-					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{15, 697}, {116, 26}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<object class="NSDictionary">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSMutableArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>IBResizeActionFinalFrame</string>
-							<string>IBResizeActionInitialFrame</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>{{15, 697}, {116, 26}}</string>
-							<string>{{15, 677}, {136, 46}}</string>
-						</object>
-					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{4, 660}, {153, 63}}</string>
@@ -46458,19 +46414,6 @@ AAgAAQABAAEAAQ</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{218, 419}, {269, 321}}</string>
 					<reference ref="8"/>
-					<object class="NSDictionary">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSMutableArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>IBResizeActionFinalFrame</string>
-							<string>IBResizeActionInitialFrame</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>{{218, 419}, {269, 321}}</string>
-							<string>{{218, 181}, {374, 559}}</string>
-						</object>
-					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -46485,19 +46428,6 @@ AAgAAQABAAEAAQ</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{-1, 823}, {146, 26}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<object class="NSDictionary">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSMutableArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>IBResizeActionFinalFrame</string>
-							<string>IBResizeActionInitialFrame</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>{{0, 0}, {146, 26}}</string>
-							<string>{{0, 0}, {146, 26}}</string>
-						</object>
-					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -46506,19 +46436,6 @@ AAgAAQABAAEAAQ</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{0, 703}, {131, 131}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<object class="NSDictionary">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSMutableArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>IBResizeActionFinalFrame</string>
-							<string>IBResizeActionInitialFrame</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>{{0, 703}, {131, 131}}</string>
-							<string>{{0, 578}, {256, 256}}</string>
-						</object>
-					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -46531,7 +46448,7 @@ AAgAAQABAAEAAQ</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{265, 715}, {234, 43}}</string>
+					<string>{{273, 719}, {236, 73}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -46542,6 +46459,8 @@ AAgAAQABAAEAAQ</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -46606,19 +46525,6 @@ AAgAAQABAAEAAQ</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{307, 651}, {288, 183}}</string>
 					<reference ref="9"/>
-					<object class="NSDictionary">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSMutableArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>IBResizeActionFinalFrame</string>
-							<string>IBResizeActionInitialFrame</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>{{307, 651}, {288, 183}}</string>
-							<string>{{307, 626}, {288, 208}}</string>
-						</object>
-					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -46631,7 +46537,7 @@ AAgAAQABAAEAAQ</bytes>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{359, 645}, {208, 113}}</string>
+					<string>{{367, 679}, {208, 113}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -46660,7 +46566,7 @@ AAgAAQABAAEAAQ</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">3400</int>
+			<int key="maxID">3407</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -46708,6 +46614,7 @@ AAgAAQABAAEAAQ</bytes>
 							<string>openTrackInspector:</string>
 							<string>openUserGuide:</string>
 							<string>pathControlClick:</string>
+							<string>resetDates:</string>
 							<string>resetDefaultTracks:</string>
 							<string>revealSelectedResults:</string>
 							<string>saveAction:</string>
@@ -46716,6 +46623,7 @@ AAgAAQABAAEAAQ</bytes>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

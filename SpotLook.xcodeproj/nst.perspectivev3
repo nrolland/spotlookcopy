@@ -197,7 +197,48 @@
 	<key>Notifications</key>
 	<array/>
 	<key>OpenEditors</key>
-	<array/>
+	<array>
+		<dict>
+			<key>Content</key>
+			<dict>
+				<key>PBXProjectModuleGUID</key>
+				<string>03A6AC7D0D9DB10500799250</string>
+				<key>PBXProjectModuleLabel</key>
+				<string>NSColor.h</string>
+				<key>PBXSplitModuleInNavigatorKey</key>
+				<dict>
+					<key>Split0</key>
+					<dict>
+						<key>PBXProjectModuleGUID</key>
+						<string>03A6AC7E0D9DB10500799250</string>
+						<key>PBXProjectModuleLabel</key>
+						<string>NSColor.h</string>
+						<key>_historyCapacity</key>
+						<integer>0</integer>
+						<key>bookmark</key>
+						<string>03A6ACE60D9DB65A00799250</string>
+						<key>history</key>
+						<array>
+							<string>03A6AC7F0D9DB10500799250</string>
+						</array>
+					</dict>
+					<key>SplitCount</key>
+					<string>1</string>
+				</dict>
+				<key>StatusBarVisibility</key>
+				<true/>
+			</dict>
+			<key>Geometry</key>
+			<dict>
+				<key>Frame</key>
+				<string>{{0, 20}, {1253, 777}}</string>
+				<key>PBXModuleWindowStatusBarHidden2</key>
+				<false/>
+				<key>RubberWindowFrame</key>
+				<string>170 60 1253 818 0 0 1440 878 </string>
+			</dict>
+		</dict>
+	</array>
 	<key>PerspectiveWidths</key>
 	<array>
 		<integer>1440</integer>
@@ -333,7 +374,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>03A6AC4A0D9DAD8600799250</string>
+										<string>03A6ACE50D9DB65A00799250</string>
 										<key>history</key>
 										<array>
 											<string>03AFD5410D91FE0C0097D21D</string>
@@ -348,7 +389,6 @@
 											<string>03F1C5300D9858570092C98D</string>
 											<string>03F1C5310D9858570092C98D</string>
 											<string>03F1C5600D9858E30092C98D</string>
-											<string>03F1C5610D9858E30092C98D</string>
 											<string>03F1C5620D9858E30092C98D</string>
 											<string>03F1C5630D9858E30092C98D</string>
 											<string>03F1C5640D9858E30092C98D</string>
@@ -366,22 +406,22 @@
 											<string>03DE1D130D99CD19008713FF</string>
 											<string>0356DD070D9AFACB0012F26B</string>
 											<string>0356DD2A0D9AFCA80012F26B</string>
-											<string>0356DD650D9B06820012F26B</string>
 											<string>0356DD660D9B06820012F26B</string>
-											<string>036E730E0D9BBF2C006D3167</string>
 											<string>0365E4800D9C5DE300FFB20D</string>
 											<string>03B337CB0D9C6EFE00FE4CB2</string>
-											<string>036C097F0D9D047E0065FA99</string>
 											<string>03A6AB480D9D7F5600799250</string>
 											<string>03A6ABB90D9DA17100799250</string>
 											<string>03A6ABBA0D9DA17100799250</string>
 											<string>03A6ABC80D9DA18800799250</string>
-											<string>03A6ABC90D9DA18800799250</string>
-											<string>03A6ABF00D9DA61900799250</string>
-											<string>03A6AC3B0D9DAD4900799250</string>
 											<string>03A6AC3C0D9DAD4900799250</string>
-											<string>03A6AC450D9DAD8500799250</string>
-											<string>03A6AC460D9DAD8500799250</string>
+											<string>03A6AC530D9DAF5600799250</string>
+											<string>03A6ACA50D9DB34900799250</string>
+											<string>03A6ACA60D9DB34900799250</string>
+											<string>03A6ACA70D9DB34900799250</string>
+											<string>03A6ACA80D9DB34900799250</string>
+											<string>03A6ACAA0D9DB34900799250</string>
+											<string>03A6ACDB0D9DB61F00799250</string>
+											<string>03A6ACDC0D9DB61F00799250</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -428,7 +468,6 @@
 											<string>03DE1CF10D99C778008713FF</string>
 											<string>03DE1D160D99CD19008713FF</string>
 											<string>03DE1D170D99CD19008713FF</string>
-											<string>036E73120D9BBF2C006D3167</string>
 											<string>03A6AB490D9D7F5600799250</string>
 											<string>03A6AB4A0D9D7F5600799250</string>
 											<string>03A6ABBE0D9DA17100799250</string>
@@ -442,6 +481,17 @@
 											<string>03A6AC3E0D9DAD4900799250</string>
 											<string>03A6AC470D9DAD8500799250</string>
 											<string>03A6AC480D9DAD8500799250</string>
+											<string>03A6AC540D9DAF5600799250</string>
+											<string>03A6AC550D9DAF5600799250</string>
+											<string>03A6AC5F0D9DAF9400799250</string>
+											<string>03A6ACAB0D9DB34900799250</string>
+											<string>03A6ACAC0D9DB34900799250</string>
+											<string>03A6ACAD0D9DB34900799250</string>
+											<string>03A6ACAE0D9DB34900799250</string>
+											<string>03A6ACAF0D9DB34900799250</string>
+											<string>03A6ACB00D9DB34900799250</string>
+											<string>03A6ACB10D9DB34900799250</string>
+											<string>03A6ACDD0D9DB61F00799250</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -761,6 +811,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>03A6AC6C0D9DB06A00799250</string>
+		<string>03A6AC7D0D9DB10500799250</string>
 		<string>/Users/nst/Projects/spotlook/SpotLook.xcodeproj</string>
 	</array>
 	<key>WindowString</key>

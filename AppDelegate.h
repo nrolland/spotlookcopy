@@ -100,6 +100,8 @@
 - (IBAction)openFAQ:(id)sender;
 - (IBAction)openDiscussion:(id)sender;
 
+- (IBAction)resetDates:(id)sender;
+
 @property (retain) NSArrayController *allResultsController;
 @property (retain) NSPopUpButton *dateTypesMenu;
 @property (retain) NSArrayController *activeTracksResultsController;

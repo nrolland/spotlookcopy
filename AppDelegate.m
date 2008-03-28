@@ -210,6 +210,11 @@
     [super dealloc];
 }
 
+- (IBAction)resetDates:(id)sender {
+	self.fromDate = (NSDate *)[[NSCalendarDate date] dateByAddingYears:0 months:-1 days:0 hours:0 minutes:0 seconds:0];
+	self.toDate = (NSDate *)[[NSCalendarDate date] dateByAddingYears:0 months:0 days:0 hours:12 minutes:0 seconds:0];
+}
+
 - (id)init {
 	if(self = [super init]) {
 
@@ -256,6 +261,12 @@
 		NSTimeInterval dsv = [toDate timeIntervalSinceDate:fromDate];
 		[self setValue:[NSNumber numberWithDouble:dsv] forKey:@"dateSliderValue"];
 		[[scrollView horizontalRulerView] setNeedsDisplay:YES];
+		
+		int sliderBackYears = [[NSUserDefaults standardUserDefaults] integerForKey:@"sliderBackYears"];
+		NSCalendarDate *toCalendarDate = [toDate dateWithCalendarFormat:nil timeZone:[NSTimeZone defaultTimeZone]]; // hassling conversions..
+		NSCalendarDate *sliderBackYearsDate = [toCalendarDate dateByAddingYears:-sliderBackYears months:0 days:0 hours:0 minutes:0 seconds:0];
+		[slider setMaxValue:[toDate timeIntervalSince1970]];
+		[slider setMinValue:[sliderBackYearsDate timeIntervalSince1970]];
 		[slider setFloatValue:[fromDate timeIntervalSince1970]];
 	}
 
