@@ -4,6 +4,53 @@
 <array>
 	<dict>
 		<key>name</key>
+		<string>NeoOffice</string>
+		<key>tracks</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>Database</string>
+				<key>nameContentKeywords</key>
+				<string>Content</string>
+				<key>uti</key>
+				<string>org.oasis-open.opendocument.database</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Graphics</string>
+				<key>nameContentKeywords</key>
+				<string>Content</string>
+				<key>uti</key>
+				<string>org.oasis-open.opendocument.graphics</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Presentation</string>
+				<key>nameContentKeywords</key>
+				<string>Content</string>
+				<key>uti</key>
+				<string>org.oasis-open.opendocument.presentation</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Spreadsheet</string>
+				<key>nameContentKeywords</key>
+				<string>Content</string>
+				<key>uti</key>
+				<string>org.oasis-open.opendocument.spreadsheet</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Text</string>
+				<key>nameContentKeywords</key>
+				<string>Content</string>
+				<key>uti</key>
+				<string>org.oasis-open.opendocument.text</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
 		<string>Messages</string>
 		<key>tracks</key>
 		<array>
@@ -557,7 +604,7 @@
 		<key>nameContentKeywords</key>
 		<string>Content</string>
 		<key>uti</key>
-		<string>com.flyingmeat.voodoopad.vpdoc</string>
+		<string>com.flyingmeat.voodoopad.vpspotlight</string>
 	</dict>
 	<dict>
 		<key>name</key>
@@ -695,6 +742,127 @@
 			</dict>
 		</array>
 	</dict>
+
+
+	<dict>
+		<key>name</key>
+		<string>Raw Images</string>
+		<key>tracks</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>Leica</string>
+				<key>nameContentKeywords</key>
+				<string>Keywords</string>
+				<key>uti</key>
+				<string>com.leica.raw-image</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Panasonic</string>
+				<key>nameContentKeywords</key>
+				<string>Keywords</string>
+				<key>uti</key>
+				<string>com.panasonic.raw-image</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Kodak</string>
+				<key>nameContentKeywords</key>
+				<string>Keywords</string>
+				<key>uti</key>
+				<string>com.kodak.raw-image</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Adobe</string>
+				<key>nameContentKeywords</key>
+				<string>Keywords</string>
+				<key>uti</key>
+				<string>com.adobe.raw-image</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Canon CR2</string>
+				<key>nameContentKeywords</key>
+				<string>Keywords</string>
+				<key>uti</key>
+				<string>com.canon.cr2-raw-image</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Canon CRW</string>
+				<key>nameContentKeywords</key>
+				<string>Keywords</string>
+				<key>uti</key>
+				<string>com.canon.crw-raw-image</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Fuji</string>
+				<key>nameContentKeywords</key>
+				<string>Keywords</string>
+				<key>uti</key>
+				<string>com.fuji.raw-image</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>ILM</string>
+				<key>nameContentKeywords</key>
+				<string>Keywords</string>
+				<key>uti</key>
+				<string>com.ilm.openexr-image</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Kodak</string>
+				<key>nameContentKeywords</key>
+				<string>Keywords</string>
+				<key>uti</key>
+				<string>com.kodak.flashpix-image</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Konica Minolta</string>
+				<key>nameContentKeywords</key>
+				<string>Keywords</string>
+				<key>uti</key>
+				<string>com.konicaminolta.raw-image</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Nikon</string>
+				<key>nameContentKeywords</key>
+				<string>Keywords</string>
+				<key>uti</key>
+				<string>com.nikon.raw-image</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Olympus</string>
+				<key>nameContentKeywords</key>
+				<string>Keywords</string>
+				<key>uti</key>
+				<string>com.olympus.raw-image</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>SGI</string>
+				<key>nameContentKeywords</key>
+				<string>Keywords</string>
+				<key>uti</key>
+				<string>com.sgi.sgi-image</string>
+			</dict>			<dict>
+				<key>name</key>
+				<string>Sony</string>
+				<key>nameContentKeywords</key>
+				<string>Keywords</string>
+				<key>uti</key>
+				<string>com.sony.raw-image</string>
+			</dict>
+		</array>
+	</dict>
+
 	<dict>
 		<key>name</key>
 		<string>iDVD</string>
@@ -806,6 +974,14 @@
 		<string>Content</string>
 		<key>uti</key>
 		<string>com.apple.crashreport</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>BluePhoneElite Message</string>
+		<key>nameContentKeywords</key>
+		<string>Content</string>
+		<key>uti</key>
+		<string>com.mirasoftware.bpe2.messageinterface.message</string>
 	</dict>
 </array>
 </plist>

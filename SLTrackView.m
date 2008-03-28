@@ -162,7 +162,7 @@ static NSRect LLRectFromPoints(NSPoint point1, NSPoint point2) {
 		resultsLayer = CGLayerCreateWithContext(c,layerSize,NULL);
 		CGContextRef layerContext = CGLayerGetContext(resultsLayer);
 
-		BOOL disableAntiAliasing = [[NSUserDefaults standardUserDefaults] boolForKey:@"disableTracksAntiAliasing"]; // TODO: add in preferences
+		BOOL disableAntiAliasing = [[NSUserDefaults standardUserDefaults] boolForKey:@"disableTracksAntiAliasing"];
 		CGContextSetAllowsAntialiasing(layerContext, !disableAntiAliasing);
 		
 		//CGContextSetShadowWithColor(layerContext, CGSizeMake(0,-2), 2.0, CGColorCreateGenericRGB(0.0, 0.0, 0.0, 0.25));
