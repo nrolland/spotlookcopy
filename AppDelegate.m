@@ -13,6 +13,7 @@
 // reset with
 // $ rm -r ~/Library/Application\ Support/SpotLook; rm -r ~/Library/Preferences/ch.seriot.SpotLook.plist
 
+#define QUICKLOOK_UI_FRAMEWORK @"/System/Library/PrivateFrameworks/QuickLookUI.framework"
 #define QLPreviewPanel NSClassFromString(@"QLPreviewPanel")
 
 #define COLUMNID_NAME @"NameColumn"	// the single column name in our outline view
@@ -347,10 +348,11 @@
 }
 
 - (void)awakeFromNib {
-
-	quickLookAvailable = [[NSBundle bundleWithPath:@"/System/Library/PrivateFrameworks/QuickLookUI.framework"] load];
+	quickLookAvailable = [[NSBundle bundleWithPath:QUICKLOOK_UI_FRAMEWORK] load];
 	if(quickLookAvailable) {
 		[[[QLPreviewPanel sharedPreviewPanel] windowController] setDelegate:self];
+	} else {
+		NSLog(@"Warning: could not load QuickLookUI.framework at path %@", QUICKLOOK_UI_FRAMEWORK); // TODO: display alert?
 	}
 
 	[window setAutorecalculatesContentBorderThickness:YES forEdge:NSMinYEdge];
@@ -542,6 +544,7 @@
 }	
 
 - (IBAction)exportAsImage:(id)sender {
+
 /*
 	// TODO: collectionView or scrollView?
 	// in fact we would like the collectionView BUT with the rulerView above
