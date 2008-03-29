@@ -7,5 +7,6 @@
 // bound in results tableview
 - (NSDate *)currentDate;
 - (NSImage *)icon;
+- (NSString *)prettySize;
 
 @end

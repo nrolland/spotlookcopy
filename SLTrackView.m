@@ -123,7 +123,7 @@ static NSRect LLRectFromPoints(NSPoint point1, NSPoint point2) {
 }
 
 - (void)drawMDItem:(NSMetadataItem *)item context:(CGContextRef)context {
-	// TODO: put the color in preferences
+	// TODO: put the color in preferences?
 	CGColorRef myColor = [self graphicIsSelected:item] ?
 		CGColorCreateGenericRGB(1.0, 0.0, 0.0, 1.0) :
 		CGColorCreateGenericRGB(0.0, 0.0, 1.0, 1.0);
@@ -141,7 +141,7 @@ static NSRect LLRectFromPoints(NSPoint point1, NSPoint point2) {
 }
 
 - (void)drawRect:(NSRect)rect {
-	if(isSelected) { // TODO: handle selected tracks drawing
+	if(isSelected) { // TODO: handle selected tracks drawing?
 		[[NSColor selectedControlColor] set];
 	} else {
 		[[NSColor textBackgroundColor] set];
