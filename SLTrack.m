@@ -58,14 +58,16 @@ static NSData *genericTiff;
 	if(icon == nil) {
 		NSImage *i;
 		
-		if(self.uti != nil && [self.uti length] > 0) {
+		NSArray *rootUTIs = [NSArray arrayWithObjects:@"public.item", @"public.data", nil];
+		
+		if(self.uti != nil && [self.uti length] > 0 && ![rootUTIs containsObject:self.uti]) {
 			i = [[NSWorkspace sharedWorkspace] iconForFileType:self.uti];
-			// FIXME: very slow, we should maybe set the icons in a separate thread
+			// FIXME: very slow, should we load the icons in a separate thread?
 			NSData *tiff = [i TIFFRepresentation];
-			if(![self.uti isEqualToString:@"public.item"] && ![self.uti isEqualToString:@"public.data"] && [tiff isEqualToData:genericTiff]) {
+			if([tiff isEqualToData:genericTiff]) {
 				i = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kUnknownFSObjectIcon)];
 			}
-		} else if(self.scope != nil && [self.scope length] > 0) {
+		} else if( (self.scope != nil && [self.scope length] > 0) || [rootUTIs containsObject:self.uti]) {
 			i = [[NSWorkspace sharedWorkspace] iconForFile:self.scope];
 		} else {
 			i = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kUnknownFSObjectIcon)];
