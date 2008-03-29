@@ -156,6 +156,7 @@ static NSRect LLRectFromPoints(NSPoint point1, NSPoint point2) {
 	[path lineToPoint:NSMakePoint(rect.size.width, 0)];
 	[path closePath];
 	[path stroke];
+	[path release];
 
 	if (resultsLayer==NULL) {
 		CGSize layerSize = CGSizeMake(self.frame.size.width, self.frame.size.height);

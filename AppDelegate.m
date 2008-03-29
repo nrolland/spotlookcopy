@@ -429,8 +429,8 @@
 	
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
 	[tracksController setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-
-	[tracksSetController setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];	
+	[tracksSetController setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+	[sortDescriptor release];
 }
 
 - (void)datesDidChange:(NSNotification *)notification {
