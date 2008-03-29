@@ -200,6 +200,14 @@
 				<key>uti</key>
 				<string>com.apple.iwork.pages.pages</string>
 			</dict>
+			<dict>
+				<key>name</key>
+				<string>Numbers</string>
+				<key>nameContentKeywords</key>
+				<string>Content</string>
+				<key>uti</key>
+				<string>com.apple.iwork.numbers.numbers</string>
+			</dict>
 		</array>
 	</dict>
 	<dict>
