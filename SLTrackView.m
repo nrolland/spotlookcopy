@@ -119,7 +119,7 @@ static NSRect LLRectFromPoints(NSPoint point1, NSPoint point2) {
 	if([relevance floatValue] > 0.5) {
 		relevance = [NSNumber numberWithFloat:0.5];
 	}
-	return NSMakeRect([self xLocationForItem:item] - 2.5, 5+[relevance floatValue] * 20, 5, 5); // TODO: factorize with drawMDItem: // FIXME: * 20 is a hack to amplify the relevance difference
+	return NSMakeRect([self xLocationForItem:item] - 2.5, 5+[relevance floatValue] * 20, 5, 5); // TODO: factorize with drawMDItem: // FIXME: * 20 is a hack to amplify the relevance
 }
 
 - (void)drawMDItem:(NSMetadataItem *)item context:(CGContextRef)context {

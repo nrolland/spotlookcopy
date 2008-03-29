@@ -188,12 +188,36 @@
     return reply;
 }
 
+- (void)askToUpgradeTracksIfNotDone {
+	NSString *latestResetToDefaultTracks = [[NSUserDefaults standardUserDefaults] valueForKey:@"latestResetToDefaultTracks"];
+    NSString *currentVersionString = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
+
+	BOOL skipCurrentVersionTrackUpgrade = [[[NSUserDefaults standardUserDefaults] objectForKey:@"skipTracksUpgradeVersion"] isEqualToString:currentVersionString];
+	if(skipCurrentVersionTrackUpgrade) { return; }
+	
+	if(latestResetToDefaultTracks == nil || [[Updater sharedInstance] shortVersion:currentVersionString isBiggerThan:latestResetToDefaultTracks]) {
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		[alert addButtonWithTitle:@"Upgrade!"];
+		[alert addButtonWithTitle:@"Later"];
+		[alert setMessageText:@"New tracks available!"];
+		[alert setInformativeText:[NSString stringWithFormat:@"Do you want to upgrade to SpotLook %@ tracks? Your old custom tracks will be lost. You can upgrade at any time by choosing \"Reset Tracks\" in the Tracks menu.", currentVersionString]];
+		[alert setAlertStyle:NSWarningAlertStyle];
+		
+		[alert beginSheetModalForWindow:window
+					  modalDelegate:self
+					 didEndSelector:@selector(upgradeToLatestTracksAlertDidEnd:returnCode:contextInfo:)
+						contextInfo:nil];
+	}
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	NSDockTile *dock = [NSApp dockTile];
 	[dock setContentView:appIconView];
 	[dock display];
 	
     [[Updater sharedInstance] checkUpdateSilentIfUpToDate:self];
+	
+	[self askToUpgradeTracksIfNotDone];
 }
 
 /**
@@ -336,6 +360,9 @@
 	}
 	
 	[[self managedObjectContext] save:nil];
+
+    NSString *currentVersionString = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
+	[[NSUserDefaults standardUserDefaults] setObject:currentVersionString forKey:@"latestResetToDefaultTracks"];
 }
 
 - (void)populateOutlineContents {	
@@ -657,16 +684,12 @@
 	
 	[alert beginSheetModalForWindow:window
                   modalDelegate:self
-                 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                 didEndSelector:@selector(resetToDefaultTracksAlertDidEnd:returnCode:contextInfo:)
                     contextInfo:nil];
 }
 
-- (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    if (returnCode == NSAlertFirstButtonReturn) {
-		return;
-    }
-	
-	// remove tree notes
+- (void)replaceTracksWithDefaults{
+	// remove tree nodes
 	[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
 	[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
 
@@ -680,6 +703,21 @@
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultTracksImported"];
 	
 	[self populateOutlineContents];
+}
+
+- (void)resetToDefaultTracksAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    if (returnCode == NSAlertSecondButtonReturn) {
+		[self replaceTracksWithDefaults];
+    }	
+}
+
+- (void)upgradeToLatestTracksAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    if (returnCode == NSAlertFirstButtonReturn) {
+		[self replaceTracksWithDefaults];
+    } else {
+		NSString *currentVersionString = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
+		[[NSUserDefaults standardUserDefaults] setObject:currentVersionString forKey:@"skipTracksUpgradeVersion"];
+	}
 }
 
 - (IBAction)sendFeedback:(id)sender {
