@@ -423,7 +423,7 @@
 	
 	[outlineView setDelegate:self];
 	
-	[activeTracksController fetchWithRequest:nil merge:NO error:nil];
+	[activeTracksController fetchWithRequest:nil merge:NO error:nil]; // FIXME: outputs four time SpotLook(40268,0xb0103000) malloc: free_garbage: garbage ptr = 0x......., has non-zero refcount = 1
 	initialTracks = [[activeTracksController arrangedObjects] copy];
 	//NSLog(@"initialTracks %@", [initialTracks valueForKey:@"name"]);
 	
