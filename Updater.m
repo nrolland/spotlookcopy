@@ -51,7 +51,7 @@ static Updater *sharedInstance = nil;
 
 	NSString *urlString = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"UpdaterURL"];
 	if(!urlString) {
-		NSLog(@"Can't update, no UpdaterURL key in Info.plist");
+		NSLog(@"Can't update, no UpdaterURL in Info.plist");
 		[subPool release];
 		return;
 	}

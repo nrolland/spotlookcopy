@@ -41,6 +41,8 @@ static NSRect LLRectFromPoints(NSPoint point1, NSPoint point2) {
 - (id)initWithScrollView:(NSScrollView *)scrollView orientation:(NSRulerOrientation)orientation {
 	self = [super initWithScrollView:scrollView orientation:orientation];
 	
+	[self setWantsLayer:YES];
+	
 	textAttributes = [[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSFont fontWithName:@"Lucida Grande" size:9.0], [NSColor darkGrayColor], nil]
 												  forKeys:[NSArray arrayWithObjects:NSFontAttributeName, NSForegroundColorAttributeName, nil]] retain];
 	
@@ -167,9 +169,9 @@ static NSRect LLRectFromPoints(NSPoint point1, NSPoint point2) {
 	CGContextSetAllowsAntialiasing(c, true);	
 
     if (!NSEqualRects(rubberbandRect, NSZeroRect)) {
-        [[[NSColor yellowColor] colorWithAlphaComponent:1.0] set];
-        //NSRectFill(rubberbandRect); // FIXME: why alpha does not draw?
-        NSFrameRectWithWidth(rubberbandRect, 2);
+        [[[NSColor yellowColor] colorWithAlphaComponent:0.05] set];
+        NSRectFill(rubberbandRect); // FIXME: why alpha does not draw?
+        //NSFrameRectWithWidth(rubberbandRect, 2);
     }
 }
 

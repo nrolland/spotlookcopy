@@ -385,7 +385,7 @@
 	[self setValue:[NSNumber numberWithDouble:(double)[fromDate timeIntervalSince1970]] forKey:@"dateSliderValue"];
 }
 
-- (void)awakeFromNib {
+- (void)awakeFromNib {	
 	quickLookAvailable = [[NSBundle bundleWithPath:QUICKLOOK_UI_FRAMEWORK] load];
 	if(quickLookAvailable) {
 		[[[QLPreviewPanel sharedPreviewPanel] windowController] setDelegate:self];

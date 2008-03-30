@@ -207,7 +207,7 @@ static NSData *genericTiff;
 	[query stopQuery];
 	
 	if((!self.scope || [self.scope length] == 0) && (!self.uti || [self.uti length] == 0)) {
-		NSLog(@"self.scope %@ self.uti %@", self.scope, self.uti);
+		//NSLog(@"self.scope %@ self.uti %@", self.scope, self.uti);
 		return;
 	}
 	
