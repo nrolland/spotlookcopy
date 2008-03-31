@@ -46,6 +46,10 @@ static NSImage *unknownImage = nil;
 }
 
 - (void)loadIcon {
+	if([[[NSApp delegate] valueForKey:@"isReplacingTracks"] boolValue]) {
+		return;
+	}
+
 	if(self.uti == nil || [self.uti length] == 0) {
 		return;
 	}
@@ -78,7 +82,7 @@ static NSImage *unknownImage = nil;
 		if(unknownImage == nil) {
 			unknownImage = [[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kUnknownFSObjectIcon)] retain];
 		}
-		return unknownImage; // TODO: cache
+		return unknownImage;
 	}
 	
 	return icon;

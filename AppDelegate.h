@@ -57,6 +57,8 @@
     NSManagedObjectContext *managedObjectContext;
 		
 	BOOL quickLookAvailable;
+	BOOL isLoadingIcons;
+	BOOL isReplacingTracks;
 }
 
 @property (retain) NSString *searchKey;
@@ -122,5 +124,7 @@
 @property (retain) NSView *searchView;
 @property (retain) NSView *fromDateView;
 @property BOOL quickLookAvailable;
+@property BOOL isLoadingIcons;
+@property BOOL isReplacingTracks;
 
 @end

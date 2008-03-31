@@ -10,6 +10,9 @@
 #import "Updater.h"
 #import "NSView+SL.h"
 
+// FIXME: give importer context priority when saving
+// FIXME: in icon loader thread, handle already deleted icon
+
 // reset with
 // $ rm -r ~/Library/Application\ Support/SpotLook; rm -r ~/Library/Preferences/ch.seriot.SpotLook.plist
 
@@ -212,6 +215,7 @@
 
 - (void)iconsLoadedFromSeparateThread {
 	[outlineView reloadData];
+	self.isLoadingIcons = NO;
 }
 
 - (void)performIconsFetching {
@@ -228,6 +232,7 @@
 	
 	[tracksController fetchWithRequest:nil merge:NO error:nil];
 	
+	self.isLoadingIcons = YES;
     [NSThread detachNewThreadSelector:@selector(performIconsFetching)
                              toTarget:self
                            withObject:nil];
@@ -359,6 +364,14 @@
 	NSString *dtPath = [[NSBundle mainBundle] pathForResource:@"DefaultTracks" ofType:@"plist"]; // TODO: handle if not present..
 	NSArray *dt = [NSArray arrayWithContentsOfFile:dtPath];	
 
+	NSLog(@"--a");
+
+	/*
+2008-04-01 00:04:33.474 SpotLook[11853:10b] --a
+2008-04-01 00:04:33.626 SpotLook[11853:7413] An uncaught exception was raised
+2008-04-01 00:04:33.626 SpotLook[11853:7413] *** -[NSCFArray objectAtIndex:]: index (96) beyond bounds (0)
+	*/
+	
 	for(NSDictionary *d in dt) {
 		if([[d allKeys] containsObject:@"tracks"]) { // we found a trackSet
 			SLTrackSet *ts = [self createAndInsertTrackSetWithName:[d objectForKey:@"name"]];
@@ -370,8 +383,11 @@
 			[self createdAndInsertedTrackFromDictionary:d];
 		}
 	}
+	NSLog(@"--b");
 	
 	[[self managedObjectContext] save:nil];
+
+	NSLog(@"--c");
 
     NSString *currentVersionString = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
 	[[NSUserDefaults standardUserDefaults] setObject:currentVersionString forKey:@"latestResetToDefaultTracks"];
@@ -700,32 +716,54 @@
                     contextInfo:nil];
 }
 
-- (void)replaceTracksWithDefaults{
+- (void)tracksWereReplaced {
+	self.isReplacingTracks = NO;
+	self.isLoadingIcons = YES;
+    [NSThread detachNewThreadSelector:@selector(performIconsFetching)
+                             toTarget:self
+                           withObject:nil];
+}
+
+- (void)performReplaceTracksWithDefaults{
+	NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
 	// remove tree nodes
 	[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
 	[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
 
 	// remove controllers content
+	NSLog(@"--1");
 	[tracksSetController removeObjects:[tracksSetController arrangedObjects]];
+	NSLog(@"--2");
 	[tracksController removeObjects:[tracksController arrangedObjects]];
-	
+	NSLog(@"--3");
+
 	// import
 	[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"defaultTracksImported"];
+	NSLog(@"--4");
 	[self importDefaultTracks];
+	NSLog(@"--5");
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultTracksImported"];
 	
 	[self populateOutlineContents];
+	
+	[p release];
+	
+	[self performSelectorOnMainThread:@selector(tracksWereReplaced) withObject:nil waitUntilDone:YES];
 }
 
 - (void)resetToDefaultTracksAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertSecondButtonReturn) {
-		[self replaceTracksWithDefaults];
+		self.isReplacingTracks = YES;
+		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
+		//[self replaceTracksWithDefaults];
     }	
 }
 
 - (void)upgradeToLatestTracksAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertFirstButtonReturn) {
-		[self replaceTracksWithDefaults];
+		self.isReplacingTracks = YES;
+		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
+		//[self replaceTracksWithDefaults];
     } else {
 		NSString *currentVersionString = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
 		[[NSUserDefaults standardUserDefaults] setObject:currentVersionString forKey:@"skipTracksUpgradeVersion"];
@@ -874,5 +912,7 @@
 @synthesize dateTypeView;
 @synthesize fromDateView;
 @synthesize toDateView;
+@synthesize isLoadingIcons;
+@synthesize isReplacingTracks;
 
 @end
