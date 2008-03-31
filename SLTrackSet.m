@@ -12,6 +12,8 @@
 
 @implementation SLTrackSet 
 
+static NSImage *folderImage = nil;
+
 @dynamic name;
 @dynamic tracks;
 
@@ -28,9 +30,15 @@
 }
 
 - (NSImage *)icon {
-	if(icon == nil) {
-		[self setValue:[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericFolderIcon)] forKey:@"icon"];
+	if(folderImage == nil) {
+		folderImage = [[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericFolderIcon)] retain];
+		[folderImage setSize:NSMakeSize(16,16)];
 	}
+	
+	if(icon == nil) {
+		[self setValue:folderImage forKey:@"icon"];
+	}
+	
 	return icon;
 }
 

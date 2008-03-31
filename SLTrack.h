@@ -9,7 +9,6 @@
 	NSArrayController *queryResults;
 	BOOL showAll;
 	NSImage *icon;
-	NSImage *genericIcon;
 }
 
 - (void)setUp;

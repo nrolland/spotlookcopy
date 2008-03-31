@@ -43,7 +43,6 @@
 	NSString *searchKey;
 	
 	NSMutableArray *contents;
-	NSImage *folderImage;
 	
 	NSNumber *dateSliderMin;
 	NSNumber *dateSliderMax;
@@ -117,7 +116,6 @@
 @property (retain) NSArrayController *selectedResultsController;
 @property (retain) NSArrayController *activeTracksController;
 @property (retain) NSWindow *window;
-@property (retain) NSImage *folderImage;
 @property (retain) NSView *toDateView;
 @property (retain) NSView *dateTypeView;
 @property (retain) NSOutlineView *outlineView;

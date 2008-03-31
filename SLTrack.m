@@ -13,18 +13,9 @@
 @dynamic showAll;
 @dynamic isActive;
 
-static NSData *genericTiff;
+static NSData *genericFileIconData = nil;
+static NSImage *unknownImage = nil;
 
-+ (void)initialize {
-//    NSArray *keys = [NSArray arrayWithObjects:@"uti", @"scope", nil];
-//    [self setKeys:keys triggerChangeNotificationsForDependentKey:@"icon"];
-	genericTiff = [[[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericDocumentIconResource)] TIFFRepresentation] retain]; // TODO: where should it be released?
-}
-
-- (void)dealloc {
-	[genericTiff release];
-	[super dealloc];
-}
 
 - (BOOL)isDraggable {
 	return YES;
@@ -55,21 +46,27 @@ static NSData *genericTiff;
 }
 
 - (void)loadIcon {
-	NSImage *i;
+	if(self.uti == nil || [self.uti length] == 0) {
+		return;
+	}
 	
+	if(genericFileIconData == nil) {
+		genericFileIconData = [[[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericDocumentIconResource)] TIFFRepresentation] retain];
+	}
+	
+	NSImage *i;
 	NSArray *rootUTIs = [NSArray arrayWithObjects:@"public.item", @"public.data", nil];
 	
 	if(self.uti != nil && [self.uti length] > 0 && ![rootUTIs containsObject:self.uti]) {
 		i = [[NSWorkspace sharedWorkspace] iconForFileType:self.uti];
-		// FIXME: very slow, should we load the icons in a separate thread?
 		NSData *tiff = [i TIFFRepresentation];
-		if([tiff isEqualToData:genericTiff]) {
-			i = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kUnknownFSObjectIcon)];
+		if([tiff isEqualToData:genericFileIconData]) {
+			return;
 		}
 	} else if( (self.scope != nil && [self.scope length] > 0) || [rootUTIs containsObject:self.uti]) {
 		i = [[NSWorkspace sharedWorkspace] iconForFile:self.scope];
 	} else {
-		i = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kUnknownFSObjectIcon)];
+		return;
 	}
 	
 	[self setValue:i forKey:@"icon"];
@@ -78,7 +75,10 @@ static NSData *genericTiff;
 - (NSImage *)icon {
 
 	if(icon == nil) {
-		return [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kUnknownFSObjectIcon)]; // TODO: cache
+		if(unknownImage == nil) {
+			unknownImage = [[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kUnknownFSObjectIcon)] retain];
+		}
+		return unknownImage; // TODO: cache
 	}
 	
 	return icon;
@@ -145,20 +145,14 @@ static NSData *genericTiff;
 	}
 	
 	if([key isEqualToString:@"uti"] || [key isEqualToString:@"scope"]) {
-		[self willChangeValueForKey:@"icon"];
-		if(icon) {
-			[icon release];
-			icon = nil;
-		}
-		[self didChangeValueForKey:@"icon"];
-		//[self setValue:[[NSWorkspace sharedWorkspace] iconForFileType:self.uti] forKey:@"icon"];
+		[self loadIcon];
 	}
 	
 	if([key isEqualToString:@"nameContentKeywords"] || [key isEqualToString:@"uti"] || [key isEqualToString:@"scope"] || [key isEqualToString:@"showAll"]) {
 		// create and start query only if importation is over
 		if([[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:@"defaultTracksImported"]) {
 			[self createPredicate];
-			[query startQuery];			
+			[query startQuery];
 		}
 	}
 

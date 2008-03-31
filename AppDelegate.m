@@ -246,7 +246,6 @@
     [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
     [managedObjectModel release], managedObjectModel = nil;
 	[contents release];
-	[folderImage release];
 	[tracksSD release];
     [super dealloc];
 }
@@ -264,10 +263,6 @@
 		// FIXME: get this used
 		NSSortDescriptor *sd = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
 		tracksSD = [NSArray arrayWithObject:sd];
-
-		// cache the reused icon images
-		folderImage = [[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericFolderIcon)] retain];
-		[folderImage setSize:NSMakeSize(16,16)];
 
         NoZeroTransformer *noZeroTransformer = [[[NoZeroTransformer alloc] init] autorelease];
         [NSValueTransformer setValueTransformer:noZeroTransformer forName:@"NoZeroTransformer"];
@@ -517,7 +512,7 @@
 		[toDesactivate minusSet:[NSSet setWithArray:[treeController selectedObjects]]];
 		
 		if(initialTracksUsageCounter > 0) {
-			NSLog(@"initialTracksUsageCounter");
+			//NSLog(@"initialTracksUsageCounter");
 			initialTracksUsageCounter--;
 			[toDesactivate minusSet:[NSSet setWithArray:initialTracks]];
 			if(initialTracksUsageCounter == 0) {
@@ -867,7 +862,6 @@
 @synthesize trackInspector;
 @synthesize activeTracksResultsController;
 @synthesize window;
-@synthesize folderImage;
 @synthesize pathControl;
 @synthesize tracksController;
 @synthesize treeController;
