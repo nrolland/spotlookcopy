@@ -210,10 +210,27 @@
 	}
 }
 
+- (void)iconsLoadedFromSeparateThread {
+	[outlineView reloadData];
+}
+
+- (void)performIconsFetching {
+	NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
+	[[tracksController arrangedObjects] makeObjectsPerformSelector:@selector(loadIcon)];
+	[p release];
+	[self performSelectorOnMainThread:@selector(iconsLoadedFromSeparateThread) withObject:nil waitUntilDone:YES];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	NSDockTile *dock = [NSApp dockTile];
 	[dock setContentView:appIconView];
 	[dock display];
+	
+	[tracksController fetchWithRequest:nil merge:NO error:nil];
+	
+    [NSThread detachNewThreadSelector:@selector(performIconsFetching)
+                             toTarget:self
+                           withObject:nil];
 	
     [[Updater sharedInstance] checkUpdateSilentIfUpToDate:self];
 	
@@ -255,12 +272,12 @@
         NoZeroTransformer *noZeroTransformer = [[[NoZeroTransformer alloc] init] autorelease];
         [NSValueTransformer setValueTransformer:noZeroTransformer forName:@"NoZeroTransformer"];
 		
-		self.searchKey = @"";//[self setValue:@"" forKey:@"searchKey"];
+		self.searchKey = @"";
 		
 		self.fromDate = (NSDate *)[[NSCalendarDate date] dateByAddingYears:0 months:-1 days:0 hours:0 minutes:0 seconds:0];
 		self.toDate = (NSDate *)[[NSCalendarDate date] dateByAddingYears:0 months:0 days:0 hours:12 minutes:0 seconds:0];
 		
-		initialTracksUsageCounter = 4; // this is a hack to keep the initial active tracks active during controllers filling by coredata
+		initialTracksUsageCounter = 5; // this is a hack to keep the initial active tracks active during controllers filling by coredata
 	}
 	
 	return self;
@@ -500,7 +517,7 @@
 		[toDesactivate minusSet:[NSSet setWithArray:[treeController selectedObjects]]];
 		
 		if(initialTracksUsageCounter > 0) {
-			//NSLog(@"initialTracksUsageCounter");
+			NSLog(@"initialTracksUsageCounter");
 			initialTracksUsageCounter--;
 			[toDesactivate minusSet:[NSSet setWithArray:initialTracks]];
 			if(initialTracksUsageCounter == 0) {

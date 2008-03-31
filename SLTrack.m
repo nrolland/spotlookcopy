@@ -54,27 +54,33 @@ static NSData *genericTiff;
 	return [NSURL fileURLWithPath:self.scope];
 }
 
-- (NSImage *)icon {
-	if(icon == nil) {
-		NSImage *i;
-		
-		NSArray *rootUTIs = [NSArray arrayWithObjects:@"public.item", @"public.data", nil];
-		
-		if(self.uti != nil && [self.uti length] > 0 && ![rootUTIs containsObject:self.uti]) {
-			i = [[NSWorkspace sharedWorkspace] iconForFileType:self.uti];
-			// FIXME: very slow, should we load the icons in a separate thread?
-			NSData *tiff = [i TIFFRepresentation];
-			if([tiff isEqualToData:genericTiff]) {
-				i = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kUnknownFSObjectIcon)];
-			}
-		} else if( (self.scope != nil && [self.scope length] > 0) || [rootUTIs containsObject:self.uti]) {
-			i = [[NSWorkspace sharedWorkspace] iconForFile:self.scope];
-		} else {
+- (void)loadIcon {
+	NSImage *i;
+	
+	NSArray *rootUTIs = [NSArray arrayWithObjects:@"public.item", @"public.data", nil];
+	
+	if(self.uti != nil && [self.uti length] > 0 && ![rootUTIs containsObject:self.uti]) {
+		i = [[NSWorkspace sharedWorkspace] iconForFileType:self.uti];
+		// FIXME: very slow, should we load the icons in a separate thread?
+		NSData *tiff = [i TIFFRepresentation];
+		if([tiff isEqualToData:genericTiff]) {
 			i = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kUnknownFSObjectIcon)];
 		}
-		
-		[self setValue:i forKey:@"icon"];
+	} else if( (self.scope != nil && [self.scope length] > 0) || [rootUTIs containsObject:self.uti]) {
+		i = [[NSWorkspace sharedWorkspace] iconForFile:self.scope];
+	} else {
+		i = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kUnknownFSObjectIcon)];
 	}
+	
+	[self setValue:i forKey:@"icon"];
+}
+
+- (NSImage *)icon {
+
+	if(icon == nil) {
+		return [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kUnknownFSObjectIcon)]; // TODO: cache
+	}
+	
 	return icon;
 }
 
