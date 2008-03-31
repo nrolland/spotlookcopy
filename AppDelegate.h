@@ -5,6 +5,8 @@
 #define TRACKS @"TRACKS"
 #define TRACKSGROUPS @"TRACK GROUPS"
 
+//#ifndef debugging NSLog(...)
+
 @interface AppDelegate : NSObject {
 
 	IBOutlet NSWindow *window;

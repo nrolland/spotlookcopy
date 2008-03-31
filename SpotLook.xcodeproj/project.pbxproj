@@ -32,6 +32,7 @@
 		03F1C1260D973D880092C98D /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 03F1C1250D973D880092C98D /* Credits.html */; };
 		03F1C1F30D9783800092C98D /* SpotLookRunning.png in Resources */ = {isa = PBXBuildFile; fileRef = 03F1C1F20D9783800092C98D /* SpotLookRunning.png */; };
 		03F1C35A0D9817D40092C98D /* UserDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 03F1C3590D9817D40092C98D /* UserDefaults.plist */; };
+		03F39E360DA15CC500BEE4D7 /* NSNumber+SL.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F39E350DA15CC500BEE4D7 /* NSNumber+SL.m */; };
 		770B37ED0679A11B001EADE2 /* SpotLook_DataModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 770B37EC0679A11B001EADE2 /* SpotLook_DataModel.xcdatamodel */; };
 		77C8280E06725ACE000B614F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* AppDelegate.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -83,6 +84,8 @@
 		03F1C1250D973D880092C98D /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		03F1C1F20D9783800092C98D /* SpotLookRunning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SpotLookRunning.png; sourceTree = "<group>"; };
 		03F1C3590D9817D40092C98D /* UserDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = UserDefaults.plist; sourceTree = "<group>"; };
+		03F39E340DA15CC500BEE4D7 /* NSNumber+SL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+SL.h"; sourceTree = "<group>"; };
+		03F39E350DA15CC500BEE4D7 /* NSNumber+SL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+SL.m"; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -152,6 +155,8 @@
 				0334F51E0D971076007F5762 /* NSMetadataItem+SL.m */,
 				03DE1D0C0D99CC48008713FF /* NSView+SL.h */,
 				03DE1D0D0D99CC48008713FF /* NSView+SL.m */,
+				03F39E340DA15CC500BEE4D7 /* NSNumber+SL.h */,
+				03F39E350DA15CC500BEE4D7 /* NSNumber+SL.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -252,9 +257,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 26FC0A840875C7B200E6366F /* Build configuration list for PBXNativeTarget "SpotLook" */;
 			buildPhases = (
-				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				8D1107290486CEB800E47090 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -325,6 +330,7 @@
 				031EFA830D94C159005F349A /* Updater.m in Sources */,
 				0334F5200D971076007F5762 /* NSMetadataItem+SL.m in Sources */,
 				03DE1D0E0D99CC48008713FF /* NSView+SL.m in Sources */,
+				03F39E360DA15CC500BEE4D7 /* NSNumber+SL.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
