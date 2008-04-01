@@ -442,7 +442,8 @@
 	[[NSUserDefaults standardUserDefaults] setObject:currentVersionString forKey:@"latestResetToDefaultTracks"];
 }
 
-- (void)populateOutlineContents {	
+- (void)populateOutlineContents {
+	NSLog(@"populateOutlineContents");
 	tracksSetController.name = TRACKSGROUPS;
 	[treeController insertObject:tracksSetController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
 
@@ -491,6 +492,8 @@
 		self.isReplacingTracks = YES;
 		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
 //		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultTracksImported"];
+	} else {
+		[self populateOutlineContents];
 	}
 	
 	// set date slider
@@ -511,7 +514,7 @@
 	// TODO: useful?
 	[dateTypesMenu selectItemWithTitle:[[NSUserDefaults standardUserDefaults] valueForKey:@"dateType"]];
 
-	[self populateOutlineContents];
+	//[self populateOutlineContents];
 	//[managedObjectContext processPendingChanges];
 	
 	[activeTracksResultsController addObserver:self forKeyPath:@"arrangedObjects" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:nil];
@@ -770,6 +773,9 @@
 - (void)tracksWereReplaced {
 	self.isReplacingTracks = NO;
 	self.isLoadingIcons = YES;
+	
+	NSLog(@"tracksWereReplaced");
+	[outlineView reloadData];
 	
     [NSThread detachNewThreadSelector:@selector(performIconsFetching)
                              toTarget:self
