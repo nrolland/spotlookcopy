@@ -14,6 +14,7 @@
 - (void)setUp;
 - (void)createPredicate;
 - (NSImage *)icon;
+- (void)loadIcon;
 
 @property (retain) NSString *name;
 @property (retain) NSString *uti;

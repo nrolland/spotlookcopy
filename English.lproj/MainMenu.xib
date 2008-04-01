@@ -8,16 +8,16 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="836"/>
-			<integer value="3053"/>
-			<integer value="448"/>
-			<integer value="3051"/>
-			<integer value="3207"/>
 			<integer value="3072"/>
-			<integer value="870"/>
-			<integer value="1246"/>
 			<integer value="3061"/>
 			<integer value="3289"/>
+			<integer value="870"/>
+			<integer value="836"/>
+			<integer value="3053"/>
+			<integer value="3051"/>
+			<integer value="448"/>
+			<integer value="1246"/>
+			<integer value="3207"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -44571,26 +44571,6 @@ AAgAAQABAAEAAQ</bytes>
 						</object>
 					</object>
 					<int key="connectionID">3417</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: isLoadingIcons</string>
-						<reference key="source" ref="11059117"/>
-						<reference key="destination" ref="42996464"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="11059117"/>
-							<reference key="NSDestination" ref="42996464"/>
-							<string key="NSLabel">enabled: isLoadingIcons</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">isLoadingIcons</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">3420</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">

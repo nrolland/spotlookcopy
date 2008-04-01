@@ -55,6 +55,8 @@
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;
+    NSManagedObjectContext *tracksImportManagedObjectContext;
+
 		
 	BOOL quickLookAvailable;
 	BOOL isLoadingIcons;

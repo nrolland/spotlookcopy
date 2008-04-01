@@ -191,6 +191,39 @@
     return reply;
 }
 
+
+
+
+
+
+
+- (NSManagedObjectContext *)tracksImportManagedObjectContext {
+    if(tracksImportManagedObjectContext == nil) {
+        tracksImportManagedObjectContext = [[NSManagedObjectContext alloc] init];
+        [tracksImportManagedObjectContext setPersistentStoreCoordinator:[self persistentStoreCoordinator]];
+        [tracksImportManagedObjectContext setMergePolicy:NSOverwriteMergePolicy];
+        //[[tracksImportManagedObjectContext undoManager] disableUndoRegistration];
+    }
+    return tracksImportManagedObjectContext;
+}
+
+
+// FIXME: check
+- (void)contextDidSave:(NSNotification *)notification {
+	NSLog(@"contextDidSave");
+	id notifier= [notification object];
+	NSLog(@"notifier %@", notifier);
+	if (notifier == [self tracksImportManagedObjectContext]) {
+		NSLog(@"notifier: tracksImportManagedObjectContext");
+		[[self managedObjectContext] mergeChangesFromContextDidSaveNotification:notification];
+		[tracksController fetch:self];
+		[outlineView reloadData];
+	}
+}
+
+
+
+
 - (void)askToUpgradeTracksIfNotDone {
 	NSString *latestResetToDefaultTracks = [[NSUserDefaults standardUserDefaults] valueForKey:@"latestResetToDefaultTracks"];
     NSString *currentVersionString = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
@@ -220,7 +253,15 @@
 
 - (void)performIconsFetching {
 	NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
-	[[tracksController arrangedObjects] makeObjectsPerformSelector:@selector(loadIcon)];
+	
+	for(SLTrack *t in [[tracksController arrangedObjects] copy]) {
+		if(![[[self managedObjectContext] deletedObjects] containsObject:t]) {
+			[t loadIcon];
+		} else {
+			NSLog(@"no track %@", t.name);
+		}
+	}
+	
 	[p release];
 	[self performSelectorOnMainThread:@selector(iconsLoadedFromSeparateThread) withObject:nil waitUntilDone:YES];
 }
@@ -233,6 +274,7 @@
 	[tracksController fetchWithRequest:nil merge:NO error:nil];
 	
 	self.isLoadingIcons = YES;
+	
     [NSThread detachNewThreadSelector:@selector(performIconsFetching)
                              toTarget:self
                            withObject:nil];
@@ -278,6 +320,11 @@
 		self.toDate = (NSDate *)[[NSCalendarDate date] dateByAddingYears:0 months:0 days:0 hours:12 minutes:0 seconds:0];
 		
 		initialTracksUsageCounter = 5; // this is a hack to keep the initial active tracks active during controllers filling by coredata
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self
+											     selector:@selector(contextDidSave:) 
+												     name:NSManagedObjectContextDidSaveNotification
+											       object:nil];
 	}
 	
 	return self;
@@ -344,8 +391,8 @@
 	return dateType;
 }
 
-- (SLTrack *)createdAndInsertedTrackFromDictionary:(NSDictionary *)d {
-	SLTrack *t = [NSEntityDescription insertNewObjectForEntityForName: @"SLTrack" inManagedObjectContext:[self managedObjectContext]];
+- (SLTrack *)createdAndInsertedTrackFromDictionary:(NSDictionary *)d context:(NSManagedObjectContext *)context{
+	SLTrack *t = [NSEntityDescription insertNewObjectForEntityForName: @"SLTrack" inManagedObjectContext:context];
 	t.scope = NSHomeDirectory();
 	t.name = [d objectForKey:@"name"];
 	t.uti = [d objectForKey:@"uti"];
@@ -354,13 +401,15 @@
 	return t;
 }
 
-- (SLTrackSet *)createAndInsertTrackSetWithName:(NSString *)s {
-	SLTrackSet *ts = [NSEntityDescription insertNewObjectForEntityForName: @"SLTrackSet" inManagedObjectContext:[self managedObjectContext]];
+- (SLTrackSet *)createAndInsertTrackSetWithName:(NSString *)s context:(NSManagedObjectContext *)context {
+	SLTrackSet *ts = [NSEntityDescription insertNewObjectForEntityForName: @"SLTrackSet" inManagedObjectContext:context];
 	ts.name = s;
 	return ts;
 }
 
 - (void)importDefaultTracks {
+    NSManagedObjectContext *context = [self tracksImportManagedObjectContext];
+
 	NSString *dtPath = [[NSBundle mainBundle] pathForResource:@"DefaultTracks" ofType:@"plist"]; // TODO: handle if not present..
 	NSArray *dt = [NSArray arrayWithContentsOfFile:dtPath];	
 
@@ -374,18 +423,18 @@
 	
 	for(NSDictionary *d in dt) {
 		if([[d allKeys] containsObject:@"tracks"]) { // we found a trackSet
-			SLTrackSet *ts = [self createAndInsertTrackSetWithName:[d objectForKey:@"name"]];
+			SLTrackSet *ts = [self createAndInsertTrackSetWithName:[d objectForKey:@"name"] context:context];
 			for(NSDictionary *td in [d objectForKey:@"tracks"] ) {
-				SLTrack *t = [self createdAndInsertedTrackFromDictionary:td];
+				SLTrack *t = [self createdAndInsertedTrackFromDictionary:td context:context];
 				ts.tracks = [ts.tracks setByAddingObject:t];
 			}
 		} else {
-			[self createdAndInsertedTrackFromDictionary:d];
+			[self createdAndInsertedTrackFromDictionary:d context:context];
 		}
 	}
 	NSLog(@"--b");
 	
-	[[self managedObjectContext] save:nil];
+	[context save:nil];
 
 	NSLog(@"--c");
 
@@ -438,8 +487,10 @@
 	
 	// set defaults
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"defaultTracksImported"] == NO) {
-		[self importDefaultTracks];
-		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultTracksImported"];
+//		[self importDefaultTracks];
+		self.isReplacingTracks = YES;
+		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
+//		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultTracksImported"];
 	}
 	
 	// set date slider
@@ -453,8 +504,8 @@
 	[[scrollView horizontalRulerView] setRuleThickness:16.0];
 	[[scrollView horizontalRulerView] setReservedThicknessForMarkers:0.0];
 	[[scrollView horizontalRulerView] setReservedThicknessForAccessoryView:0.0];
-	//[scrollView setBackgroundColor:[NSColor windowBackgroundColor]]; // FIXME unused?
-	
+	//[scrollView setBackgroundColor:[NSColor windowBackgroundColor]]; // FIXME: unconsider? for now we must set the color in IB.
+		
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(datesDidChange:) name:@"datesDidChange" object:nil];
 
 	// TODO: useful?
@@ -719,9 +770,11 @@
 - (void)tracksWereReplaced {
 	self.isReplacingTracks = NO;
 	self.isLoadingIcons = YES;
+	
     [NSThread detachNewThreadSelector:@selector(performIconsFetching)
                              toTarget:self
                            withObject:nil];
+	
 }
 
 - (void)performReplaceTracksWithDefaults{
@@ -753,6 +806,12 @@
 
 - (void)resetToDefaultTracksAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertSecondButtonReturn) {
+		/*
+		if(self.isReplacingTracks) {
+			NSLog(@"already importing tracks");
+			return;
+		}
+		*/
 		self.isReplacingTracks = YES;
 		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
 		//[self replaceTracksWithDefaults];
@@ -761,6 +820,12 @@
 
 - (void)upgradeToLatestTracksAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertFirstButtonReturn) {
+		/*
+		if(self.isReplacingTracks) {
+			NSLog(@"already importing tracks");
+			return;
+		}
+		*/
 		self.isReplacingTracks = YES;
 		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
 		//[self replaceTracksWithDefaults];
