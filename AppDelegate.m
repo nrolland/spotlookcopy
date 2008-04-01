@@ -210,11 +210,9 @@
 
 // FIXME: check
 - (void)contextDidSave:(NSNotification *)notification {
-	NSLog(@"contextDidSave");
+	// NSLog(@"contextDidSave");
 	id notifier= [notification object];
-	NSLog(@"notifier %@", notifier);
 	if (notifier == [self tracksImportManagedObjectContext]) {
-		NSLog(@"notifier: tracksImportManagedObjectContext");
 		[[self managedObjectContext] mergeChangesFromContextDidSaveNotification:notification];
 		[tracksController fetch:self];
 		[outlineView reloadData];
@@ -413,7 +411,7 @@
 	NSString *dtPath = [[NSBundle mainBundle] pathForResource:@"DefaultTracks" ofType:@"plist"]; // TODO: handle if not present..
 	NSArray *dt = [NSArray arrayWithContentsOfFile:dtPath];	
 
-	NSLog(@"--a");
+	//NSLog(@"--a");
 
 	/*
 2008-04-01 00:04:33.474 SpotLook[11853:10b] --a
@@ -432,18 +430,18 @@
 			[self createdAndInsertedTrackFromDictionary:d context:context];
 		}
 	}
-	NSLog(@"--b");
+	//NSLog(@"--b");
 	
 	[context save:nil];
 
-	NSLog(@"--c");
+	//NSLog(@"--c");
 
     NSString *currentVersionString = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
 	[[NSUserDefaults standardUserDefaults] setObject:currentVersionString forKey:@"latestResetToDefaultTracks"];
 }
 
 - (void)populateOutlineContents {
-	NSLog(@"populateOutlineContents");
+	//NSLog(@"populateOutlineContents");
 	tracksSetController.name = TRACKSGROUPS;
 	[treeController insertObject:tracksSetController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
 
@@ -774,7 +772,7 @@
 	self.isReplacingTracks = NO;
 	self.isLoadingIcons = YES;
 	
-	NSLog(@"tracksWereReplaced");
+	//NSLog(@"tracksWereReplaced");
 	[outlineView reloadData];
 	
     [NSThread detachNewThreadSelector:@selector(performIconsFetching)
@@ -790,17 +788,12 @@
 	[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
 
 	// remove controllers content
-	NSLog(@"--1");
 	[tracksSetController removeObjects:[tracksSetController arrangedObjects]];
-	NSLog(@"--2");
 	[tracksController removeObjects:[tracksController arrangedObjects]];
-	NSLog(@"--3");
 
 	// import
 	[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"defaultTracksImported"];
-	NSLog(@"--4");
 	[self importDefaultTracks];
-	NSLog(@"--5");
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultTracksImported"];
 	
 	[self populateOutlineContents];
