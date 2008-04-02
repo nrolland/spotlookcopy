@@ -10,9 +10,6 @@
 #import "Updater.h"
 #import "NSView+SL.h"
 
-// FIXME: give importer context priority when saving
-// FIXME: in icon loader thread, handle already deleted icon
-
 // reset with
 // $ rm -r ~/Library/Application\ Support/SpotLook; rm -r ~/Library/Preferences/ch.seriot.SpotLook.plist
 
@@ -191,12 +188,6 @@
     return reply;
 }
 
-
-
-
-
-
-
 - (NSManagedObjectContext *)tracksImportManagedObjectContext {
     if(tracksImportManagedObjectContext == nil) {
         tracksImportManagedObjectContext = [[NSManagedObjectContext alloc] init];
@@ -218,9 +209,6 @@
 		[outlineView reloadData];
 	}
 }
-
-
-
 
 - (void)askToUpgradeTracksIfNotDone {
 	NSString *latestResetToDefaultTracks = [[NSUserDefaults standardUserDefaults] valueForKey:@"latestResetToDefaultTracks"];
@@ -409,15 +397,7 @@
     NSManagedObjectContext *context = [self tracksImportManagedObjectContext];
 
 	NSString *dtPath = [[NSBundle mainBundle] pathForResource:@"DefaultTracks" ofType:@"plist"]; // TODO: handle if not present..
-	NSArray *dt = [NSArray arrayWithContentsOfFile:dtPath];	
-
-	//NSLog(@"--a");
-
-	/*
-2008-04-01 00:04:33.474 SpotLook[11853:10b] --a
-2008-04-01 00:04:33.626 SpotLook[11853:7413] An uncaught exception was raised
-2008-04-01 00:04:33.626 SpotLook[11853:7413] *** -[NSCFArray objectAtIndex:]: index (96) beyond bounds (0)
-	*/
+	NSArray *dt = [NSArray arrayWithContentsOfFile:dtPath];
 	
 	for(NSDictionary *d in dt) {
 		if([[d allKeys] containsObject:@"tracks"]) { // we found a trackSet
@@ -430,17 +410,15 @@
 			[self createdAndInsertedTrackFromDictionary:d context:context];
 		}
 	}
-	//NSLog(@"--b");
 	
 	[context save:nil];
-
-	//NSLog(@"--c");
 
     NSString *currentVersionString = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
 	[[NSUserDefaults standardUserDefaults] setObject:currentVersionString forKey:@"latestResetToDefaultTracks"];
 }
 
 - (void)populateOutlineContents {
+	self.isPopulatingOutline = YES;
 	//NSLog(@"populateOutlineContents");
 	tracksSetController.name = TRACKSGROUPS;
 	[treeController insertObject:tracksSetController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
@@ -448,7 +426,24 @@
 	tracksController.name = TRACKS;
 	[treeController insertObject:tracksController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
 	
-	[outlineView expandItem:[outlineView itemAtRow:0]];
+	NSLog(@"--0 %d", [[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTrackGroups"]);
+	NSLog(@"--1 %d", [[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTracks"]);
+	
+//	NSLog(@"-- %@", [[outlineView itemAtRow:0] representedObject]);
+//	NSLog(@"-- %@", [[outlineView itemAtRow:1] representedObject]);
+	
+	if([[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTrackGroups"]) {
+		NSLog(@"will expand 0");
+		[outlineView expandItem:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:0]]];
+	}
+
+	if([[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTracks"]) {
+		NSLog(@"will expand 1 %@", [[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:1]]);
+//		[outlineView expandItem:tracksController];
+
+		[outlineView expandItem:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:1]]];
+	}
+	self.isPopulatingOutline = NO;
 }
 
 - (void)setupSlider {
@@ -484,6 +479,9 @@
 	
 	[outlineView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(outlineItemDidExpand:) name:NSOutlineViewItemDidExpandNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(outlineItemDidCollapse:) name:NSOutlineViewItemDidCollapseNotification object:nil];
+					
 	// set defaults
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"defaultTracksImported"] == NO) {
 //		[self importDefaultTracks];
@@ -538,6 +536,39 @@
 	[tracksController setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 	[tracksSetController setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 	[sortDescriptor release];
+}
+
+- (void)outlineItemDidExpand:(NSNotification *)notification {
+	if(isPopulatingOutline) return;
+	
+	NSOutlineView *ov = [notification object];
+	
+	NSLog(@"expand");
+	
+	BOOL trackGroups = [ov isItemExpanded:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:0]]];
+	BOOL tracks      = [ov isItemExpanded:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:1]]];
+
+//	NSLog(@"0 expanded: %d", trackGroups);
+//	NSLog(@"1 expanded: %d", tracks);
+	
+	[[NSUserDefaults standardUserDefaults] setBool:trackGroups forKey:@"outlineExpandTrackGroups"];
+	[[NSUserDefaults standardUserDefaults] setBool:tracks      forKey:@"outlineExpandTracks"];
+}
+
+- (void)outlineItemDidCollapse:(NSNotification *)notification {
+	if(isPopulatingOutline) return;
+
+    NSOutlineView *ov = [notification object];
+	NSLog(@"collapse");
+
+	BOOL trackGroups = [ov isItemExpanded:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:0]]];
+	BOOL tracks      = [ov isItemExpanded:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:1]]];
+
+//	NSLog(@"0 expanded: %d", trackGroups);
+//	NSLog(@"1 expanded: %d", tracks);
+	
+	[[NSUserDefaults standardUserDefaults] setBool:trackGroups forKey:@"outlineExpandTrackGroups"];
+	[[NSUserDefaults standardUserDefaults] setBool:tracks      forKey:@"outlineExpandTracks"];
 }
 
 - (void)datesDidChange:(NSNotification *)notification {
@@ -978,5 +1009,6 @@
 @synthesize toDateView;
 @synthesize isLoadingIcons;
 @synthesize isReplacingTracks;
+@synthesize isPopulatingOutline;
 
 @end

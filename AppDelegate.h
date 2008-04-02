@@ -56,11 +56,11 @@
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;
     NSManagedObjectContext *tracksImportManagedObjectContext;
-
 		
 	BOOL quickLookAvailable;
 	BOOL isLoadingIcons;
 	BOOL isReplacingTracks;
+	BOOL isPopulatingOutline;
 }
 
 @property (retain) NSString *searchKey;
@@ -128,5 +128,6 @@
 @property BOOL quickLookAvailable;
 @property BOOL isLoadingIcons;
 @property BOOL isReplacingTracks;
+@property BOOL isPopulatingOutline;
 
 @end

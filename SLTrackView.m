@@ -129,7 +129,7 @@ static NSRect LLRectFromPoints(NSPoint point1, NSPoint point2) {
 		CGColorCreateGenericRGB(0.0, 0.0, 1.0, 1.0);
 	
 	CGContextSetStrokeColorWithColor(context, myColor);
-	CGRect rect = NSRectToCGRect([self drawingBoundsForItem:item]);
+	CGRect rect = NSRectToCGRect([self drawingBoundsForItem:item]); // FIXME: don't convert everytime..
 	CGContextStrokeRect(context, rect);
 	CGColorRelease(myColor);
 }

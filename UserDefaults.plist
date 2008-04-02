@@ -16,5 +16,9 @@
 	<integer>5</integer>
 	<key>versionCheckRunAtStartup</key>
 	<true/>
+	<key>outlineExpandTrackGroups</key>
+	<true/>
+	<key>outlineExpandTracks</key>
+	<false/>
 </dict>
 </plist>
