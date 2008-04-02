@@ -243,9 +243,9 @@
 	for(SLTrack *t in [[tracksController arrangedObjects] copy]) {
 		if(![[[self managedObjectContext] deletedObjects] containsObject:t]) {
 			[t loadIcon];
-		} else {
+		} /*else {
 			NSLog(@"no track %@", t.name);
-		}
+		}*/
 	}
 	
 	[p release];
@@ -419,28 +419,18 @@
 
 - (void)populateOutlineContents {
 	self.isPopulatingOutline = YES;
-	//NSLog(@"populateOutlineContents");
+
 	tracksSetController.name = TRACKSGROUPS;
 	[treeController insertObject:tracksSetController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
 
 	tracksController.name = TRACKS;
 	[treeController insertObject:tracksController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
-	
-	NSLog(@"--0 %d", [[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTrackGroups"]);
-	NSLog(@"--1 %d", [[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTracks"]);
-	
-//	NSLog(@"-- %@", [[outlineView itemAtRow:0] representedObject]);
-//	NSLog(@"-- %@", [[outlineView itemAtRow:1] representedObject]);
-	
+		
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTrackGroups"]) {
-		NSLog(@"will expand 0");
 		[outlineView expandItem:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:0]]];
 	}
 
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTracks"]) {
-		NSLog(@"will expand 1 %@", [[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:1]]);
-//		[outlineView expandItem:tracksController];
-
 		[outlineView expandItem:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:1]]];
 	}
 	self.isPopulatingOutline = NO;
@@ -538,37 +528,24 @@
 	[sortDescriptor release];
 }
 
-- (void)outlineItemDidExpand:(NSNotification *)notification {
-	if(isPopulatingOutline) return;
-	
-	NSOutlineView *ov = [notification object];
-	
-	NSLog(@"expand");
-	
+- (void)storeOutlineViewExpandingStatus:(NSOutlineView *)ov {
 	BOOL trackGroups = [ov isItemExpanded:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:0]]];
 	BOOL tracks      = [ov isItemExpanded:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:1]]];
 
-//	NSLog(@"0 expanded: %d", trackGroups);
-//	NSLog(@"1 expanded: %d", tracks);
-	
 	[[NSUserDefaults standardUserDefaults] setBool:trackGroups forKey:@"outlineExpandTrackGroups"];
 	[[NSUserDefaults standardUserDefaults] setBool:tracks      forKey:@"outlineExpandTracks"];
 }
 
+- (void)outlineItemDidExpand:(NSNotification *)notification {
+	if(isPopulatingOutline) return;
+	
+	[self storeOutlineViewExpandingStatus:(NSOutlineView *)[notification object]];
+}
+
 - (void)outlineItemDidCollapse:(NSNotification *)notification {
 	if(isPopulatingOutline) return;
-
-    NSOutlineView *ov = [notification object];
-	NSLog(@"collapse");
-
-	BOOL trackGroups = [ov isItemExpanded:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:0]]];
-	BOOL tracks      = [ov isItemExpanded:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:1]]];
-
-//	NSLog(@"0 expanded: %d", trackGroups);
-//	NSLog(@"1 expanded: %d", tracks);
 	
-	[[NSUserDefaults standardUserDefaults] setBool:trackGroups forKey:@"outlineExpandTrackGroups"];
-	[[NSUserDefaults standardUserDefaults] setBool:tracks      forKey:@"outlineExpandTracks"];
+	[self storeOutlineViewExpandingStatus:(NSOutlineView *)[notification object]];
 }
 
 - (void)datesDidChange:(NSNotification *)notification {
