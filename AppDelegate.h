@@ -64,6 +64,7 @@
 	
 	IBOutlet NSArrayController *utisController;
 	IBOutlet NSPanel *utiDiscovererWindow;
+	IBOutlet NSProgressIndicator *UTIProgressIndicator;
 }
 
 @property (retain) NSString *searchKey;

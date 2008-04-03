@@ -530,8 +530,8 @@
 }
 
 - (IBAction)openUTIDiscoverer:(id)sender {
-	[utisController addObjects:[NSWorkspace registeredUTIs]]; // TODO: fill up only on demand
 	[utiDiscovererWindow makeKeyAndOrderFront:self];
+	[utisController addObjects:[NSWorkspace registeredUTIs]];
 }
 
 - (void)storeOutlineViewExpandingStatus:(NSOutlineView *)ov {

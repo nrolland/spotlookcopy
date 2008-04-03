@@ -68,7 +68,13 @@
 	[plists release];
 	[s autorelease];
 	
-	return [[s allObjects] sortedArrayUsingSelector:@selector(compare:)];
+	NSMutableArray *utis = [[NSMutableArray alloc] init];
+	for(NSString *uti in s) {
+		NSString *utiDescription = (NSString *)UTTypeCopyDescription((CFStringRef)uti);
+		[utis addObject:[NSDictionary dictionaryWithObjectsAndKeys:uti, @"uti", utiDescription, @"name", nil]];
+	};
+	// sortedArrayUsingSelector:@selector(compare:)];
+	return [utis autorelease];
 }
 
 
