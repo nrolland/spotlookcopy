@@ -691,6 +691,76 @@
 		vrLen = 1712;
 		vrLoc = 1176;
 	};
+	03BB7AE80DA56440002057FD /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0382E94D0DA45100005E1043 /* NSWorkspace+SL.m */;
+		name = "NSWorkspace+SL.m: 73";
+		rLen = 0;
+		rLoc = 2687;
+		rType = 0;
+		vrLen = 418;
+		vrLoc = 2465;
+	};
+	03BB7AE90DA56442002057FD /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0382E94D0DA45100005E1043 /* NSWorkspace+SL.m */;
+		name = "NSWorkspace+SL.m: 73";
+		rLen = 0;
+		rLoc = 2687;
+		rType = 0;
+		vrLen = 1712;
+		vrLoc = 1176;
+	};
+	03BB7AEB0DA58101002057FD /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0382E94D0DA45100005E1043 /* NSWorkspace+SL.m */;
+		name = "NSWorkspace+SL.m: 73";
+		rLen = 0;
+		rLoc = 2687;
+		rType = 0;
+		vrLen = 1712;
+		vrLoc = 1176;
+	};
+	03BB7AEC0DA58101002057FD /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0382E94D0DA45100005E1043 /* NSWorkspace+SL.m */;
+		name = "NSWorkspace+SL.m: 73";
+		rLen = 0;
+		rLoc = 2687;
+		rType = 0;
+		vrLen = 1712;
+		vrLoc = 1176;
+	};
+	03BB7AEE0DA5814E002057FD /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0382E94D0DA45100005E1043 /* NSWorkspace+SL.m */;
+		name = "NSWorkspace+SL.m: 73";
+		rLen = 0;
+		rLoc = 2687;
+		rType = 0;
+		vrLen = 418;
+		vrLoc = 2465;
+	};
+	03BB7AF00DA5819A002057FD /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0382E94D0DA45100005E1043 /* NSWorkspace+SL.m */;
+		name = "NSWorkspace+SL.m: 73";
+		rLen = 0;
+		rLoc = 2687;
+		rType = 0;
+		vrLen = 1712;
+		vrLoc = 1176;
+	};
+	03BB7AF10DA5819A002057FD /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0382E94D0DA45100005E1043 /* NSWorkspace+SL.m */;
+		name = "NSWorkspace+SL.m: 73";
+		rLen = 0;
+		rLoc = 2687;
+		rType = 0;
+		vrLen = 1712;
+		vrLoc = 1176;
+	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeArchitecture = i386;
 		activeBuildConfigurationName = Release;
@@ -823,6 +893,13 @@
 			03BB7AE20DA562B3002057FD /* PBXTextBookmark */ = 03BB7AE20DA562B3002057FD /* PBXTextBookmark */;
 			03BB7AE40DA562DD002057FD /* PBXTextBookmark */ = 03BB7AE40DA562DD002057FD /* PBXTextBookmark */;
 			03BB7AE50DA562DD002057FD /* PBXTextBookmark */ = 03BB7AE50DA562DD002057FD /* PBXTextBookmark */;
+			03BB7AE80DA56440002057FD /* PBXTextBookmark */ = 03BB7AE80DA56440002057FD /* PBXTextBookmark */;
+			03BB7AE90DA56442002057FD /* PBXTextBookmark */ = 03BB7AE90DA56442002057FD /* PBXTextBookmark */;
+			03BB7AEB0DA58101002057FD /* PBXTextBookmark */ = 03BB7AEB0DA58101002057FD /* PBXTextBookmark */;
+			03BB7AEC0DA58101002057FD /* PBXTextBookmark */ = 03BB7AEC0DA58101002057FD /* PBXTextBookmark */;
+			03BB7AEE0DA5814E002057FD /* PBXTextBookmark */ = 03BB7AEE0DA5814E002057FD /* PBXTextBookmark */;
+			03BB7AF00DA5819A002057FD /* PBXTextBookmark */ = 03BB7AF00DA5819A002057FD /* PBXTextBookmark */;
+			03BB7AF10DA5819A002057FD /* PBXTextBookmark */ = 03BB7AF10DA5819A002057FD /* PBXTextBookmark */;
 		};
 		sourceControlManager = 03BB7A890DA55D18002057FD /* Source Control */;
 		userBuildSettings = {
