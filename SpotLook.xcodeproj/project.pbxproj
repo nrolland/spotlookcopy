@@ -19,6 +19,9 @@
 		038001890D8D830A00AFBB36 /* AppDelegate+SplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 038001880D8D830A00AFBB36 /* AppDelegate+SplitView.m */; };
 		0380018F0D8D837100AFBB36 /* AppDelegate+OutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0380018E0D8D837100AFBB36 /* AppDelegate+OutlineView.m */; };
 		03800A280D8F175900AFBB36 /* SLArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03800A270D8F175900AFBB36 /* SLArrayController.m */; };
+		0382E94E0DA45100005E1043 /* NSWorkspace+SL.m in Sources */ = {isa = PBXBuildFile; fileRef = 0382E94D0DA45100005E1043 /* NSWorkspace+SL.m */; };
+		0382E9BD0DA45D9D005E1043 /* zoomSmaller.png in Resources */ = {isa = PBXBuildFile; fileRef = 0382E9BB0DA45D9D005E1043 /* zoomSmaller.png */; };
+		0382E9BE0DA45D9D005E1043 /* zoomBigger.png in Resources */ = {isa = PBXBuildFile; fileRef = 0382E9BC0DA45D9D005E1043 /* zoomBigger.png */; };
 		0383638E0D8B30EF00EF168A /* AppDelegate+Toolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0383638D0D8B30EF00EF168A /* AppDelegate+Toolbar.m */; };
 		0383639E0D8B332600EF168A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0383639C0D8B332600EF168A /* MainMenu.xib */; };
 		038681050D85FEEE00ECDAA2 /* SLTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 038681030D85FEEE00ECDAA2 /* SLTableView.m */; };
@@ -64,6 +67,10 @@
 		0380018E0D8D837100AFBB36 /* AppDelegate+OutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+OutlineView.m"; sourceTree = "<group>"; };
 		03800A260D8F175900AFBB36 /* SLArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLArrayController.h; sourceTree = "<group>"; };
 		03800A270D8F175900AFBB36 /* SLArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLArrayController.m; sourceTree = "<group>"; };
+		0382E94C0DA45100005E1043 /* NSWorkspace+SL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWorkspace+SL.h"; sourceTree = "<group>"; };
+		0382E94D0DA45100005E1043 /* NSWorkspace+SL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWorkspace+SL.m"; sourceTree = "<group>"; };
+		0382E9BB0DA45D9D005E1043 /* zoomSmaller.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoomSmaller.png; sourceTree = "<group>"; };
+		0382E9BC0DA45D9D005E1043 /* zoomBigger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoomBigger.png; sourceTree = "<group>"; };
 		0383638C0D8B30EF00EF168A /* AppDelegate+Toolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+Toolbar.h"; sourceTree = "<group>"; };
 		0383638D0D8B30EF00EF168A /* AppDelegate+Toolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+Toolbar.m"; sourceTree = "<group>"; };
 		0383639D0D8B332600EF168A /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -157,6 +164,8 @@
 				03DE1D0D0D99CC48008713FF /* NSView+SL.m */,
 				03F39E340DA15CC500BEE4D7 /* NSNumber+SL.h */,
 				03F39E350DA15CC500BEE4D7 /* NSNumber+SL.m */,
+				0382E94C0DA45100005E1043 /* NSWorkspace+SL.h */,
+				0382E94D0DA45100005E1043 /* NSWorkspace+SL.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -216,6 +225,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0382E9BB0DA45D9D005E1043 /* zoomSmaller.png */,
+				0382E9BC0DA45D9D005E1043 /* zoomBigger.png */,
 				037E302B0D98813200BEBEB8 /* gpl.txt */,
 				03F1C3590D9817D40092C98D /* UserDefaults.plist */,
 				03F1C1F20D9783800092C98D /* SpotLookRunning.png */,
@@ -301,6 +312,8 @@
 				03F1C1F30D9783800092C98D /* SpotLookRunning.png in Resources */,
 				03F1C35A0D9817D40092C98D /* UserDefaults.plist in Resources */,
 				037E302C0D98813200BEBEB8 /* gpl.txt in Resources */,
+				0382E9BD0DA45D9D005E1043 /* zoomSmaller.png in Resources */,
+				0382E9BE0DA45D9D005E1043 /* zoomBigger.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +344,7 @@
 				0334F5200D971076007F5762 /* NSMetadataItem+SL.m in Sources */,
 				03DE1D0E0D99CC48008713FF /* NSView+SL.m in Sources */,
 				03F39E360DA15CC500BEE4D7 /* NSNumber+SL.m in Sources */,
+				0382E94E0DA45100005E1043 /* NSWorkspace+SL.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

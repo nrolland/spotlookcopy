@@ -61,6 +61,9 @@
 	BOOL isLoadingIcons;
 	BOOL isReplacingTracks;
 	BOOL isPopulatingOutline;
+	
+	IBOutlet NSArrayController *utisController;
+	IBOutlet NSPanel *utiDiscovererWindow;
 }
 
 @property (retain) NSString *searchKey;
@@ -106,6 +109,8 @@
 - (IBAction)openDiscussion:(id)sender;
 
 - (IBAction)resetDates:(id)sender;
+
+- (IBAction)openUTIDiscoverer:(id)sender;
 
 @property (retain) NSArrayController *allResultsController;
 @property (retain) NSPopUpButton *dateTypesMenu;

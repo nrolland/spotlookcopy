@@ -9,6 +9,7 @@
 #import "ImageAndTextCell.h"
 #import "Updater.h"
 #import "NSView+SL.h"
+#import "NSWorkspace+SL.h"
 
 // reset with
 // $ rm -r ~/Library/Application\ Support/SpotLook; rm -r ~/Library/Preferences/ch.seriot.SpotLook.plist
@@ -526,6 +527,11 @@
 	[tracksController setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 	[tracksSetController setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 	[sortDescriptor release];
+}
+
+- (IBAction)openUTIDiscoverer:(id)sender {
+	[utisController addObjects:[NSWorkspace registeredUTIs]]; // TODO: fill up only on demand
+	[utiDiscovererWindow makeKeyAndOrderFront:self];
 }
 
 - (void)storeOutlineViewExpandingStatus:(NSOutlineView *)ov {
