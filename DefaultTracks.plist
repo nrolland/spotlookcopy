@@ -9,7 +9,7 @@
 		<array>
 			<dict>
 				<key>name</key>
-				<string>Database</string>
+				<string>Open Database</string>
 				<key>nameContentKeywords</key>
 				<string>Content</string>
 				<key>uti</key>
@@ -17,7 +17,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Graphics</string>
+				<string>Open Graphics</string>
 				<key>nameContentKeywords</key>
 				<string>Content</string>
 				<key>uti</key>
@@ -25,7 +25,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Presentation</string>
+				<string>Open Presentation</string>
 				<key>nameContentKeywords</key>
 				<string>Content</string>
 				<key>uti</key>
@@ -33,7 +33,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Spreadsheet</string>
+				<string>Open Spreadsheet</string>
 				<key>nameContentKeywords</key>
 				<string>Content</string>
 				<key>uti</key>
@@ -41,7 +41,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Text</string>
+				<string>Open Text</string>
 				<key>nameContentKeywords</key>
 				<string>Content</string>
 				<key>uti</key>

@@ -2,6 +2,7 @@
 #import "NSPredicate+SL.h"
 #import "AppDelegate.h"
 #import "SLTrackSet.h"
+#import "NSData+SL.h"
 
 @implementation SLTrack
 
@@ -13,7 +14,7 @@
 @dynamic showAll;
 @dynamic isActive;
 
-static NSData *genericFileIconData = nil;
+static NSString *genericFileIconDataHash = nil;
 static NSImage *unknownImage = nil;
 
 
@@ -58,8 +59,8 @@ static NSImage *unknownImage = nil;
 		return;
 	}
 	
-	if(genericFileIconData == nil) {
-		genericFileIconData = [[[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericDocumentIconResource)] TIFFRepresentation] retain];
+	if(genericFileIconDataHash == nil) {
+		genericFileIconDataHash = [[[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericDocumentIconResource)] TIFFRepresentation] md5];
 	}
 	
 	NSImage *i;
@@ -68,7 +69,12 @@ static NSImage *unknownImage = nil;
 	if(self.uti != nil && [self.uti length] > 0 && ![rootUTIs containsObject:self.uti]) {
 		i = [[NSWorkspace sharedWorkspace] iconForFileType:self.uti];
 		NSData *tiff = [i TIFFRepresentation];
-		if([tiff isEqualToData:genericFileIconData]) {
+		if(!tiff) {
+			NSLog(@"error no tiff for %@", self.name);
+			return;
+		}
+		
+		if([[tiff md5] isEqualToString:genericFileIconDataHash]) {
 			return;
 		}
 	} else if( (self.scope != nil && [self.scope length] > 0) || [rootUTIs containsObject:self.uti]) {
