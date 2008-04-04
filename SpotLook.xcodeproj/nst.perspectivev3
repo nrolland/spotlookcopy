@@ -281,8 +281,6 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>53</integer>
-									<integer>42</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -332,19 +330,18 @@
 										<key>_historyCapacity</key>
 										<integer>10</integer>
 										<key>bookmark</key>
-										<string>03D5C46C0DA6B2AE0070A12B</string>
+										<string>03D5C4E10DA6B9860070A12B</string>
 										<key>history</key>
 										<array>
 											<string>03D5C3EE0DA686D80070A12B</string>
 											<string>03D5C3EF0DA686D80070A12B</string>
-											<string>03D5C3BF0DA683690070A12B</string>
 											<string>03D5C3BC0DA683690070A12B</string>
 											<string>03D5C3D80DA6840E0070A12B</string>
 											<string>03D5C3B80DA683690070A12B</string>
 											<string>03D5C42B0DA69C940070A12B</string>
 											<string>03D5C45F0DA6B1EA0070A12B</string>
 											<string>03D5C4600DA6B1EA0070A12B</string>
-											<string>03D5C46B0DA6B2AA0070A12B</string>
+											<string>03D5C4DF0DA6B97C0070A12B</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -353,7 +350,6 @@
 											<string>03D5C3F30DA686D80070A12B</string>
 											<string>03D5C3F40DA686D80070A12B</string>
 											<string>03B1D14C0DA592CC00DB4091</string>
-											<string>03D5C3C90DA683690070A12B</string>
 											<string>03B766080DA5BA8400DCEA49</string>
 											<string>03B7665E0DA5F97B00DCEA49</string>
 											<string>03D5C3C20DA683690070A12B</string>

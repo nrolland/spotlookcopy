@@ -244,7 +244,7 @@
 	NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
 	//NSLog(@"performIconsFetching");
 	
-	for(SLTrack *t in [[tracksController arrangedObjects] copy]) {
+	for(SLTrack *t in [[[tracksController arrangedObjects] copy] autorelease]) {
 		if(![[[self managedObjectContext] deletedObjects] containsObject:t]) {
 			[t loadIcon];
 		} /*else {
