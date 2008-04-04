@@ -50,7 +50,6 @@ static NSImage *unknownImage = nil;
 }
 
 - (void)loadIcon {
-
 	if([[[NSApp delegate] valueForKey:@"isReplacingTracks"] boolValue]) {
 		return;
 	}
@@ -113,7 +112,7 @@ static NSImage *unknownImage = nil;
 	
 	NSUInteger queryFetchLimit = [[NSUserDefaults standardUserDefaults] integerForKey:@"queryFetchLimit"];
 	NSUInteger count = [query resultCount];
-	if(count >= queryFetchLimit) {
+	if(queryFetchLimit != 0 && count >= queryFetchLimit) {
         //NSLog(@"%@: %d results -> STOP", self.name, );
 		[query stopQuery];
 		self.displayedQueryResultsCount = [NSString stringWithFormat:@"%d (limited)", count];
