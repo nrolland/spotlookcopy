@@ -214,11 +214,13 @@
 - (void)askToUpgradeTracksIfNotDone {
 	NSString *latestResetToDefaultTracks = [[NSUserDefaults standardUserDefaults] valueForKey:@"latestResetToDefaultTracks"];
     NSString *currentVersionString = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
+	BOOL v_1_0_Prefs = ![[[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys] containsObject:@"latestResetToDefaultTracks"];
+	//NSLog(@"v_1_0_Prefs %d", v_1_0_Prefs);
 
 	BOOL skipCurrentVersionTrackUpgrade = [[[NSUserDefaults standardUserDefaults] objectForKey:@"skipTracksUpgradeVersion"] isEqualToString:currentVersionString];
 	if(skipCurrentVersionTrackUpgrade) { return; }
 	
-	if(latestResetToDefaultTracks == nil || [[Updater sharedInstance] shortVersion:currentVersionString isBiggerThan:latestResetToDefaultTracks]) {
+	if(v_1_0_Prefs || (latestResetToDefaultTracks != nil && [[Updater sharedInstance] shortVersion:currentVersionString isBiggerThan:latestResetToDefaultTracks])) {
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 		[alert addButtonWithTitle:@"Upgrade!"];
 		[alert addButtonWithTitle:@"Later"];
