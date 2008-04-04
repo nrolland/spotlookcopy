@@ -1031,6 +1031,46 @@
 		vrLen = 1541;
 		vrLoc = 418;
 	};
+	03B1D1D20DA5AD0B00DB4091 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 77C8280C06725ACE000B614F /* AppDelegate.m */;
+		name = "AppDelegate.m: 15";
+		rLen = 99;
+		rLoc = 318;
+		rType = 0;
+		vrLen = 727;
+		vrLoc = 418;
+	};
+	03B1D1D30DA5AD1400DB4091 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 77C8280C06725ACE000B614F /* AppDelegate.m */;
+		name = "AppDelegate.m: 32";
+		rLen = 0;
+		rLoc = 1192;
+		rType = 0;
+		vrLen = 1547;
+		vrLoc = 418;
+	};
+	03B1D1D50DA5AD4E00DB4091 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 77C8280C06725ACE000B614F /* AppDelegate.m */;
+		name = "AppDelegate.m: 32";
+		rLen = 0;
+		rLoc = 1192;
+		rType = 0;
+		vrLen = 1547;
+		vrLoc = 418;
+	};
+	03B1D1D60DA5AD4E00DB4091 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 77C8280C06725ACE000B614F /* AppDelegate.m */;
+		name = "AppDelegate.m: 32";
+		rLen = 0;
+		rLoc = 1192;
+		rType = 0;
+		vrLen = 1594;
+		vrLoc = 299;
+	};
 	03BB7A690DA55CE5002057FD /* SpotLook */ = {
 		isa = PBXExecutable;
 		activeArgIndices = (
@@ -1426,6 +1466,10 @@
 			03B1D1C40DA5A98800DB4091 /* PBXTextBookmark */ = 03B1D1C40DA5A98800DB4091 /* PBXTextBookmark */;
 			03B1D1C60DA5A9DA00DB4091 /* PBXTextBookmark */ = 03B1D1C60DA5A9DA00DB4091 /* PBXTextBookmark */;
 			03B1D1C70DA5A9DA00DB4091 /* PBXTextBookmark */ = 03B1D1C70DA5A9DA00DB4091 /* PBXTextBookmark */;
+			03B1D1D20DA5AD0B00DB4091 /* PBXTextBookmark */ = 03B1D1D20DA5AD0B00DB4091 /* PBXTextBookmark */;
+			03B1D1D30DA5AD1400DB4091 /* PBXTextBookmark */ = 03B1D1D30DA5AD1400DB4091 /* PBXTextBookmark */;
+			03B1D1D50DA5AD4E00DB4091 /* PBXTextBookmark */ = 03B1D1D50DA5AD4E00DB4091 /* PBXTextBookmark */;
+			03B1D1D60DA5AD4E00DB4091 /* PBXTextBookmark */ = 03B1D1D60DA5AD4E00DB4091 /* PBXTextBookmark */;
 			03BB7A970DA55EE8002057FD = 03BB7A970DA55EE8002057FD /* PBXTextBookmark */;
 			03BB7AC30DA560FA002057FD = 03BB7AC30DA560FA002057FD /* PBXTextBookmark */;
 			03BB7AD10DA56241002057FD = 03BB7AD10DA56241002057FD /* PBXTextBookmark */;
@@ -1455,8 +1499,8 @@
 	77C8280C06725ACE000B614F /* AppDelegate.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1194, 9996}}";
-			sepNavSelRange = "{318, 99}";
-			sepNavVisRange = "{418, 1541}";
+			sepNavSelRange = "{1192, 0}";
+			sepNavVisRange = "{299, 1594}";
 		};
 	};
 	8D1107260486CEB800E47090 /* SpotLook */ = {
