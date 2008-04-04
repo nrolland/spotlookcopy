@@ -283,13 +283,11 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>51</integer>
-									<integer>44</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 498}, {235, 760}}</string>
+							<string>{{0, 0}, {235, 760}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -334,7 +332,7 @@
 										<key>_historyCapacity</key>
 										<integer>10</integer>
 										<key>bookmark</key>
-										<string>03C73C070DA6DABF00C80970</string>
+										<string>03C73C240DA6DCA700C80970</string>
 										<key>history</key>
 										<array>
 											<string>03D5C42B0DA69C940070A12B</string>
@@ -346,7 +344,7 @@
 											<string>03D7B00E0DA6D80A00A06389</string>
 											<string>03D7B00F0DA6D80A00A06389</string>
 											<string>03D7AF770DA6D0FA00A06389</string>
-											<string>03C73C040DA6DABA00C80970</string>
+											<string>03C73C210DA6DC8900C80970</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -540,7 +538,7 @@
 						<key>Frame</key>
 						<string>{{0, 0}, {1440, 276}}</string>
 						<key>RubberWindowFrame</key>
-						<string>1 59 1440 819 0 0 1440 878 </string>
+						<string>0 59 1440 819 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXDebugCLIModule</string>
@@ -616,10 +614,10 @@
 							<key>Frame</key>
 							<string>{{703, 0}, {737, 240}}</string>
 							<key>RubberWindowFrame</key>
-							<string>1 59 1440 819 0 0 1440 878 </string>
+							<string>0 59 1440 819 0 0 1440 878 </string>
 						</dict>
 						<key>RubberWindowFrame</key>
-						<string>1 59 1440 819 0 0 1440 878 </string>
+						<string>0 59 1440 819 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXDebugSessionModule</string>
@@ -682,7 +680,7 @@
 		<string>/Users/nst/Projects/spotlook/SpotLook.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>1 59 1440 819 0 0 1440 878 </string>
+	<string>0 59 1440 819 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
