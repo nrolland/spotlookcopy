@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>LatestVersion</key>
-	<string>1.1</string>
+	<string>1.2</string>
 	<key>PageURL</key>
 	<string>http://code.google.com/p/spotlook/</string>
 	<key>DownloadURL</key>
-	<string>http://spotlook.googlecode.com/files/SpotLook_1_1_a.app.zip</string>
+	<string>http://spotlook.googlecode.com/files/SpotLook_1_2.app.zip</string>
 </dict>
 </plist>
