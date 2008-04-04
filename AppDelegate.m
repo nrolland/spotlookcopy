@@ -791,16 +791,17 @@
 	
     [NSThread detachNewThreadSelector:@selector(performIconsFetching)
                              toTarget:self
-                           withObject:nil];
-	
+                           withObject:nil];	
 }
 
 - (void)performReplaceTracksWithDefaults{
 	NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
 	// remove tree nodes
-	[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
-	[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
-
+	if([[treeController arrangedObjects] count] >= 2) {
+		[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
+		[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
+	}
+	
 	// remove controllers content
 	[tracksSetController removeObjects:[tracksSetController arrangedObjects]];
 	[tracksController removeObjects:[tracksController arrangedObjects]];
