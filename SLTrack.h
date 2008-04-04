@@ -9,6 +9,7 @@
 	NSArrayController *queryResults;
 	BOOL showAll;
 	NSImage *icon;
+	NSString *displayedQueryResultsCount;
 }
 
 - (void)setUp;
@@ -20,6 +21,7 @@
 @property (retain) NSString *uti;
 @property (retain) NSString *nameContentKeywords;
 @property (retain) NSString *scope;
+@property (retain) NSString *displayedQueryResultsCount;
 @property (retain) NSSet *trackSets;
 @property (retain) NSNumber *isActive;
 @property (retain) NSArrayController *queryResults;

@@ -93,12 +93,38 @@ static NSImage *unknownImage = nil;
 	[self setValue:[NSNumber numberWithBool:NO] forKey:@"isActive"]; // TODO: remove track from tracksController selection
 }
 
+- (void)queryNotification:(NSNotification*)note {
+    if ([[note name] isEqualToString:NSMetadataQueryDidStartGatheringNotification]) {
+		//NSLog(@"%@: started gathering", self.name);
+		//self.isGettingResults = YES;
+	} else if ([[note name] isEqualToString:NSMetadataQueryDidFinishGatheringNotification]) {
+        //NSLog(@"%@: finished gathering", self.name);
+		//self.isGettingResults = NO;
+    } else if ([[note name] isEqualToString:NSMetadataQueryGatheringProgressNotification]) {
+		//NSLog(@"%@: progressing...", self.name);
+	} else if ([[note name] isEqualToString:NSMetadataQueryDidUpdateNotification]) {
+        //NSLog(@"%@: an update happened.", self.name);
+    }
+	
+	NSUInteger queryFetchLimit = [[NSUserDefaults standardUserDefaults] integerForKey:@"queryFetchLimit"];
+	NSUInteger count = [query resultCount];
+	if(count >= queryFetchLimit) {
+        //NSLog(@"%@: %d results -> STOP", self.name, );
+		[query stopQuery];
+		self.displayedQueryResultsCount = [NSString stringWithFormat:@"%d (limited)", count];
+	} else {
+		self.displayedQueryResultsCount = [NSString stringWithFormat:@"%d", count];
+	}
+}
+
 - (void)setUp {
 	//NSLog(@"-setUp %@", self.name);
 	
 	NSMetadataQuery *q = [[[NSMetadataQuery alloc] init] autorelease];
 	[self setValue:q forKey:@"query"];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(queryNotification:) name:nil object:query];
+				
 	NSArrayController *c = [[[NSArrayController alloc] init] autorelease];
 	[c setAvoidsEmptySelection:NO];	
 	[c bind:@"contentArray" toObject:query withKeyPath:@"results" options:nil];
@@ -239,7 +265,6 @@ static NSImage *unknownImage = nil;
 		NSAssert2(NO, @"Error: track %@ nameContentKeywords is %@", self.name, nck);
 	}
 	
-	
 	NSMutableArray *subPredicates = [[NSMutableArray alloc] initWithObjects:timePredicate, nil];
 
 	if(self.uti != nil && [self.uti length] > 0) {
@@ -267,5 +292,6 @@ static NSImage *unknownImage = nil;
 
 @synthesize queryResults;
 @synthesize query;
+@synthesize displayedQueryResultsCount;
 
 @end

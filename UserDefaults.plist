@@ -20,5 +20,7 @@
 	<true/>
 	<key>outlineExpandTracks</key>
 	<false/>
+	<key>queryFetchLimit</key>
+	<integer>750</integer>
 </dict>
 </plist>
