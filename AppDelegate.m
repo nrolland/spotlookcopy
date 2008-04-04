@@ -240,6 +240,7 @@
 
 - (void)performIconsFetching {
 	NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
+	//NSLog(@"performIconsFetching");
 	
 	for(SLTrack *t in [[tracksController arrangedObjects] copy]) {
 		if(![[[self managedObjectContext] deletedObjects] containsObject:t]) {
@@ -249,8 +250,8 @@
 		}*/
 	}
 	
-	[p release];
 	[self performSelectorOnMainThread:@selector(iconsLoadedFromSeparateThread) withObject:nil waitUntilDone:YES];
+	[p release];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -260,11 +261,13 @@
 	
 	[tracksController fetchWithRequest:nil merge:NO error:nil];
 	
-	self.isLoadingIcons = YES;
-	
-    [NSThread detachNewThreadSelector:@selector(performIconsFetching)
-                             toTarget:self
-                           withObject:nil];
+	if(!self.isReplacingTracks && !self.isLoadingIcons) {
+		self.isLoadingIcons = YES;
+		//NSLog(@"applicationDidFinishLaunching detach performIconsFetching");
+		[NSThread detachNewThreadSelector:@selector(performIconsFetching)
+								 toTarget:self
+							   withObject:nil];
+	}
 	
     [[Updater sharedInstance] checkUpdateSilentIfUpToDate:self];
 	
@@ -350,7 +353,6 @@
 
 - (IBAction)dateSliderUpdate:(id)sender {
 	NSDate *sliderDate = [NSDate dateWithTimeIntervalSince1970:[slider floatValue]];
-	//NSLog(@"sliderDate %@", sliderDate);
 	self.fromDate = sliderDate;
 }
 
@@ -380,7 +382,7 @@
 
 - (SLTrack *)createdAndInsertedTrackFromDictionary:(NSDictionary *)d context:(NSManagedObjectContext *)context{
 	SLTrack *t = [NSEntityDescription insertNewObjectForEntityForName: @"SLTrack" inManagedObjectContext:context];
-	t.scope = NSHomeDirectory();
+	t.scope = @"NSHomeDirectory"; // NSHomeDirectory()
 	t.name = [d objectForKey:@"name"];
 	t.uti = [d objectForKey:@"uti"];
 	t.nameContentKeywords = [d objectForKey:@"nameContentKeywords"];
@@ -395,6 +397,7 @@
 }
 
 - (void)importDefaultTracks {
+	//NSLog(@"importDefaultTracks");
     NSManagedObjectContext *context = [self tracksImportManagedObjectContext];
 
 	NSString *dtPath = [[NSBundle mainBundle] pathForResource:@"DefaultTracks" ofType:@"plist"]; // TODO: handle if not present..
@@ -475,10 +478,11 @@
 					
 	// set defaults
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"defaultTracksImported"] == NO) {
-//		[self importDefaultTracks];
+		//[self importDefaultTracks];
 		self.isReplacingTracks = YES;
+		//NSLog(@"%s", __PRETTY_FUNCTION__);
 		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
-//		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultTracksImported"];
+		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultTracksImported"];
 	} else {
 		[self populateOutlineContents];
 	}
@@ -530,6 +534,7 @@
 }
 
 - (IBAction)openUTIDiscoverer:(id)sender {
+	[utisController removeObjects:[utisController arrangedObjects]];
 	[utiDiscovererWindow makeKeyAndOrderFront:self];
 	[utisController addObjects:[NSWorkspace registeredUTIs]];
 }
@@ -789,6 +794,7 @@
 	//NSLog(@"tracksWereReplaced");
 	[outlineView reloadData];
 	
+	//NSLog(@"tracksWereReplaced detach performIconsFetching");
     [NSThread detachNewThreadSelector:@selector(performIconsFetching)
                              toTarget:self
                            withObject:nil];	
@@ -796,6 +802,8 @@
 
 - (void)performReplaceTracksWithDefaults{
 	NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
+	//NSLog(@"-- performReplaceTracksWithDefaults");
+
 	// remove tree nodes
 	if([[treeController arrangedObjects] count] >= 2) {
 		[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
@@ -827,6 +835,7 @@
 		}
 		*/
 		self.isReplacingTracks = YES;
+		//NSLog(@"detach performReplaceTracksWithDefaults --2");
 		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
 		//[self replaceTracksWithDefaults];
     }	
@@ -841,6 +850,7 @@
 		}
 		*/
 		self.isReplacingTracks = YES;
+		//NSLog(@"detach performReplaceTracksWithDefaults --3");
 		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
 		//[self replaceTracksWithDefaults];
     } else {

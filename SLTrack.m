@@ -41,11 +41,16 @@ static NSImage *unknownImage = nil;
 	self.scope = [url relativePath];
 }
 
+- (NSString *)interpretedScope {
+	return [self.scope isEqualToString:@"NSHomeDirectory"] ? NSHomeDirectory() : self.scope;
+}
+
 - (NSURL *)URLPath {
-	return [NSURL fileURLWithPath:self.scope];
+	return [NSURL fileURLWithPath:[self interpretedScope]];
 }
 
 - (void)loadIcon {
+
 	if([[[NSApp delegate] valueForKey:@"isReplacingTracks"] boolValue]) {
 		return;
 	}
@@ -68,11 +73,11 @@ static NSImage *unknownImage = nil;
 			return;
 		}
 	} else if( (self.scope != nil && [self.scope length] > 0) || [rootUTIs containsObject:self.uti]) {
-		i = [[NSWorkspace sharedWorkspace] iconForFile:self.scope];
+		i = [[NSWorkspace sharedWorkspace] iconForFile:[self interpretedScope]];
 	} else {
 		return;
 	}
-	
+
 	[self setValue:i forKey:@"icon"];
 }
 
@@ -174,7 +179,7 @@ static NSImage *unknownImage = nil;
 		}
 	}
 	
-	if([key isEqualToString:@"uti"] || [key isEqualToString:@"scope"]) {
+	if([key isEqualToString:@"uti"]/* || [key isEqualToString:@"scope"]*/) { // FIXME: makes importing updating icon twice
 		[self loadIcon];
 	}
 	
@@ -198,7 +203,7 @@ static NSImage *unknownImage = nil;
 	[self willChangeValueForKey:@"icon"];
 
 	if([n boolValue]) {
-		self.scope = NSHomeDirectory();
+		self.scope = @"NSHomeDirectory";
 	} else {
 		self.scope = @"";
 	}
@@ -284,7 +289,7 @@ static NSImage *unknownImage = nil;
 	
 	BOOL noScopeFromDefaults = [[NSUserDefaults standardUserDefaults] boolForKey:@"ignoreTracksSearchScopes"];
 	BOOL noScopeFromTracks = [self.scope isEqualToString:@""];
-	NSArray *scopes = (noScopeFromDefaults || noScopeFromTracks) ? nil : [NSArray arrayWithObject:self.scope];
+	NSArray *scopes = (noScopeFromDefaults || noScopeFromTracks) ? nil : [NSArray arrayWithObject:[self interpretedScope]];
 	[query setSearchScopes:scopes];
 	
     [query setValueListAttributes:[NSArray arrayWithObjects:(NSString *)kMDQueryResultContentRelevance, nil]];

@@ -11,14 +11,14 @@
 			<integer value="3391"/>
 			<integer value="2"/>
 			<integer value="3072"/>
-			<integer value="3289"/>
 			<integer value="3061"/>
-			<integer value="3053"/>
 			<integer value="870"/>
-			<integer value="1246"/>
-			<integer value="3051"/>
 			<integer value="3424"/>
 			<integer value="836"/>
+			<integer value="3053"/>
+			<integer value="1246"/>
+			<integer value="3051"/>
+			<integer value="3289"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -909,7 +909,7 @@ AAAAAAAAAAAAAAAAAAB0ZXh0AAAAAENvcHlyaWdodCBBcHBsZSwgSW5jLiwgMjAwOAA</bytes>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{600, 441}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
-				<string key="NSFrameAutosaveName">WindowFrame</string>
+				<string key="NSFrameAutosaveName">MainWindowFrame</string>
 			</object>
 			<object class="NSMenu" id="769852780">
 				<string key="NSTitle">MainMenu</string>

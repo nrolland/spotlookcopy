@@ -389,7 +389,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = SpotLook;
-				SHORT_VERSION_STRING = 1.1;
+				SHORT_VERSION_STRING = 1.2;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -411,7 +411,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = SpotLook;
-				SHORT_VERSION_STRING = 1.1;
+				SHORT_VERSION_STRING = 1.2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
