@@ -240,7 +240,22 @@
 	self.isLoadingIcons = NO;
 }
 
+// FIXME: may crash. use semaphore.
+/*
+Thread 7 Crashed:
+0   com.apple.CoreFoundation      	0x9429c0f4 ___TERMINATING_DUE_TO_UNCAUGHT_EXCEPTION___ + 4
+1   libobjc.A.dylib               	0x961d10fb objc_exception_throw + 40
+2   com.apple.CoreFoundation      	0x9429b60e __NSFastEnumerationMutationHandler + 206
+3   com.apple.Foundation          	0x903f6625 -[NSCFSet unionSet:] + 181
+4   com.apple.CoreData            	0x918b8ba4 -[NSManagedObjectContext deletedObjects] + 180
+5   ch.seriot.SpotLook            	0x00003484 -[AppDelegate performIconsFetching] + 314
+6   com.apple.Foundation          	0x903df5ad -[NSThread main] + 45
+7   com.apple.Foundation          	0x903df154 __NSThread__main__ + 308
+8   libSystem.B.dylib             	0x9694bc55 _pthread_start + 321
+9   libSystem.B.dylib             	0x9694bb12 thread_start + 34
+*/
 - (void)performIconsFetching {
+
 	NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
 	//NSLog(@"performIconsFetching");
 	
@@ -500,7 +515,7 @@
 	[[scrollView horizontalRulerView] setRuleThickness:16.0];
 	[[scrollView horizontalRulerView] setReservedThicknessForMarkers:0.0];
 	[[scrollView horizontalRulerView] setReservedThicknessForAccessoryView:0.0];
-	//[scrollView setBackgroundColor:[NSColor windowBackgroundColor]]; // FIXME: unconsider? for now we must set the color in IB.
+	//[scrollView setBackgroundColor:[NSColor windowBackgroundColor]]; // FIXME: unconsidered? for now we must set the color in IB.
 		
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(datesDidChange:) name:@"datesDidChange" object:nil];
 
