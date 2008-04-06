@@ -289,8 +289,24 @@ static NSImage *unknownImage = nil;
 
 	predicateToRun = [NSPredicate spotlightFriendlyPredicate:predicateToRun];
 	//NSLog(@"predicateToRun %@", predicateToRun);
+
+
+
+
+//	NSPredicate *p = [NSPredicate predicateWithFormat:@"(((kMDItemTextContent = \"toto*\"cdw) && (kMDItemContentCreationDate > 220921200))) && (true)"];
+//	NSPredicate *p = [NSPredicate predicateWithFormat:@"(((%K LIKE %@[cdw]) && (%K < %@)))", kMDItemTextContent, @"toto", kMDItemContentCreationDate, [NSDate date]];
+//	NSLog(@"p  %@", p);
+//	NSPredicate *p2 = [NSPredicate spotlightFriendlyPredicate:p];
+//	NSLog(@"p2 %@", p2);
+
+
+
+
+
+
 	
 	[query setPredicate:predicateToRun];
+//	[query setPredicate:p2];
 	
 	BOOL noScopeFromDefaults = [[NSUserDefaults standardUserDefaults] boolForKey:@"ignoreTracksSearchScopes"];
 	BOOL noScopeFromTracks = [self.scope isEqualToString:@""];

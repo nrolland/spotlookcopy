@@ -11,70 +11,45 @@
 
 @implementation NSWorkspace (SL)
 
+- (void)triggerFoundUtisInSpotlightImporter:(NSString *)path delegate:(id)sender {
+	NSBundle *b = [NSBundle bundleWithPath:path];
+	NSDictionary *infoPlist = [b infoDictionary];
+	NSArray *docTypes = [infoPlist objectForKey:@"CFBundleDocumentTypes"];
+	for(NSDictionary *d in docTypes) {
+		NSArray *icts = [d objectForKey:@"LSItemContentTypes"];
+		for(NSString *uti in icts) {
+			NSString *utiDescription = (NSString *)UTTypeCopyDescription((CFStringRef)uti);
+			//NSLog(@"%@ %@", uti, utiDescription);
+			[sender didFindUti:uti description:utiDescription];
+		}
+	}
+}
+
 // coded while watching TV, sorry for the style
-+ (NSArray *)registeredUTIs {
-	NSMutableSet *s = [[NSMutableSet alloc] init];
-
-	NSMutableArray *paths = [[NSMutableArray alloc] init];
-	NSArray *directories = NSSearchPathForDirectoriesInDomains (NSAllApplicationsDirectory, NSAllDomainsMask, YES );
-	for(NSString *dir in directories) {
-		NSArray *content = [[NSFileManager defaultManager] directoryContentsAtPath:dir];
-		for(NSString *c in content) {
-			NSString *cc = [dir stringByAppendingPathComponent:c];
-			NSString *ccc = [cc stringByAppendingPathComponent:@"Contents"];
-			NSString *library = [ccc stringByAppendingPathComponent:@"Library"];
-			NSString *librarySpotlight = [library stringByAppendingPathComponent:@"Spotlight"];
-			for(NSString *importer in [[NSFileManager defaultManager] directoryContentsAtPath:librarySpotlight]) {
-				NSString *pathImporter = [librarySpotlight stringByAppendingPathComponent:importer];
-				[paths addObject:pathImporter];
-			}
-		}
-	}
-
-	directories = NSSearchPathForDirectoriesInDomains (NSAllLibrariesDirectory, NSAllDomainsMask, YES);
-	for(NSString *dir in directories) {
-		NSString *spotlight = [dir stringByAppendingPathComponent:@"Spotlight"];
-		NSArray *content = [[NSFileManager defaultManager] directoryContentsAtPath:spotlight];
-		for(NSString *c in content) {
-			NSString *dc = [spotlight stringByAppendingPathComponent:c];
-			[paths addObject:dc];
+- (void)searchForUTIInSpotlightImporters:(id)sender {
+	
+	NSArray *libDirs = NSSearchPathForDirectoriesInDomains (NSAllLibrariesDirectory, NSAllDomainsMask, YES);
+	for(NSString *libDir in libDirs) {
+		NSString *spotlight = [libDir stringByAppendingPathComponent:@"Spotlight"];
+		for(NSString *importer in [[NSFileManager defaultManager] directoryContentsAtPath:spotlight]) {
+			NSString *importerPath = [spotlight stringByAppendingPathComponent:importer];
+			[self triggerFoundUtisInSpotlightImporter:importerPath delegate:sender];
 		}
 	}
 	
-	NSPredicate *importerPredicate = [NSPredicate predicateWithFormat: @"SELF endswith %@", @".mdimporter"];
-    NSArray *filteredPaths = [paths filteredArrayUsingPredicate:importerPredicate];
-
-	//NSLog(@"filteredPaths %@", filteredPaths);
-
-	NSMutableArray *plists = [[NSMutableArray alloc] init];
-	for(NSString *fp in filteredPaths) {
-		NSBundle *b = [NSBundle bundleWithPath:fp];
-		NSDictionary *infoPlist = [b infoDictionary];
-		NSArray *docTypes = [infoPlist objectForKey:@"CFBundleDocumentTypes"];
-		for(NSDictionary *d in docTypes) {
-			NSArray *icts = [d objectForKey:@"LSItemContentTypes"];
-			for(NSString *uti in icts) {
-				[s addObject:uti];
+	NSArray *appDirs = NSSearchPathForDirectoriesInDomains (NSAllApplicationsDirectory, NSAllDomainsMask, YES);
+	for(NSString *appDir in appDirs) {
+		NSArray *apps = [[[NSFileManager defaultManager] directoryContentsAtPath:appDir] pathsMatchingExtensions:[NSArray arrayWithObject:@"app"]];
+		for(NSString *app in apps) {
+			NSString *appPath = [appDir stringByAppendingPathComponent:app];
+			NSString *spotlight = [[[appPath stringByAppendingPathComponent:@"Contents"] stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Spotlight"];
+			for(NSString *importer in [[NSFileManager defaultManager] directoryContentsAtPath:spotlight]) {
+				NSString *importerPath = [spotlight stringByAppendingPathComponent:importer];
+				[self triggerFoundUtisInSpotlightImporter:importerPath delegate:sender];
 			}
 		}
 	}
-	/*
-	[utisController addObjects:[s allObjects]];
-
-	NSArray *myUTIs = [[utisController arrangedObjects] sortedArrayUsingSelector:@selector(compare:)];
-	NSLog([myUTIs description]);
-	*/
-	[paths release];
-	[plists release];
-	[s autorelease];
 	
-	NSMutableArray *utis = [[NSMutableArray alloc] init];
-	for(NSString *uti in s) {
-		NSString *utiDescription = (NSString *)UTTypeCopyDescription((CFStringRef)uti);
-		[utis addObject:[NSDictionary dictionaryWithObjectsAndKeys:uti, @"uti", utiDescription, @"name", nil]];
-	};
-	// sortedArrayUsingSelector:@selector(compare:)];
-	return [utis autorelease];
 }
 
 

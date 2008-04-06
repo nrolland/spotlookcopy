@@ -77,7 +77,10 @@
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
     return [NSArray arrayWithObjects:@"inspector", @"quickLook",
 		NSToolbarSeparatorItemIdentifier, @"dateType",
-		NSToolbarSpaceItemIdentifier, @"fromDate", NSToolbarFlexibleSpaceItemIdentifier, @"slider", NSToolbarFlexibleSpaceItemIdentifier, @"search", NSToolbarFlexibleSpaceItemIdentifier, @"toDate", nil];
+		NSToolbarSpaceItemIdentifier, @"fromDate",
+		NSToolbarFlexibleSpaceItemIdentifier, @"slider",
+		NSToolbarFlexibleSpaceItemIdentifier, @"search",
+		NSToolbarFlexibleSpaceItemIdentifier, @"toDate", nil];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {

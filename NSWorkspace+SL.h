@@ -11,6 +11,12 @@
 
 @interface NSWorkspace (SL)
 
-+ (NSArray *)registeredUTIs;
+- (void)searchForUTIInSpotlightImporters:(id)sender;
+
+@end
+
+@interface NSObject (SLWorkspaceDelegate)
+
+- (void)didFindUti:(NSString *)uti description:(NSString *)description;
 
 @end

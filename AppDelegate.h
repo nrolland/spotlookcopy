@@ -5,7 +5,6 @@
 #define TRACKS @"TRACKS"
 #define TRACKSGROUPS @"TRACK GROUPS"
 
-//#ifndef debugging NSLog(...)
 
 @interface AppDelegate : NSObject {
 
@@ -38,7 +37,7 @@
 	
 	NSUInteger initialTracksUsageCounter;
 	NSArray *initialTracks;
-	NSArray *tracksSD;
+	//NSArray *tracksSD;
 	
 	NSString *searchKey;
 	
@@ -64,7 +63,7 @@
 	
 	IBOutlet NSArrayController *utisController;
 	IBOutlet NSPanel *utiDiscovererWindow;
-	IBOutlet NSProgressIndicator *UTIProgressIndicator;
+	//IBOutlet NSProgressIndicator *UTIProgressIndicator;
 }
 
 @property (retain) NSString *searchKey;
@@ -112,6 +111,8 @@
 - (IBAction)resetDates:(id)sender;
 
 - (IBAction)openUTIDiscoverer:(id)sender;
+
+- (void)didFindUti:(NSString *)uti description:(NSString *)description;
 
 @property (retain) NSArrayController *allResultsController;
 @property (retain) NSPopUpButton *dateTypesMenu;

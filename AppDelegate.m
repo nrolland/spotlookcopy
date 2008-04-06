@@ -19,8 +19,23 @@
 
 #define COLUMNID_NAME @"NameColumn"	// the single column name in our outline view
 
+
 @implementation AppDelegate
 
+/*
+static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+	if(name==kMDQueryDidFinishNotification) {
+			  // Finished gathering the query results
+		NSLog(@"-- finish");
+	} else if(name==kMDQueryDidUpdateNotification) {
+			  // In userInfo look for arrays of MDItem keyed on:
+			  //  kMDQueryUpdateAddedItems
+			  //  kMDQueryUpdateRemovedItems
+			  //  kMDQueryUpdateRemovedItems
+		NSLog(@"-- update");
+	}
+}
+*/
 + (void)initialize{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *appDefaultsPath = [[NSBundle mainBundle] pathForResource:@"UserDefaults" ofType:@"plist"];
@@ -222,9 +237,9 @@
 	
 	if(v_1_0_Prefs || (latestResetToDefaultTracks != nil && [[Updater sharedInstance] shortVersion:currentVersionString isBiggerThan:latestResetToDefaultTracks])) {
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-		[alert addButtonWithTitle:@"Upgrade!"];
-		[alert addButtonWithTitle:@"Later"];
-		[alert setMessageText:@"New tracks available!"];
+		[alert addButtonWithTitle:NSLocalizedString(@"Upgrade!", @"upgrade panel")];
+		[alert addButtonWithTitle:NSLocalizedString(@"Later", @"upgrade panel")];
+		[alert setMessageText:NSLocalizedString(@"New tracks available!", @"upgrade panel")];
 		[alert setInformativeText:[NSString stringWithFormat:@"Do you want to upgrade to SpotLook %@ tracks? Your old custom tracks will be lost. You can upgrade at any time by choosing \"Reset Tracks\" in the Tracks menu.", currentVersionString]];
 		[alert setAlertStyle:NSWarningAlertStyle];
 		
@@ -236,36 +251,30 @@
 }
 
 - (void)iconsLoadedFromSeparateThread {
-	[outlineView reloadData];
 	self.isLoadingIcons = NO;
+	[outlineView reloadData];
 }
 
-// FIXME: may crash. use semaphore.
-/*
-Thread 7 Crashed:
-0   com.apple.CoreFoundation      	0x9429c0f4 ___TERMINATING_DUE_TO_UNCAUGHT_EXCEPTION___ + 4
-1   libobjc.A.dylib               	0x961d10fb objc_exception_throw + 40
-2   com.apple.CoreFoundation      	0x9429b60e __NSFastEnumerationMutationHandler + 206
-3   com.apple.Foundation          	0x903f6625 -[NSCFSet unionSet:] + 181
-4   com.apple.CoreData            	0x918b8ba4 -[NSManagedObjectContext deletedObjects] + 180
-5   ch.seriot.SpotLook            	0x00003484 -[AppDelegate performIconsFetching] + 314
-6   com.apple.Foundation          	0x903df5ad -[NSThread main] + 45
-7   com.apple.Foundation          	0x903df154 __NSThread__main__ + 308
-8   libSystem.B.dylib             	0x9694bc55 _pthread_start + 321
-9   libSystem.B.dylib             	0x9694bb12 thread_start + 34
-*/
 - (void)performIconsFetching {
+	// fetching icons in self moc
+	// crash when another thread saves new tracks in self moc
 
+	self.isLoadingIcons = YES;
+	
 	NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
 	//NSLog(@"performIconsFetching");
 	
-	for(SLTrack *t in [[[tracksController arrangedObjects] copy] autorelease]) {
-		if(![[[self managedObjectContext] deletedObjects] containsObject:t]) {
+	NSArray *tracks = [[tracksController arrangedObjects] copy] ;
+	NSArray *deleted = [[[self managedObjectContext] deletedObjects] copy];
+	for(SLTrack *t in tracks) {
+		if(![deleted containsObject:t]) {
 			[t loadIcon];
 		} /*else {
 			NSLog(@"no track %@", t.name);
 		}*/
 	}
+	[tracks release];
+	[deleted release];
 	
 	[self performSelectorOnMainThread:@selector(iconsLoadedFromSeparateThread) withObject:nil waitUntilDone:YES];
 	[p release];
@@ -300,7 +309,7 @@ Thread 7 Crashed:
     [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
     [managedObjectModel release], managedObjectModel = nil;
 	[contents release];
-	[tracksSD release];
+	//[tracksSD release];
     [super dealloc];
 }
 
@@ -315,8 +324,8 @@ Thread 7 Crashed:
 		contents = [[NSMutableArray alloc] init];
 		
 		// FIXME: get this used
-		NSSortDescriptor *sd = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
-		tracksSD = [NSArray arrayWithObject:sd];
+		//NSSortDescriptor *sd = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
+		//tracksSD = [NSArray arrayWithObject:sd];
 
         NoZeroTransformer *noZeroTransformer = [[[NoZeroTransformer alloc] init] autorelease];
         [NSValueTransformer setValueTransformer:noZeroTransformer forName:@"NoZeroTransformer"];
@@ -399,7 +408,7 @@ Thread 7 Crashed:
 
 - (SLTrack *)createdAndInsertedTrackFromDictionary:(NSDictionary *)d context:(NSManagedObjectContext *)context{
 	SLTrack *t = [NSEntityDescription insertNewObjectForEntityForName: @"SLTrack" inManagedObjectContext:context];
-	t.scope = @"NSHomeDirectory"; // NSHomeDirectory()
+	t.scope = @"NSHomeDirectory";
 	t.name = [d objectForKey:@"name"];
 	t.uti = [d objectForKey:@"uti"];
 	t.nameContentKeywords = [d objectForKey:@"nameContentKeywords"];
@@ -467,7 +476,9 @@ Thread 7 Crashed:
 	[self setValue:[NSNumber numberWithDouble:(double)[fromDate timeIntervalSince1970]] forKey:@"dateSliderValue"];
 }
 
-- (void)awakeFromNib {	
+- (void)awakeFromNib {
+	NSLog(@"awakeFromNib");
+
 	quickLookAvailable = [[NSBundle bundleWithPath:QUICKLOOK_UI_FRAMEWORK] load];
 	if(quickLookAvailable) {
 		[[[QLPreviewPanel sharedPreviewPanel] windowController] setDelegate:self];
@@ -499,7 +510,7 @@ Thread 7 Crashed:
 		self.isReplacingTracks = YES;
 		//NSLog(@"%s", __PRETTY_FUNCTION__);
 		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
-		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultTracksImported"];
+//		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultTracksImported"];
 	} else {
 		[self populateOutlineContents];
 	}
@@ -548,12 +559,26 @@ Thread 7 Crashed:
 	[tracksController setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 	[tracksSetController setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 	[sortDescriptor release];
+	
+/*	
+	NSString *library = [NSSearchPathForDirectoriesInDomains (NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+	NSLog(@"-- library %@", library);
+
+	NSString *filePath = @"/Users/nst/Library/Saved Searches/toto_2008.savedSearch";
+	NSDictionary *doc = [NSDictionary dictionaryWithContentsOfFile:filePath];
+	NSString *rawQuery = [doc objectForKey:@"RawQuery"];
+	NSLog(@"-- rawQuery %@", rawQuery);
+
+	MDQueryRef query = MDQueryCreate(kCFAllocatorDefault, (CFStringRef)rawQuery, NULL, NULL);
+	CFNotificationCenterRef nc = CFNotificationCenterGetLocalCenter();
+	CFNotificationCenterAddObserver(nc, (void*)self, &MyCallBack, NULL, query, CFNotificationSuspensionBehaviorDeliverImmediately);
+	MDQueryExecute(query, kMDQueryWantsUpdates);
+*/
 }
 
 - (IBAction)openUTIDiscoverer:(id)sender {
-	[utisController removeObjects:[utisController arrangedObjects]];
 	[utiDiscovererWindow makeKeyAndOrderFront:self];
-	[utisController addObjects:[NSWorkspace registeredUTIs]];
+	[[NSWorkspace sharedWorkspace] searchForUTIInSpotlightImporters:self];
 }
 
 - (void)storeOutlineViewExpandingStatus:(NSOutlineView *)ov {
@@ -805,8 +830,9 @@ Thread 7 Crashed:
 }
 
 - (void)tracksWereReplaced {
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultTracksImported"];
+	
 	self.isReplacingTracks = NO;
-	self.isLoadingIcons = YES;
 	
 	//NSLog(@"tracksWereReplaced");
 	[outlineView reloadData];
@@ -883,7 +909,12 @@ Thread 7 Crashed:
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification {
-	[NSApp terminate:self];
+	
+	if ([aNotification object] == utiDiscovererWindow) {
+		[utisController removeObjects:[utisController arrangedObjects]];
+	} else if([aNotification object] == window) {
+		[NSApp terminate:self];
+	}
 }
 
 - (IBAction)openUserGuide:(id)sender {
@@ -943,7 +974,7 @@ Thread 7 Crashed:
 }
 
 - (IBAction)openQuickLook:(id)sender {
-	if(!quickLookAvailable) return;// NO;
+	if(!quickLookAvailable) return;
 
 	if([[QLPreviewPanel sharedPreviewPanel] isOpen]) {
 		[[QLPreviewPanel sharedPreviewPanel] closeWithEffect:2];
@@ -952,8 +983,6 @@ Thread 7 Crashed:
 		[[QLPreviewPanel sharedPreviewPanel] makeKeyAndOrderFrontWithEffect:2];			
 		[window makeKeyWindow];
 	}
-
-	//return YES;
 }
 
 - (NSRect)previewPanel:(NSPanel*)panel frameForURL:(NSURL*)URL {
@@ -995,6 +1024,16 @@ Thread 7 Crashed:
 
 	return frame;
 }
+
+#pragma mark -
+#pragma mark NSWorkspace category delegate
+
+- (void)didFindUti:(NSString *)uti description:(NSString *)description {
+	//NSLog(@"did find %@ %@", uti, description);
+	NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:uti, @"uti", description, @"name", nil];
+	[utisController addObject:d];
+}
+
 
 @synthesize searchKey;
 @synthesize fromDate;
