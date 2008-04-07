@@ -256,9 +256,6 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 }
 
 - (void)performIconsFetching {
-	// fetching icons in self moc
-	// crash when another thread saves new tracks in self moc
-
 	self.isLoadingIcons = YES;
 	
 	NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
@@ -848,6 +845,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	//NSLog(@"-- performReplaceTracksWithDefaults");
 
 	// remove tree nodes
+	// TODO: FIXME: write locks around critical section, or ensure treeController can't be modified during this time
 	if([[treeController arrangedObjects] count] >= 2) {
 		[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
 		[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
