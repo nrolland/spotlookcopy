@@ -259,19 +259,24 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	self.isLoadingIcons = YES;
 	
 	NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
-	//NSLog(@"performIconsFetching");
 	
+	//[tracksController fetch:nil];
 	NSArray *tracks = [[tracksController arrangedObjects] copy] ;
-	NSArray *deleted = [[[self managedObjectContext] deletedObjects] copy];
+	//NSDate *d1 = [NSDate date];
+	
 	for(SLTrack *t in tracks) {
-		if(![deleted containsObject:t]) {
-			[t loadIcon];
-		} /*else {
-			NSLog(@"no track %@", t.name);
-		}*/
+		if(![t isDeleted]) {
+			@try {
+				[t loadIcon]; // no use to check if is fault, because might be present or not in the store
+			} @catch (NSException * e) {
+				//NSLog([e description]);
+			}
+		}
 	}
+	
+	//NSDate *d2 = [NSDate date];
+	//NSLog(@"-- icons loaded in %f", [d2 timeIntervalSinceDate:d1]);
 	[tracks release];
-	[deleted release];
 	
 	[self performSelectorOnMainThread:@selector(iconsLoadedFromSeparateThread) withObject:nil waitUntilDone:YES];
 	[p release];
@@ -286,7 +291,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	
 	if(!self.isReplacingTracks && !self.isLoadingIcons) {
 		self.isLoadingIcons = YES;
-		//NSLog(@"applicationDidFinishLaunching detach performIconsFetching");
+		NSLog(@"applicationDidFinishLaunching detach performIconsFetching");
 		[NSThread detachNewThreadSelector:@selector(performIconsFetching)
 								 toTarget:self
 							   withObject:nil];
@@ -306,7 +311,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
     [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
     [managedObjectModel release], managedObjectModel = nil;
 	[contents release];
-	//[tracksSD release];
+
     [super dealloc];
 }
 
@@ -446,13 +451,13 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 
 - (void)populateOutlineContents {
 	self.isPopulatingOutline = YES;
-
+	
 	tracksSetController.name = TRACKSGROUPS;
 	[treeController insertObject:tracksSetController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
 
 	tracksController.name = TRACKS;
 	[treeController insertObject:tracksController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
-		
+
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTrackGroups"]) {
 		[outlineView expandItem:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:0]]];
 	}
@@ -460,6 +465,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTracks"]) {
 		[outlineView expandItem:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:1]]];
 	}
+
 	self.isPopulatingOutline = NO;
 }
 
@@ -474,7 +480,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 }
 
 - (void)awakeFromNib {
-	NSLog(@"awakeFromNib");
+	//NSLog(@"awakeFromNib");
 
 	quickLookAvailable = [[NSBundle bundleWithPath:QUICKLOOK_UI_FRAMEWORK] load];
 	if(quickLookAvailable) {
@@ -530,9 +536,6 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	// TODO: useful?
 	[dateTypesMenu selectItemWithTitle:[[NSUserDefaults standardUserDefaults] valueForKey:@"dateType"]];
 
-	//[self populateOutlineContents];
-	//[managedObjectContext processPendingChanges];
-	
 	[activeTracksResultsController addObserver:self forKeyPath:@"arrangedObjects" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:nil];
 	
 	[treeController addObserver:self forKeyPath:@"selectionIndexPaths" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:nil];
@@ -625,7 +628,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	}
 
 	if((object == treeController) && [keyPath isEqualToString:@"selectionIndexPaths"]) {
-
+	
 		// synchronize subcontrollers selections
 		[tracksController setSelectedObjects:[treeController selectedObjects]];
 		[tracksSetController setSelectedObjects:[treeController selectedObjects]];
@@ -714,8 +717,9 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 - (IBAction)deleteSelection:(id)sender {
 	NSArray *a = [treeController selectedObjects];
 	NSArray *b = [a copy];
-	[tracksSetController removeObjects:a];
+	[tracksSetController removeObjects:b];
 	[tracksController removeObjects:b];
+	[b release];
 }
 
 - (BOOL)justOneTrackSelected {
@@ -787,8 +791,8 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 - (IBAction)revealSelectedResults:(id)sender {
 	NSString *path;
 	for(NSMetadataItem *i in [selectedResultsController selectedObjects]) {
-		path = [[i valueForAttribute:(NSString *)kMDItemPath] stringByDeletingLastPathComponent];
-		[[NSWorkspace sharedWorkspace] openFile:path];
+		path = [i valueForAttribute:(NSString *)kMDItemPath];
+		[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:@""];
 	}
 }
 
@@ -845,11 +849,12 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	//NSLog(@"-- performReplaceTracksWithDefaults");
 
 	// remove tree nodes
-	// TODO: FIXME: write locks around critical section, or ensure treeController can't be modified during this time
 	if([[treeController arrangedObjects] count] >= 2) {
 		[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
 		[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
-	}
+	}/* else {
+		NSLog(@"[[treeController arrangedObjects] count] == %d", [[treeController arrangedObjects] count]);
+	}*/
 	
 	// remove controllers content
 	[tracksSetController removeObjects:[tracksSetController arrangedObjects]];
@@ -869,31 +874,15 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 
 - (void)resetToDefaultTracksAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertSecondButtonReturn) {
-		/*
-		if(self.isReplacingTracks) {
-			NSLog(@"already importing tracks");
-			return;
-		}
-		*/
 		self.isReplacingTracks = YES;
-		//NSLog(@"detach performReplaceTracksWithDefaults --2");
 		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
-		//[self replaceTracksWithDefaults];
     }	
 }
 
 - (void)upgradeToLatestTracksAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertFirstButtonReturn) {
-		/*
-		if(self.isReplacingTracks) {
-			NSLog(@"already importing tracks");
-			return;
-		}
-		*/
 		self.isReplacingTracks = YES;
-		//NSLog(@"detach performReplaceTracksWithDefaults --3");
 		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
-		//[self replaceTracksWithDefaults];
     } else {
 		NSString *currentVersionString = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
 		[[NSUserDefaults standardUserDefaults] setObject:currentVersionString forKey:@"skipTracksUpgradeVersion"];

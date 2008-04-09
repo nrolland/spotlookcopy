@@ -25,6 +25,10 @@
 - (void) setActiveStateIfChanged:(NSNumber *)n {
 }
 
+- (BOOL)hasUTI {
+	return NO;
+}
+
 @synthesize name;
 @synthesize icon;
 

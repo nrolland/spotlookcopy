@@ -37,7 +37,6 @@
 	
 	NSUInteger initialTracksUsageCounter;
 	NSArray *initialTracks;
-	//NSArray *tracksSD;
 	
 	NSString *searchKey;
 	

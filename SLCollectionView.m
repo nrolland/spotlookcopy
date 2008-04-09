@@ -1,7 +1,7 @@
 #import "SLCollectionView.h"
 #import "SLTrack.h"
 
-#define TRACKVIEW_HEIGHT 56.0
+#define TRACKVIEW_HEIGHT 60.0
 
 @implementation SLCollectionView
 

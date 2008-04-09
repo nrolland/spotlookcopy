@@ -39,6 +39,7 @@
 				<key>uti</key>
 				<string>org.oasis-open.opendocument.spreadsheet</string>
 			</dict>
+<!--			
 			<dict>
 				<key>name</key>
 				<string>Open Text</string>
@@ -47,6 +48,7 @@
 				<key>uti</key>
 				<string>org.oasis-open.opendocument.text</string>
 			</dict>
+-->
 		</array>
 	</dict>
 	<dict>
@@ -171,7 +173,7 @@
 		<array>
 			<dict>
 				<key>name</key>
-				<string>Keynote</string>
+				<string>iWork Keynote</string>
 				<key>nameContentKeywords</key>
 				<string>Content</string>
 				<key>uti</key>
@@ -179,7 +181,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Pages</string>
+				<string>iWork Pages</string>
 				<key>nameContentKeywords</key>
 				<string>Content</string>
 				<key>uti</key>
@@ -187,7 +189,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>Numbers</string>
+				<string>iWork Numbers</string>
 				<key>nameContentKeywords</key>
 				<string>Content</string>
 				<key>uti</key>
@@ -551,14 +553,6 @@
 	</dict>
 	<dict>
 		<key>name</key>
-		<string>AddressBook</string>
-		<key>nameContentKeywords</key>
-		<string>Content</string>
-		<key>uti</key>
-		<string>com.apple.addressbook.person</string>
-	</dict>
-	<dict>
-		<key>name</key>
 		<string>Archives</string>
 		<key>nameContentKeywords</key>
 		<string>Content</string>
@@ -613,7 +607,7 @@
 		<key>nameContentKeywords</key>
 		<string>Content</string>
 		<key>uti</key>
-		<string>com.apple.disk.image</string>
+		<string>com.apple.disk-image</string>
 	</dict>
 	<dict>
 		<key>name</key>

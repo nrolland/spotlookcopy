@@ -50,34 +50,34 @@ static NSImage *unknownImage = nil;
 	return [NSURL fileURLWithPath:[self interpretedScope]];
 }
 
+- (void)toggleEdition {
+	self.isEditing = !self.isEditing;
+}
+
 - (void)loadIcon {
-	if([[[NSApp delegate] valueForKey:@"isReplacingTracks"] boolValue]) {
+	if(((AppDelegate *)[NSApp delegate]).isReplacingTracks) {
+		//NSLog(@"isReplacingTracks");
 		return;
 	}
 
-	if(self.uti == nil || [self.uti length] == 0) {
-		return;
-	}
-	
 	if(genericFileIconDataHash == nil) {
-		genericFileIconDataHash = [[[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericDocumentIconResource)] TIFFRepresentation] md5];
+		NSImage *genericImage = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericDocumentIconResource)];
+		genericFileIconDataHash = [[genericImage TIFFRepresentation] md5];
 	}
 	
 	NSImage *i;
-	NSArray *rootUTIs = [NSArray arrayWithObjects:@"public.item", @"public.data", nil];
 	
-	if(self.uti != nil && [self.uti length] > 0 && ![rootUTIs containsObject:self.uti]) {
+	if(self.uti != nil && [self.uti length] > 0) {
 		i = [[NSWorkspace sharedWorkspace] iconForFileType:self.uti];
-		NSData *tiff = [i TIFFRepresentation];
-		if(!tiff) {
-			NSLog(@"error no tiff for %@", self.name);
-			return;
+
+		// try not avoid using TIFFRepresentation
+		BOOL mayBeGenericIcon = [[i representations] count] == 5 && [i name] == nil;
+		if(mayBeGenericIcon) {
+			if([[[i TIFFRepresentation] md5] isEqualToString:genericFileIconDataHash]) {
+				return;
+			}
 		}
-		
-		if([[tiff md5] isEqualToString:genericFileIconDataHash]) {
-			return;
-		}
-	} else if( (self.scope != nil && [self.scope length] > 0) || [rootUTIs containsObject:self.uti]) {
+	} else if( (self.scope != nil && [self.scope length] > 0) ) {
 		i = [[NSWorkspace sharedWorkspace] iconForFile:[self interpretedScope]];
 	} else {
 		return;
@@ -133,6 +133,8 @@ static NSImage *unknownImage = nil;
 	NSMetadataQuery *q = [[[NSMetadataQuery alloc] init] autorelease];
 	[self setValue:q forKey:@"query"];
 	
+	self.isEditing = NO;
+	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(queryNotification:) name:nil object:query];
 				
 	NSArrayController *c = [[[NSArrayController alloc] init] autorelease];
@@ -152,7 +154,7 @@ static NSImage *unknownImage = nil;
 }
 
 - (void)awakeFromFetch {
-	[super awakeFromFetch];	
+	[super awakeFromFetch];
 	[self setUp];
 }
 
@@ -319,5 +321,6 @@ static NSImage *unknownImage = nil;
 @synthesize queryResults;
 @synthesize query;
 @synthesize displayedQueryResultsCount;
+@synthesize isEditing;
 
 @end

@@ -10,6 +10,8 @@
 	BOOL showAll;
 	NSImage *icon;
 	NSString *displayedQueryResultsCount;
+	
+	BOOL isEditing;
 }
 
 - (void)setUp;
@@ -27,6 +29,7 @@
 @property (retain) NSArrayController *queryResults;
 @property (retain) NSMetadataQuery *query;
 @property BOOL showAll;
+@property BOOL isEditing;
 
 @end
 
