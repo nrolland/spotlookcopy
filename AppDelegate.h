@@ -59,6 +59,7 @@
 	BOOL isLoadingIcons;
 	BOOL isReplacingTracks;
 	BOOL isPopulatingOutline;
+	BOOL isEditing;
 	
 	IBOutlet NSArrayController *utisController;
 	IBOutlet NSPanel *utiDiscovererWindow;
@@ -135,5 +136,6 @@
 @property BOOL isLoadingIcons;
 @property BOOL isReplacingTracks;
 @property BOOL isPopulatingOutline;
+@property BOOL isEditing;
 
 @end

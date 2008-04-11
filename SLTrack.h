@@ -1,5 +1,6 @@
 #import <CoreData/CoreData.h>
 #import "SLTrackView.h"
+#import "SLCollectionView.h"
 
 @class SLTrackSet;
 
@@ -11,7 +12,10 @@
 	NSImage *icon;
 	NSString *displayedQueryResultsCount;
 	
-	BOOL isEditing;
+	NSString *customSearch; // TODO: put in coredata model
+	
+	//SLCollectionView *collectionView;
+	//NSView *mainView;
 }
 
 - (void)setUp;
@@ -23,13 +27,15 @@
 @property (retain) NSString *uti;
 @property (retain) NSString *nameContentKeywords;
 @property (retain) NSString *scope;
+@property (retain) NSString *customSearch;
 @property (retain) NSString *displayedQueryResultsCount;
 @property (retain) NSSet *trackSets;
 @property (retain) NSNumber *isActive;
 @property (retain) NSArrayController *queryResults;
 @property (retain) NSMetadataQuery *query;
+//@property (retain) SLCollectionView *collectionView;
+//@property (retain) NSView *mainView;
 @property BOOL showAll;
-@property BOOL isEditing;
 
 @end
 

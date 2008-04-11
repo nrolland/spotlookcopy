@@ -19,6 +19,8 @@
 
 #define COLUMNID_NAME @"NameColumn"	// the single column name in our outline view
 
+#define TRACKVIEW_HEIGHT_MAX 60.0
+#define TRACKVIEW_HEIGHT_MIN 50.0
 
 @implementation AppDelegate
 
@@ -560,6 +562,8 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	[tracksSetController setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 	[sortDescriptor release];
 	
+	[collectionView setMinItemSize:NSMakeSize(0.0, TRACKVIEW_HEIGHT_MIN)];
+
 /*	
 	NSString *library = [NSSearchPathForDirectoriesInDomains (NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
 	NSLog(@"-- library %@", library);
@@ -1021,6 +1025,16 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	[utisController addObject:d];
 }
 
+- (void)toggleEdition {
+	self.isEditing = !self.isEditing;
+	
+	if(self.isEditing) {
+		[collectionView setMinItemSize:NSMakeSize(0.0, TRACKVIEW_HEIGHT_MAX)];
+	} else {
+		[collectionView setMinItemSize:NSMakeSize(0.0, TRACKVIEW_HEIGHT_MIN)];
+	}
+	
+}
 
 @synthesize searchKey;
 @synthesize fromDate;
@@ -1047,5 +1061,6 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 @synthesize isLoadingIcons;
 @synthesize isReplacingTracks;
 @synthesize isPopulatingOutline;
+@synthesize isEditing;
 
 @end

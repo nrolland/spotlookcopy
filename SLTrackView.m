@@ -144,7 +144,12 @@ static NSRect LLRectFromPoints(NSPoint point1, NSPoint point2) {
 	if(isSelected) { // TODO: handle selected tracks drawing?
 		[[NSColor selectedControlColor] set];
 	} else {
-		[[NSColor textBackgroundColor] set];
+		if(((AppDelegate *)[NSApp delegate]).isEditing) {
+			//[[NSColor colorWithDeviceWhite:0.95 alpha:1.0] set];
+			[[NSColor whiteColor] set];		
+		} else {
+			[[NSColor textBackgroundColor] set];
+		}
 	}
 	[NSBezierPath fillRect:[self bounds]];
 	

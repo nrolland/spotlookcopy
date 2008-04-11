@@ -50,10 +50,6 @@ static NSImage *unknownImage = nil;
 	return [NSURL fileURLWithPath:[self interpretedScope]];
 }
 
-- (void)toggleEdition {
-	self.isEditing = !self.isEditing;
-}
-
 - (void)loadIcon {
 	if(((AppDelegate *)[NSApp delegate]).isReplacingTracks) {
 		//NSLog(@"isReplacingTracks");
@@ -132,8 +128,6 @@ static NSImage *unknownImage = nil;
 	
 	NSMetadataQuery *q = [[[NSMetadataQuery alloc] init] autorelease];
 	[self setValue:q forKey:@"query"];
-	
-	self.isEditing = NO;
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(queryNotification:) name:nil object:query];
 				
@@ -224,6 +218,27 @@ static NSImage *unknownImage = nil;
 	[self didChangeValueForKey:@"URLPath"];
 }
 
+- (BOOL)hasCustomSearch {
+	return self.customSearch != nil && [self.customSearch length] > 0;
+}
+
+- (void)setHasCustomSearch:(NSNumber *)n {
+	[self willChangeValueForKey:@"icon"];
+
+	// TODO: put logic in -[loadIcon]
+	// use smart folder icon for custom searches
+	if([n boolValue]) {
+		if(icon != nil) {
+			[icon release];
+			icon = nil;
+		}
+	} else {
+		[self loadIcon];
+	}
+	
+	[self didChangeValueForKey:@"icon"];
+}
+
 - (BOOL)hasUTI {
 	return self.uti != nil && [self.uti length] > 0;
 }
@@ -303,9 +318,6 @@ static NSImage *unknownImage = nil;
 
 
 
-
-
-
 	
 	[query setPredicate:predicateToRun];
 //	[query setPredicate:p2];
@@ -320,7 +332,9 @@ static NSImage *unknownImage = nil;
 
 @synthesize queryResults;
 @synthesize query;
+@synthesize customSearch;
 @synthesize displayedQueryResultsCount;
-@synthesize isEditing;
+//@synthesize collectionView;
+//@synthesize mainView;
 
 @end

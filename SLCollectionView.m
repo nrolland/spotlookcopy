@@ -1,14 +1,16 @@
 #import "SLCollectionView.h"
 #import "SLTrack.h"
 
-#define TRACKVIEW_HEIGHT 60.0
+
 
 @implementation SLCollectionView
 
+
 - (void)awakeFromNib {
-	[self setMinItemSize:NSMakeSize(0.0, TRACKVIEW_HEIGHT)];
-	[self setMaxItemSize:NSMakeSize(0.0, TRACKVIEW_HEIGHT)];
+	[self setMinItemSize:NSMakeSize(0.0, 50)];
+	[self setMaxItemSize:NSMakeSize(0.0, 50)];
 }
+
 
 // get the view for a track
 - (NSCollectionViewItem *)newItemForRepresentedObject:(id)o {
@@ -25,6 +27,9 @@
 
 	[[item view] setValue:track.queryResults forKey:@"controller"];
 	[[item view] setValue:track.query forKey:@"query"];
+	
+	//track.collectionView = self;
+	//track.mainView = [item view];
 	
 	return [item retain];
 }
