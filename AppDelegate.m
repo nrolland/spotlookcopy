@@ -319,7 +319,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 		
 	if(!self.isReplacingTracks && !self.isLoadingIcons) {
 		self.isLoadingIcons = YES;
-		NSLog(@"applicationDidFinishLaunching detach performIconsFetching");
+		//NSLog(@"applicationDidFinishLaunching detach performIconsFetching");
 		[NSThread detachNewThreadSelector:@selector(performIconsFetching)
 								 toTarget:self
 							   withObject:nil];

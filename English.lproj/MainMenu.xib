@@ -22155,18 +22155,18 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<reference key="NSTextColor" ref="766181304"/>
 						</object>
 					</object>
-					<object class="NSButton" id="479405158">
+					<object class="NSButton" id="367921899">
 						<reference key="NSNextResponder" ref="261818807"/>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{620, 0}, {20, 22}}</string>
 						<reference key="NSSuperview" ref="261818807"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="1057076884">
+						<object class="NSButtonCell" key="NSCell" id="939604180">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">134217728</int>
 							<string key="NSContents"/>
 							<reference key="NSSupport" ref="24"/>
-							<reference key="NSControlView" ref="479405158"/>
+							<reference key="NSControlView" ref="367921899"/>
 							<int key="NSButtonFlags">139215103</int>
 							<int key="NSButtonFlags2">130</int>
 							<string key="NSAlternateContents"/>
@@ -23592,6 +23592,39 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string key="NSLabel">value: representedObject.name</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">representedObject.name</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSAlwaysPresentsApplicationModalAlerts</string>
+									<string>NSConditionallySetsEditable</string>
+									<string>NSConditionallySetsEnabled</string>
+									<string>NSConditionallySetsHidden</string>
+									<string>NSContinuouslyUpdatesValue</string>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+									<string>NSRaisesForNotApplicableKeys</string>
+									<string>NSValidatesImmediately</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="1" id="5"/>
+									<integer value="0" id="6"/>
+									<reference ref="6"/>
+									<reference ref="6"/>
+									<reference ref="6"/>
+									<reference ref="5"/>
+									<string/>
+									<string/>
+									<string/>
+									<string/>
+									<reference ref="5"/>
+									<reference ref="6"/>
+								</object>
+							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
@@ -24068,8 +24101,37 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">arrangedObjects.name</string>
 							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSConditionallySetsEditable</string>
-								<reference key="NS.object.0" ref="9"/>
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMutableArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSAllowsEditingMultipleValuesSelection</string>
+									<string>NSAlwaysPresentsApplicationModalAlerts</string>
+									<string>NSConditionallySetsEditable</string>
+									<string>NSConditionallySetsEnabled</string>
+									<string>NSContinuouslyUpdatesValue</string>
+									<string>NSCreatesSortDescriptor</string>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+									<string>NSRaisesForNotApplicableKeys</string>
+									<string>NSValidatesImmediately</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="5"/>
+									<reference ref="6"/>
+									<reference ref="5"/>
+									<reference ref="6"/>
+									<reference ref="5"/>
+									<reference ref="5"/>
+									<string/>
+									<string/>
+									<string/>
+									<string/>
+									<reference ref="5"/>
+									<reference ref="6"/>
+								</object>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
@@ -25226,8 +25288,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								</object>
 								<object class="NSMutableArray" key="dict.values">
 									<bool key="EncodedWithXMLCoder">YES</bool>
-									<integer value="1" id="5"/>
-									<integer value="0" id="6"/>
+									<reference ref="5"/>
+									<reference ref="6"/>
 									<reference ref="5"/>
 									<reference ref="6"/>
 									<reference ref="6"/>
@@ -25746,10 +25808,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">hidden: representedObject.useCustomSearch</string>
-						<reference key="source" ref="479405158"/>
+						<reference key="source" ref="367921899"/>
 						<reference key="destination" ref="446045564"/>
-						<object class="NSNibBindingConnector" key="connector" id="696572266">
-							<reference key="NSSource" ref="479405158"/>
+						<object class="NSNibBindingConnector" key="connector" id="429279370">
+							<reference key="NSSource" ref="367921899"/>
 							<reference key="NSDestination" ref="446045564"/>
 							<string key="NSLabel">hidden: representedObject.useCustomSearch</string>
 							<string key="NSBinding">hidden</string>
@@ -25766,10 +25828,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">image: representedObject.customSearchValidationIcon</string>
-						<reference key="source" ref="479405158"/>
+						<reference key="source" ref="367921899"/>
 						<reference key="destination" ref="446045564"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="479405158"/>
+							<reference key="NSSource" ref="367921899"/>
 							<reference key="NSDestination" ref="446045564"/>
 							<string key="NSLabel">image: representedObject.customSearchValidationIcon</string>
 							<string key="NSBinding">image</string>
@@ -25782,10 +25844,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">hidden2: isEditing</string>
-						<reference key="source" ref="479405158"/>
+						<reference key="source" ref="367921899"/>
 						<reference key="destination" ref="42996464"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="479405158"/>
+							<reference key="NSSource" ref="367921899"/>
 							<reference key="NSDestination" ref="42996464"/>
 							<string key="NSLabel">hidden2: isEditing</string>
 							<string key="NSBinding">hidden2</string>
@@ -25809,7 +25871,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 									<string>NSNegateBoolean</string>
 								</object>
 							</object>
-							<reference key="NSPreviousConnector" ref="696572266"/>
+							<reference key="NSPreviousConnector" ref="429279370"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
@@ -26330,7 +26392,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<reference ref="561697325"/>
 							<reference ref="311688416"/>
 							<reference ref="573440645"/>
-							<reference ref="479405158"/>
+							<reference ref="367921899"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">TrackView</string>
@@ -27443,17 +27505,17 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">3764</int>
-						<reference key="object" ref="479405158"/>
+						<reference key="object" ref="367921899"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="1057076884"/>
+							<reference ref="939604180"/>
 						</object>
 						<reference key="parent" ref="261818807"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">3765</int>
-						<reference key="object" ref="1057076884"/>
-						<reference key="parent" ref="479405158"/>
+						<reference key="object" ref="939604180"/>
+						<reference key="parent" ref="367921899"/>
 					</object>
 				</object>
 			</object>

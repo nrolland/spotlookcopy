@@ -212,12 +212,11 @@ static NSImage *unknownImage = nil;
 	@try {
 		NSPredicate *p1 = [NSPredicate predicateWithFormat:self.customSearch];
 		NSPredicate *p2 = [NSPredicate spotlightFriendlyPredicate:p1];
-		return [NSImage imageNamed:@"ok"];
+		if(p2) { return [NSImage imageNamed:@"ok"]; }
 	} @catch (NSException * e) {
-		NSLog(@"bad predicate: %@", self.customSearch);
-		return [NSImage imageNamed:@"ko"];
+		NSLog(@"%@ has bad predicate: %@", self.name, self.customSearch);
 	}
-
+	return [NSImage imageNamed:@"ko"];
 }
 
 - (void)createPredicate {
@@ -255,6 +254,11 @@ static NSImage *unknownImage = nil;
 	NSMutableArray *subPredicates = [[NSMutableArray alloc] initWithObjects:timePredicate, nil];
 
 	if([self.useCustomSearch boolValue]) {
+		if([self.customSearch length] == 0) {
+			NSLog(@"%@ empty customSearch", self.name);
+			return;
+		}
+		
 		@try {
 			NSPredicate *customPredicate = [NSPredicate predicateWithFormat:self.customSearch];
 			[subPredicates addObject:customPredicate];
