@@ -15,10 +15,10 @@
     
     NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 
-	if ([itemIdentifier isEqualToString:@"inspector"]) {
-        [item setLabel:NSLocalizedString(@"Track Inspector", @"Toolbar item")];
-        [item setPaletteLabel:NSLocalizedString(@"Inspector", @"Toolbar customize")];
-        [item setToolTip:NSLocalizedString(@"Inspector", @"Toolbar tooltip")];
+	if ([itemIdentifier isEqualToString:@"informations"]) {
+        [item setLabel:NSLocalizedString(@"Track Informations", @"Toolbar item")];
+        [item setPaletteLabel:NSLocalizedString(@"Informations", @"Toolbar customize")];
+        [item setToolTip:NSLocalizedString(@"Informations", @"Toolbar tooltip")];
         [item setImage:[NSImage imageNamed:NSImageNameInfo]];
         [item setTarget:self];
         [item setAction:@selector(toolbaritemclicked:)];
@@ -75,7 +75,7 @@
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
-    return [NSArray arrayWithObjects:@"inspector", @"quickLook",
+    return [NSArray arrayWithObjects:@"informations", @"quickLook",
 		NSToolbarSeparatorItemIdentifier, @"dateType",
 		NSToolbarSpaceItemIdentifier, @"fromDate",
 		NSToolbarFlexibleSpaceItemIdentifier, @"slider",
@@ -96,8 +96,8 @@
     //NSLog(@"-- toolbaritemclicked %@", [item label]);
     
     NSString *identifier = [item itemIdentifier];
-    if([identifier isEqualToString:@"inspector"]) {
-        [self openTrackInspector:self];
+    if([identifier isEqualToString:@"informations"]) {
+        [self toggleEdition];
     } else if ([identifier isEqualToString:@"quickLook"]) {
         [self openQuickLook:nil];
     }    
@@ -106,9 +106,7 @@
 - (BOOL)validateToolbarItem:(NSToolbarItem *)theItem {
     
 	NSString *identifier = [theItem itemIdentifier];
-    if([identifier isEqualToString:@"inspector"]) {
-        return [[tracksController selectedObjects] count] == 1;
-    } else if ([identifier isEqualToString:@"quickLook"]) {
+    if ([identifier isEqualToString:@"quickLook"]) {
 		return quickLookAvailable && [[selectedResultsController selectedObjects] count] > 0;
 	}
     

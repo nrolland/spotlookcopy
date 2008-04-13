@@ -77,7 +77,6 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
     return managedObjectModel;
 }
 
-
 /**
     Returns the persistent store coordinator for the application.  This 
     implementation will create and return a coordinator, having added the 
@@ -102,10 +101,31 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
         [fileManager createDirectoryAtPath:applicationSupportFolder attributes:nil];
     }
     
-    url = [NSURL fileURLWithPath: [applicationSupportFolder stringByAppendingPathComponent: @"SpotLook.xml"]];
+	NSString *path = [applicationSupportFolder stringByAppendingPathComponent: @"SpotLook.xml"];
+    url = [NSURL fileURLWithPath: path];
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
     if (![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]){
-        [[NSApplication sharedApplication] presentError:error];
+		if([error code] == 134100) { // old model
+			
+			NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+			[alert addButtonWithTitle:NSLocalizedString(@"OK", @"store upgrade panel")];
+			[alert setMessageText:NSLocalizedString(@"New tracks will override old ones", @"store upgrade panel")];
+			[alert setInformativeText:NSLocalizedString(@"Some tracks are already installed but their format is outdated. New tracks will replace them.", @"store upgrade panel")];
+			[alert setAlertStyle:NSWarningAlertStyle];
+			
+			if ([alert runModal] == NSAlertFirstButtonReturn) {
+				NSLog(@"will remove");
+				[fileManager removeFileAtPath:path handler:nil];
+				[persistentStoreCoordinator release];
+				persistentStoreCoordinator = nil;
+				NSLog(@"did remove");
+				self.obsoleteModelWasRemoved = YES;
+			}
+			
+			return [self persistentStoreCoordinator];
+		} else {
+			[[NSApplication sharedApplication] presentError:error];
+		}
     }    
 
     return persistentStoreCoordinator;
@@ -288,9 +308,15 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	NSDockTile *dock = [NSApp dockTile];
 	[dock setContentView:appIconView];
 	[dock display];
+
+	if(self.obsoleteModelWasRemoved) {
+		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
+	} else {
+		[self askToUpgradeTracksIfNotDone];
+	}
 	
 	[tracksController fetchWithRequest:nil merge:NO error:nil];
-	
+		
 	if(!self.isReplacingTracks && !self.isLoadingIcons) {
 		self.isLoadingIcons = YES;
 		NSLog(@"applicationDidFinishLaunching detach performIconsFetching");
@@ -300,8 +326,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	}
 	
     [[Updater sharedInstance] checkUpdateSilentIfUpToDate:self];
-	
-	[self askToUpgradeTracksIfNotDone];
+
 }
 
 /**
@@ -428,11 +453,13 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 
 - (void)importDefaultTracks {
 	//NSLog(@"importDefaultTracks");
+	NSLog(@"-- 0");
     NSManagedObjectContext *context = [self tracksImportManagedObjectContext];
-
+	NSLog(@"-- 1");
 	NSString *dtPath = [[NSBundle mainBundle] pathForResource:@"DefaultTracks" ofType:@"plist"]; // TODO: handle if not present..
+	NSLog(@"-- 2");
 	NSArray *dt = [NSArray arrayWithContentsOfFile:dtPath];
-	
+	NSLog(@"-- 3");
 	for(NSDictionary *d in dt) {
 		if([[d allKeys] containsObject:@"tracks"]) { // we found a trackSet
 			SLTrackSet *ts = [self createAndInsertTrackSetWithName:[d objectForKey:@"name"] context:context];
@@ -440,13 +467,13 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 				SLTrack *t = [self createdAndInsertedTrackFromDictionary:td context:context];
 				ts.tracks = [ts.tracks setByAddingObject:t];
 			}
-		} else {
+		} else { 
 			[self createdAndInsertedTrackFromDictionary:d context:context];
 		}
 	}
-	
+	NSLog(@"-- 4");
 	[context save:nil];
-
+	NSLog(@"-- 5");
     NSString *currentVersionString = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
 	[[NSUserDefaults standardUserDefaults] setObject:currentVersionString forKey:@"latestResetToDefaultTracks"];
 }
@@ -516,7 +543,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 		//NSLog(@"%s", __PRETTY_FUNCTION__);
 		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
 //		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultTracksImported"];
-	} else {
+	} else if (!self.obsoleteModelWasRemoved) {
 		[self populateOutlineContents];
 	}
 	
@@ -730,12 +757,18 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	return [[tracksController selectedObjects] count] == 1; // binding for track inspector menu item .enabled
 }
 
-- (IBAction)openTrackInspector:(id)sender {
-	if(![trackInspector isVisible]) {
-		[trackInspector makeKeyAndOrderFront:self];
+- (void)toggleEdition {
+	self.isEditing = !self.isEditing;
+	
+	if(self.isEditing) {
+		[collectionView setMinItemSize:NSMakeSize(0.0, TRACKVIEW_HEIGHT_MAX)];
 	} else {
-		[trackInspector close];
+		[collectionView setMinItemSize:NSMakeSize(0.0, TRACKVIEW_HEIGHT_MIN)];
 	}
+}
+
+- (IBAction)toggleTracksEdition:(id)sender {
+	[self toggleEdition];
 }	
 
 - (IBAction)exportAsImage:(id)sender {
@@ -900,7 +933,6 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification {
-	
 	if ([aNotification object] == utiDiscovererWindow) {
 		[utisController removeObjects:[utisController arrangedObjects]];
 	} else if([aNotification object] == window) {
@@ -1025,17 +1057,6 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	[utisController addObject:d];
 }
 
-- (void)toggleEdition {
-	self.isEditing = !self.isEditing;
-	
-	if(self.isEditing) {
-		[collectionView setMinItemSize:NSMakeSize(0.0, TRACKVIEW_HEIGHT_MAX)];
-	} else {
-		[collectionView setMinItemSize:NSMakeSize(0.0, TRACKVIEW_HEIGHT_MIN)];
-	}
-	
-}
-
 @synthesize searchKey;
 @synthesize fromDate;
 @synthesize toDate;
@@ -1043,7 +1064,6 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 @synthesize dateTypesMenu;
 @synthesize quickLookAvailable;
 @synthesize scrollView;
-@synthesize trackInspector;
 @synthesize activeTracksResultsController;
 @synthesize window;
 @synthesize pathControl;
@@ -1062,5 +1082,6 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 @synthesize isReplacingTracks;
 @synthesize isPopulatingOutline;
 @synthesize isEditing;
+@synthesize obsoleteModelWasRemoved;
 
 @end

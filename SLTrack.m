@@ -13,6 +13,8 @@
 @dynamic nameContentKeywords;
 @dynamic showAll;
 @dynamic isActive;
+@dynamic customSearch;
+
 
 static NSString *genericFileIconDataHash = nil;
 static NSImage *unknownImage = nil;
@@ -195,10 +197,7 @@ static NSImage *unknownImage = nil;
 	[super didChangeValueForKey:key];
 }
 
-- (BOOL)hasScope {
-	return [self.scope length] > 0;
-}
-
+/*
 - (void)setHasScope:(NSNumber *)n {
 	[self willChangeValueForKey:@"URLPath"];
 	[self willChangeValueForKey:@"icon"];
@@ -217,11 +216,9 @@ static NSImage *unknownImage = nil;
 	[self didChangeValueForKey:@"icon"];
 	[self didChangeValueForKey:@"URLPath"];
 }
+*/
 
-- (BOOL)hasCustomSearch {
-	return self.customSearch != nil && [self.customSearch length] > 0;
-}
-
+/*
 - (void)setHasCustomSearch:(NSNumber *)n {
 	[self willChangeValueForKey:@"icon"];
 
@@ -238,11 +235,9 @@ static NSImage *unknownImage = nil;
 	
 	[self didChangeValueForKey:@"icon"];
 }
+*/
 
-- (BOOL)hasUTI {
-	return self.uti != nil && [self.uti length] > 0;
-}
-
+/*
 - (void)setHasUTI:(NSNumber *)n {
 	[self willChangeValueForKey:@"icon"];
 
@@ -259,7 +254,7 @@ static NSImage *unknownImage = nil;
 	
 	[self didChangeValueForKey:@"icon"];
 }
-
+*/
 - (void)createPredicate {
 	[query stopQuery];
 	
@@ -332,7 +327,6 @@ static NSImage *unknownImage = nil;
 
 @synthesize queryResults;
 @synthesize query;
-@synthesize customSearch;
 @synthesize displayedQueryResultsCount;
 //@synthesize collectionView;
 //@synthesize mainView;

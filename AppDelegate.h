@@ -16,7 +16,6 @@
 	IBOutlet NSArrayController *activeTracksResultsController;
 	IBOutlet SLArrayController *tracksSetController;
 	IBOutlet NSPopUpButton *dateTypesMenu;
-	IBOutlet NSPanel *trackInspector;
 	IBOutlet NSPathControl *pathControl;
 	IBOutlet NSScrollView *scrollView;
 	IBOutlet NSTableView *resultsView;
@@ -60,6 +59,7 @@
 	BOOL isReplacingTracks;
 	BOOL isPopulatingOutline;
 	BOOL isEditing;
+	BOOL obsoleteModelWasRemoved;
 	
 	IBOutlet NSArrayController *utisController;
 	IBOutlet NSPanel *utiDiscovererWindow;
@@ -78,7 +78,8 @@
 - (IBAction)saveAction:sender;
 - (IBAction)dateTypeDidChange:(id)sender;
 - (void)openFileAtPath:(id)path;
-- (IBAction)openTrackInspector:(id)sender;
+- (IBAction)toggleTracksEdition:(id)sender;
+- (void)toggleEdition;
 - (NSString *)currentDateAttribute;
 
 - (IBAction)addNewGroup:(id)sender;
@@ -117,7 +118,6 @@
 @property (retain) NSArrayController *allResultsController;
 @property (retain) NSPopUpButton *dateTypesMenu;
 @property (retain) NSArrayController *activeTracksResultsController;
-@property (retain) NSPanel *trackInspector;
 @property (retain) NSTableView *resultsView;
 @property (retain) NSScrollView *scrollView;
 @property (retain) SLArrayController *tracksSetController;
@@ -137,5 +137,6 @@
 @property BOOL isReplacingTracks;
 @property BOOL isPopulatingOutline;
 @property BOOL isEditing;
+@property BOOL obsoleteModelWasRemoved;
 
 @end
