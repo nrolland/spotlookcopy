@@ -111,7 +111,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 			[alert addButtonWithTitle:NSLocalizedString(@"OK", @"store upgrade panel")];
 			[alert setMessageText:NSLocalizedString(@"New tracks will override old ones", @"store upgrade panel")];
 			[alert setInformativeText:NSLocalizedString(@"Some tracks are already installed but their format is outdated. New tracks will replace them.", @"store upgrade panel")];
-			[alert setAlertStyle:NSWarningAlertStyle];
+			[alert setAlertStyle:NSCriticalAlertStyle];
 			
 			if ([alert runModal] == NSAlertFirstButtonReturn) {
 				NSLog(@"will remove");
@@ -732,9 +732,9 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 
 - (IBAction)addNewTrack:(id)sender {
 	SLTrack *t = [NSEntityDescription insertNewObjectForEntityForName:@"SLTrack" inManagedObjectContext:[self managedObjectContext]];
-	t.scope = NSHomeDirectory();
-	t.uti = @"com.adobe.pdf";
-	t.name = @"PDF (sample track)";
+	//t.scope = NSHomeDirectory();
+	//t.uti = @"com.adobe.pdf";
+	t.name = @" new track";
 	[t setUp];
 	
 	[tracksController insertObject:t atArrangedObjectIndex:0];
