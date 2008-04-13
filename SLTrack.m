@@ -14,6 +14,9 @@
 @dynamic showAll;
 @dynamic isActive;
 @dynamic customSearch;
+@dynamic useCustomSearch;
+@dynamic useUTI;
+@dynamic useScope;
 
 
 static NSString *genericFileIconDataHash = nil;
@@ -65,7 +68,9 @@ static NSImage *unknownImage = nil;
 	
 	NSImage *i;
 	
-	if(self.uti != nil && [self.uti length] > 0) {
+	if([self.useCustomSearch boolValue]) {
+		i = [[NSWorkspace sharedWorkspace] iconForFileType:@"com.apple.finder.smart-folder"];
+	} else if(![self.useUTI boolValue]) {
 		i = [[NSWorkspace sharedWorkspace] iconForFileType:self.uti];
 
 		// try not avoid using TIFFRepresentation
@@ -169,7 +174,7 @@ static NSImage *unknownImage = nil;
 }
  
 - (void)didChangeValueForKey:(NSString *)key {
-	//NSLog(@"didChangeValueForKey %@", key);
+	//NSLog(@"%@ didChangeValueForKey %@", self.name, key);
 
 	if([key isEqualToString:@"isActive"]) {
 		
@@ -182,7 +187,8 @@ static NSImage *unknownImage = nil;
 		}
 	}
 	
-	if([key isEqualToString:@"uti"]/* || [key isEqualToString:@"scope"]*/) { // FIXME: makes importing updating icon twice
+	if([key isEqualToString:@"uti"] || [key isEqualToString:@"useCustomSearch"]) { // FIXME: makes importing updating icon twice
+		self.icon = nil;
 		[self loadIcon];
 	}
 	
@@ -215,25 +221,6 @@ static NSImage *unknownImage = nil;
 	
 	[self didChangeValueForKey:@"icon"];
 	[self didChangeValueForKey:@"URLPath"];
-}
-*/
-
-/*
-- (void)setHasCustomSearch:(NSNumber *)n {
-	[self willChangeValueForKey:@"icon"];
-
-	// TODO: put logic in -[loadIcon]
-	// use smart folder icon for custom searches
-	if([n boolValue]) {
-		if(icon != nil) {
-			[icon release];
-			icon = nil;
-		}
-	} else {
-		[self loadIcon];
-	}
-	
-	[self didChangeValueForKey:@"icon"];
 }
 */
 
@@ -325,6 +312,7 @@ static NSImage *unknownImage = nil;
     [query setValueListAttributes:[NSArray arrayWithObjects:(NSString *)kMDQueryResultContentRelevance, nil]];
 }
 
+@synthesize icon;
 @synthesize queryResults;
 @synthesize query;
 @synthesize displayedQueryResultsCount;

@@ -11,11 +11,6 @@
 	BOOL showAll;
 	NSImage *icon;
 	NSString *displayedQueryResultsCount;
-	
-	NSString *customSearch; // TODO: put in coredata model
-	
-	//SLCollectionView *collectionView;
-	//NSView *mainView;
 }
 
 - (void)setUp;
@@ -27,6 +22,10 @@
 @property (retain) NSString *uti;
 @property (retain) NSString *nameContentKeywords;
 @property (retain) NSString *scope;
+@property (retain) NSNumber *useCustomSearch;
+@property (retain) NSNumber *useUTI;
+@property (retain) NSNumber *useScope;
+@property (retain) NSImage *icon;
 @property (retain) NSString *customSearch;
 @property (retain) NSString *displayedQueryResultsCount;
 @property (retain) NSSet *trackSets;
