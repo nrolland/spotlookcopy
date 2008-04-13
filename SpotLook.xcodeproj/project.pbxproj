@@ -25,6 +25,8 @@
 		0383638E0D8B30EF00EF168A /* AppDelegate+Toolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0383638D0D8B30EF00EF168A /* AppDelegate+Toolbar.m */; };
 		0383639E0D8B332600EF168A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0383639C0D8B332600EF168A /* MainMenu.xib */; };
 		038681050D85FEEE00ECDAA2 /* SLTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 038681030D85FEEE00ECDAA2 /* SLTableView.m */; };
+		039E699D0DB291CE002FF07A /* ko.tif in Resources */ = {isa = PBXBuildFile; fileRef = 039E699B0DB291CE002FF07A /* ko.tif */; };
+		039E699E0DB291CE002FF07A /* ok.tif in Resources */ = {isa = PBXBuildFile; fileRef = 039E699C0DB291CE002FF07A /* ok.tif */; };
 		03A16FCD0D7B9B100049CA76 /* SLRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A16FCC0D7B9B100049CA76 /* SLRulerView.m */; };
 		03A7DA460D7E038A00032F1B /* SLTrackSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A7DA450D7E038A00032F1B /* SLTrackSet.m */; };
 		03A7DC280D7E23BA00032F1B /* DefaultTracks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 03A7DC270D7E23BA00032F1B /* DefaultTracks.plist */; };
@@ -78,6 +80,8 @@
 		0383639D0D8B332600EF168A /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		038681030D85FEEE00ECDAA2 /* SLTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLTableView.m; sourceTree = "<group>"; };
 		038681040D85FEEE00ECDAA2 /* SLTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLTableView.h; sourceTree = "<group>"; };
+		039E699B0DB291CE002FF07A /* ko.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ko.tif; sourceTree = "<group>"; };
+		039E699C0DB291CE002FF07A /* ok.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ok.tif; sourceTree = "<group>"; };
 		03A16FCB0D7B9B100049CA76 /* SLRulerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLRulerView.h; sourceTree = "<group>"; };
 		03A16FCC0D7B9B100049CA76 /* SLRulerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLRulerView.m; sourceTree = "<group>"; };
 		03A7DA440D7E038A00032F1B /* SLTrackSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLTrackSet.h; sourceTree = "<group>"; };
@@ -236,6 +240,8 @@
 			children = (
 				0382E9BB0DA45D9D005E1043 /* zoomSmaller.png */,
 				0382E9BC0DA45D9D005E1043 /* zoomBigger.png */,
+				039E699B0DB291CE002FF07A /* ko.tif */,
+				039E699C0DB291CE002FF07A /* ok.tif */,
 				037E302B0D98813200BEBEB8 /* gpl.txt */,
 				03F1C3590D9817D40092C98D /* UserDefaults.plist */,
 				03F1C1F20D9783800092C98D /* SpotLookRunning.png */,
@@ -323,6 +329,8 @@
 				037E302C0D98813200BEBEB8 /* gpl.txt in Resources */,
 				0382E9BD0DA45D9D005E1043 /* zoomSmaller.png in Resources */,
 				0382E9BE0DA45D9D005E1043 /* zoomBigger.png in Resources */,
+				039E699D0DB291CE002FF07A /* ko.tif in Resources */,
+				039E699E0DB291CE002FF07A /* ok.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

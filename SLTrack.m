@@ -198,8 +198,26 @@ static NSImage *unknownImage = nil;
 			[query startQuery];
 		}
 	}
+	
+	if([key isEqualToString:@"customSearch"]) {
+		//NSLog(@"%@ customSearch", self.name);
+		[self willChangeValueForKey:@"customSearchValidationIcon"];
+		[self didChangeValueForKey:@"customSearchValidationIcon"];
+	}
 
 	[super didChangeValueForKey:key];
+}
+
+- (NSImage *)customSearchValidationIcon {
+	@try {
+		NSPredicate *p1 = [NSPredicate predicateWithFormat:self.customSearch];
+		NSPredicate *p2 = [NSPredicate spotlightFriendlyPredicate:p1];
+		return [NSImage imageNamed:@"ok"];
+	} @catch (NSException * e) {
+		NSLog(@"bad predicate: %@", self.customSearch);
+		return [NSImage imageNamed:@"ko"];
+	}
+
 }
 
 - (void)createPredicate {
@@ -237,8 +255,12 @@ static NSImage *unknownImage = nil;
 	NSMutableArray *subPredicates = [[NSMutableArray alloc] initWithObjects:timePredicate, nil];
 
 	if([self.useCustomSearch boolValue]) {
-		NSPredicate *customPredicate = [NSPredicate predicateWithFormat:self.customSearch];
-		[subPredicates addObject:customPredicate];
+		@try {
+			NSPredicate *customPredicate = [NSPredicate predicateWithFormat:self.customSearch];
+			[subPredicates addObject:customPredicate];
+		} @catch (NSException * e) {
+			NSLog(@"bad predicate: %@", self.customSearch);
+		}
 	} else if([self.useUTI boolValue]) {
 		NSPredicate *utiPredicate = [NSPredicate predicateWithFormat:@"kMDItemContentTypeTree == %@", self.uti];
 		[subPredicates addObject:utiPredicate];
@@ -247,11 +269,7 @@ static NSImage *unknownImage = nil;
 	if(!showAll) {
 		[subPredicates addObject:searchKeyPredicate];
 	}
-	
-	if([self.name isEqualToString:@"3gpp"]) {
-		NSLog(@"p %@", subPredicates);
-	}
-	
+
 	NSPredicate *predicateToRun = [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates];	
 	[subPredicates release];
 
