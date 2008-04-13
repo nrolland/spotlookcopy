@@ -106,7 +106,9 @@
 - (BOOL)validateToolbarItem:(NSToolbarItem *)theItem {
     
 	NSString *identifier = [theItem itemIdentifier];
-    if ([identifier isEqualToString:@"quickLook"]) {
+    if ([identifier isEqualToString:@"informations"]) {
+		return [[activeTracksController arrangedObjects] count] > 0;
+    } else if ([identifier isEqualToString:@"quickLook"]) {
 		return quickLookAvailable && [[selectedResultsController selectedObjects] count] > 0;
 	}
     

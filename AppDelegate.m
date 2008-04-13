@@ -855,8 +855,8 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 
 - (IBAction)resetDefaultTracks:(id)sender {
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-	[alert addButtonWithTitle:@"Cancel"];
 	[alert addButtonWithTitle:@"Reset!"];
+	[alert addButtonWithTitle:@"Cancel"];
 	[alert setMessageText:@"Reset to default tracks?"];
 	[alert setInformativeText:@"Your custom tracks and tracks sets will be lost. Default tracks will be restored."];
 	[alert setAlertStyle:NSWarningAlertStyle];
@@ -910,7 +910,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 }
 
 - (void)resetToDefaultTracksAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    if (returnCode == NSAlertSecondButtonReturn) {
+    if (returnCode == NSAlertFirstButtonReturn) {
 		self.isReplacingTracks = YES;
 		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
     }	
