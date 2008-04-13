@@ -236,13 +236,22 @@ static NSImage *unknownImage = nil;
 	
 	NSMutableArray *subPredicates = [[NSMutableArray alloc] initWithObjects:timePredicate, nil];
 
-	if(self.uti != nil && [self.uti length] > 0) {
+	if([self.useCustomSearch boolValue]) {
+		NSPredicate *customPredicate = [NSPredicate predicateWithFormat:self.customSearch];
+		[subPredicates addObject:customPredicate];
+	} else if([self.useUTI boolValue]) {
 		NSPredicate *utiPredicate = [NSPredicate predicateWithFormat:@"kMDItemContentTypeTree == %@", self.uti];
 		[subPredicates addObject:utiPredicate];
 	}
 
-	if(!showAll) { [subPredicates addObject:searchKeyPredicate]; }
-		
+	if(!showAll) {
+		[subPredicates addObject:searchKeyPredicate];
+	}
+	
+	if([self.name isEqualToString:@"3gpp"]) {
+		NSLog(@"p %@", subPredicates);
+	}
+	
 	NSPredicate *predicateToRun = [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates];	
 	[subPredicates release];
 
@@ -265,8 +274,7 @@ static NSImage *unknownImage = nil;
 //	[query setPredicate:p2];
 	
 	BOOL noScopeFromDefaults = [[NSUserDefaults standardUserDefaults] boolForKey:@"ignoreTracksSearchScopes"];
-	BOOL noScopeFromTracks = [self.scope isEqualToString:@""];
-	NSArray *scopes = (noScopeFromDefaults || noScopeFromTracks) ? nil : [NSArray arrayWithObject:[self interpretedScope]];
+	NSArray *scopes = (noScopeFromDefaults || ![self.useScope boolValue]) ? nil : [NSArray arrayWithObject:[self interpretedScope]];
 	[query setSearchScopes:scopes];
 	
     [query setValueListAttributes:[NSArray arrayWithObjects:(NSString *)kMDQueryResultContentRelevance, nil]];

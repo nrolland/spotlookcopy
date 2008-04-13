@@ -25431,47 +25431,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: representedObject.useCustomSearch</string>
-						<reference key="source" ref="249691126"/>
-						<reference key="destination" ref="446045564"/>
-						<object class="NSNibBindingConnector" key="connector" id="789078423">
-							<reference key="NSSource" ref="249691126"/>
-							<reference key="NSDestination" ref="446045564"/>
-							<string key="NSLabel">enabled: representedObject.useCustomSearch</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">representedObject.useCustomSearch</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">3693</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isEditing</string>
-						<reference key="source" ref="249691126"/>
-						<reference key="destination" ref="42996464"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="249691126"/>
-							<reference key="NSDestination" ref="42996464"/>
-							<string key="NSLabel">hidden: isEditing</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isEditing</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<reference key="NSPreviousConnector" ref="789078423"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">3694</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled2: representedObject.useCustomSearch</string>
 						<reference key="source" ref="97368192"/>
 						<reference key="destination" ref="446045564"/>
@@ -25741,6 +25700,26 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<reference key="destination" ref="960449655"/>
 					</object>
 					<int key="connectionID">3761</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isEditing</string>
+						<reference key="source" ref="249691126"/>
+						<reference key="destination" ref="42996464"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="249691126"/>
+							<reference key="NSDestination" ref="42996464"/>
+							<string key="NSLabel">hidden: isEditing</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isEditing</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">3763</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -28070,7 +28049,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">3761</int>
+			<int key="maxID">3763</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
