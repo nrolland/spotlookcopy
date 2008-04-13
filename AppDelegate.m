@@ -104,13 +104,14 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	NSString *path = [applicationSupportFolder stringByAppendingPathComponent: @"SpotLook.xml"];
     url = [NSURL fileURLWithPath: path];
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-    if (![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]){
+    if (![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]) {
+		NSLog(@"error %@", error);
 		if([error code] == 134100) { // old model
 			
 			NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 			[alert addButtonWithTitle:NSLocalizedString(@"OK", @"store upgrade panel")];
 			[alert setMessageText:NSLocalizedString(@"New tracks will override old ones", @"store upgrade panel")];
-			[alert setInformativeText:NSLocalizedString(@"Some tracks are already installed but their format is outdated. New tracks will replace them.", @"store upgrade panel")];
+			[alert setInformativeText:NSLocalizedString(@"Some tracks are already installed but their format is outdated. New tracks will replace them. Please allow several seconds for the new tracks to appear.", @"store upgrade panel")];
 			[alert setAlertStyle:NSCriticalAlertStyle];
 			
 			if ([alert runModal] == NSAlertFirstButtonReturn) {
@@ -118,8 +119,8 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 				[fileManager removeFileAtPath:path handler:nil];
 				[persistentStoreCoordinator release];
 				persistentStoreCoordinator = nil;
+				[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"defaultTracksImported"];
 				NSLog(@"did remove");
-				self.obsoleteModelWasRemoved = YES;
 			}
 			
 			return [self persistentStoreCoordinator];
@@ -309,11 +310,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	[dock setContentView:appIconView];
 	[dock display];
 
-	if(self.obsoleteModelWasRemoved) {
-		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
-	} else {
-		[self askToUpgradeTracksIfNotDone];
-	}
+	[self askToUpgradeTracksIfNotDone];
 	
 	[tracksController fetchWithRequest:nil merge:NO error:nil];
 		
@@ -534,7 +531,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(outlineItemDidExpand:) name:NSOutlineViewItemDidExpandNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(outlineItemDidCollapse:) name:NSOutlineViewItemDidCollapseNotification object:nil];
-					
+	
 	// set defaults
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"defaultTracksImported"] == NO) {
 		//[self importDefaultTracks];
@@ -542,7 +539,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 		//NSLog(@"%s", __PRETTY_FUNCTION__);
 		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
 //		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultTracksImported"];
-	} else if (!self.obsoleteModelWasRemoved) {
+	} else {
 		[self populateOutlineContents];
 	}
 	
@@ -1082,6 +1079,5 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 @synthesize isReplacingTracks;
 @synthesize isPopulatingOutline;
 @synthesize isEditing;
-@synthesize obsoleteModelWasRemoved;
 
 @end

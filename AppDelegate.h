@@ -59,17 +59,14 @@
 	BOOL isReplacingTracks;
 	BOOL isPopulatingOutline;
 	BOOL isEditing;
-	BOOL obsoleteModelWasRemoved;
 	
 	IBOutlet NSArrayController *utisController;
 	IBOutlet NSPanel *utiDiscovererWindow;
-	//IBOutlet NSProgressIndicator *UTIProgressIndicator;
 }
 
 @property (retain) NSString *searchKey;
 @property (retain) NSDate *fromDate;
 @property (retain) NSDate *toDate;
-//@property (retain) NSSortDescriptor *tracksSD;
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
 - (NSManagedObjectModel *)managedObjectModel;
@@ -137,6 +134,5 @@
 @property BOOL isReplacingTracks;
 @property BOOL isPopulatingOutline;
 @property BOOL isEditing;
-@property BOOL obsoleteModelWasRemoved;
 
 @end
