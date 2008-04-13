@@ -231,7 +231,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
         tracksImportManagedObjectContext = [[NSManagedObjectContext alloc] init];
         [tracksImportManagedObjectContext setPersistentStoreCoordinator:[self persistentStoreCoordinator]];
         [tracksImportManagedObjectContext setMergePolicy:NSOverwriteMergePolicy];
-        //[[tracksImportManagedObjectContext undoManager] disableUndoRegistration];
+        [[tracksImportManagedObjectContext undoManager] disableUndoRegistration];
     }
     return tracksImportManagedObjectContext;
 }
@@ -437,9 +437,14 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 
 - (SLTrack *)createdAndInsertedTrackFromDictionary:(NSDictionary *)d context:(NSManagedObjectContext *)context{
 	SLTrack *t = [NSEntityDescription insertNewObjectForEntityForName: @"SLTrack" inManagedObjectContext:context];
-	t.scope = @"NSHomeDirectory";
 	t.name = [d objectForKey:@"name"];
+
+	t.useScope = [NSNumber numberWithBool:YES];
+	t.scope = @"NSHomeDirectory";
+
+	t.useUTI = [NSNumber numberWithBool:YES];
 	t.uti = [d objectForKey:@"uti"];
+
 	t.nameContentKeywords = [d objectForKey:@"nameContentKeywords"];
 	[t setUp];
 	return t;
@@ -453,13 +458,9 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 
 - (void)importDefaultTracks {
 	//NSLog(@"importDefaultTracks");
-	NSLog(@"-- 0");
     NSManagedObjectContext *context = [self tracksImportManagedObjectContext];
-	NSLog(@"-- 1");
 	NSString *dtPath = [[NSBundle mainBundle] pathForResource:@"DefaultTracks" ofType:@"plist"]; // TODO: handle if not present..
-	NSLog(@"-- 2");
 	NSArray *dt = [NSArray arrayWithContentsOfFile:dtPath];
-	NSLog(@"-- 3");
 	for(NSDictionary *d in dt) {
 		if([[d allKeys] containsObject:@"tracks"]) { // we found a trackSet
 			SLTrackSet *ts = [self createAndInsertTrackSetWithName:[d objectForKey:@"name"] context:context];
@@ -471,9 +472,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 			[self createdAndInsertedTrackFromDictionary:d context:context];
 		}
 	}
-	NSLog(@"-- 4");
 	[context save:nil];
-	NSLog(@"-- 5");
     NSString *currentVersionString = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
 	[[NSUserDefaults standardUserDefaults] setObject:currentVersionString forKey:@"latestResetToDefaultTracks"];
 }
@@ -609,6 +608,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 
 - (IBAction)openUTIDiscoverer:(id)sender {
 	[utiDiscovererWindow makeKeyAndOrderFront:self];
+	[utisController removeObjects:[utisController arrangedObjects]];
 	[[NSWorkspace sharedWorkspace] searchForUTIInSpotlightImporters:self];
 }
 

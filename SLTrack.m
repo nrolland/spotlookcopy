@@ -70,7 +70,7 @@ static NSImage *unknownImage = nil;
 	
 	if([self.useCustomSearch boolValue]) {
 		i = [[NSWorkspace sharedWorkspace] iconForFileType:@"com.apple.finder.smart-folder"];
-	} else if(![self.useUTI boolValue]) {
+	} else if([self.useUTI boolValue]) {
 		i = [[NSWorkspace sharedWorkspace] iconForFileType:self.uti];
 
 		// try not avoid using TIFFRepresentation
@@ -80,7 +80,7 @@ static NSImage *unknownImage = nil;
 				return;
 			}
 		}
-	} else if( (self.scope != nil && [self.scope length] > 0) ) {
+	} else if([self.useScope boolValue]) {
 		i = [[NSWorkspace sharedWorkspace] iconForFile:[self interpretedScope]];
 	} else {
 		return;
@@ -177,8 +177,7 @@ static NSImage *unknownImage = nil;
 	//NSLog(@"%@ didChangeValueForKey %@", self.name, key);
 
 	if([key isEqualToString:@"isActive"]) {
-		
-		if([[self valueForKey:@"isActive"] boolValue] == YES) {
+		if([self.isActive boolValue] == YES) {
 			[self createPredicate];
 			[query startQuery];
 		} else {
@@ -187,12 +186,12 @@ static NSImage *unknownImage = nil;
 		}
 	}
 	
-	if([key isEqualToString:@"uti"] || [key isEqualToString:@"useCustomSearch"]) { // FIXME: makes importing updating icon twice
+	if([key isEqualToString:@"uti"] || [key isEqualToString:@"useUTI"] || [key isEqualToString:@"scope"] || [key isEqualToString:@"useScope"] || [key isEqualToString:@"useCustomSearch"]) { // FIXME: makes importing updating icon twice
 		self.icon = nil;
 		[self loadIcon];
 	}
 	
-	if([key isEqualToString:@"nameContentKeywords"] || [key isEqualToString:@"uti"] || [key isEqualToString:@"scope"] || [key isEqualToString:@"showAll"]) {
+	if([key isEqualToString:@"nameContentKeywords"] || [key isEqualToString:@"uti"] || [key isEqualToString:@"useUTI"] || [key isEqualToString:@"useScope"] || [key isEqualToString:@"scope"] || [key isEqualToString:@"showAll"]) {
 		// create and start query only if importation is over
 		if([[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:@"defaultTracksImported"]) {
 			[self createPredicate];
@@ -203,45 +202,6 @@ static NSImage *unknownImage = nil;
 	[super didChangeValueForKey:key];
 }
 
-/*
-- (void)setHasScope:(NSNumber *)n {
-	[self willChangeValueForKey:@"URLPath"];
-	[self willChangeValueForKey:@"icon"];
-
-	if([n boolValue]) {
-		self.scope = @"NSHomeDirectory";
-	} else {
-		self.scope = @"";
-	}
-
-	if(icon != nil) {
-		[icon release];
-		icon = nil;
-	}
-	
-	[self didChangeValueForKey:@"icon"];
-	[self didChangeValueForKey:@"URLPath"];
-}
-*/
-
-/*
-- (void)setHasUTI:(NSNumber *)n {
-	[self willChangeValueForKey:@"icon"];
-
-	if([n boolValue]) {
-		self.uti = @"com.adobe.pdf";
-	} else {
-		self.uti = @"";
-	}
-	
-	if(icon != nil) {
-		[icon release];
-		icon = nil;
-	}
-	
-	[self didChangeValueForKey:@"icon"];
-}
-*/
 - (void)createPredicate {
 	[query stopQuery];
 	
