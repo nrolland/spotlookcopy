@@ -115,12 +115,10 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 			[alert setAlertStyle:NSCriticalAlertStyle];
 			
 			if ([alert runModal] == NSAlertFirstButtonReturn) {
-				NSLog(@"will remove");
 				[fileManager removeFileAtPath:path handler:nil];
 				[persistentStoreCoordinator release];
 				persistentStoreCoordinator = nil;
 				[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"defaultTracksImported"];
-				NSLog(@"did remove");
 			}
 			
 			return [self persistentStoreCoordinator];
@@ -254,6 +252,11 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
     NSString *currentVersionString = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
 	BOOL v_1_0_Prefs = ![[[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys] containsObject:@"latestResetToDefaultTracks"];
 	//NSLog(@"v_1_0_Prefs %d", v_1_0_Prefs);
+
+	NSArray *upgradeModelVersions = [NSArray arrayWithObject:@"1.3"];
+	if([upgradeModelVersions containsObject:currentVersionString]) {
+		return;
+	}
 
 	BOOL skipCurrentVersionTrackUpgrade = [[[NSUserDefaults standardUserDefaults] objectForKey:@"skipTracksUpgradeVersion"] isEqualToString:currentVersionString];
 	if(skipCurrentVersionTrackUpgrade) { return; }
