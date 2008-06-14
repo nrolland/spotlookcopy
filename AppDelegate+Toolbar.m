@@ -15,6 +15,8 @@
     
     NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 
+	//NSLog(@"path %@", [NSImage imageNamed:NSImageNameInfo]); // [NSImage imageNamed:NSImageNameInfo]
+
 	if ([itemIdentifier isEqualToString:@"informations"]) {
         [item setLabel:NSLocalizedString(@"Track Informations", @"Toolbar item")];
         [item setPaletteLabel:NSLocalizedString(@"Informations", @"Toolbar customize")];

@@ -308,6 +308,26 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	[p release];
 }
 
+- (void)populateOutlineContents {
+	self.isPopulatingOutline = YES;
+	
+	tracksSetController.name = TRACKSGROUPS;
+	[treeController insertObject:tracksSetController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
+	
+	tracksController.name = TRACKS;
+	[treeController insertObject:tracksController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
+	
+	if([[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTrackGroups"]) {
+		[outlineView expandItem:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:0]]];
+	}
+	
+	if([[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTracks"]) {
+		[outlineView expandItem:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:1]]];
+	}
+	
+	self.isPopulatingOutline = NO;
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	NSDockTile *dock = [NSApp dockTile];
 	[dock setContentView:appIconView];
@@ -315,8 +335,25 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 
 	[self askToUpgradeTracksIfNotDone];
 	
+	// ensure controllers contain their data
 	[tracksController fetchWithRequest:nil merge:NO error:nil];
-		
+	[tracksSetController fetchWithRequest:nil merge:NO error:nil];
+	
+	// set defaults
+	if([[NSUserDefaults standardUserDefaults] boolForKey:@"defaultTracksImported"] == NO) {
+		//[self importDefaultTracks];
+		self.isReplacingTracks = YES;
+		//NSLog(@"%s", __PRETTY_FUNCTION__);
+		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
+		//		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultTracksImported"];
+	} else {
+		// we want to refresh treeController when adding or removing tracks or trackSets
+		[self populateOutlineContents];		
+	}
+	
+	[tracksController    addObserver:self forKeyPath:@"arrangedObjects" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:nil];
+	[tracksSetController addObserver:self forKeyPath:@"arrangedObjects" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:nil];
+	
 	if(!self.isReplacingTracks && !self.isLoadingIcons) {
 		self.isLoadingIcons = YES;
 		//NSLog(@"applicationDidFinishLaunching detach performIconsFetching");
@@ -324,9 +361,8 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 								 toTarget:self
 							   withObject:nil];
 	}
-	
+		
     [[Updater sharedInstance] checkUpdateSilentIfUpToDate:self];
-
 }
 
 /**
@@ -364,7 +400,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 		self.fromDate = (NSDate *)[[NSCalendarDate date] dateByAddingYears:0 months:-1 days:0 hours:0 minutes:0 seconds:0];
 		self.toDate = (NSDate *)[[NSCalendarDate date] dateByAddingYears:0 months:0 days:0 hours:12 minutes:0 seconds:0];
 		
-		initialTracksUsageCounter = 5; // this is a hack to keep the initial active tracks active during controllers filling by coredata
+		initialTracksUsageCounter = 12; // this is a hack to keep the initial active tracks active during controllers filling by coredata
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
 											     selector:@selector(contextDidSave:) 
@@ -477,26 +513,6 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	[[NSUserDefaults standardUserDefaults] setObject:currentVersionString forKey:@"latestResetToDefaultTracks"];
 }
 
-- (void)populateOutlineContents {
-	self.isPopulatingOutline = YES;
-	
-	tracksSetController.name = TRACKSGROUPS;
-	[treeController insertObject:tracksSetController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
-
-	tracksController.name = TRACKS;
-	[treeController insertObject:tracksController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
-
-	if([[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTrackGroups"]) {
-		[outlineView expandItem:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:0]]];
-	}
-
-	if([[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTracks"]) {
-		[outlineView expandItem:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:1]]];
-	}
-
-	self.isPopulatingOutline = NO;
-}
-
 - (void)setupSlider {
 	int sliderBackYears = [[NSUserDefaults standardUserDefaults] integerForKey:@"sliderBackYears"];
 	NSCalendarDate *sliderBackYearsDate = [[NSCalendarDate date] dateByAddingYears:-sliderBackYears months:0 days:0 hours:0 minutes:0 seconds:0];
@@ -509,7 +525,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 
 - (void)awakeFromNib {
 	//NSLog(@"awakeFromNib");
-
+	
 	quickLookAvailable = [[NSBundle bundleWithPath:QUICKLOOK_UI_FRAMEWORK] load];
 	if(quickLookAvailable) {
 		[[[QLPreviewPanel sharedPreviewPanel] windowController] setDelegate:self];
@@ -535,17 +551,6 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(outlineItemDidExpand:) name:NSOutlineViewItemDidExpandNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(outlineItemDidCollapse:) name:NSOutlineViewItemDidCollapseNotification object:nil];
 	
-	// set defaults
-	if([[NSUserDefaults standardUserDefaults] boolForKey:@"defaultTracksImported"] == NO) {
-		//[self importDefaultTracks];
-		self.isReplacingTracks = YES;
-		//NSLog(@"%s", __PRETTY_FUNCTION__);
-		[NSThread detachNewThreadSelector:@selector(performReplaceTracksWithDefaults) toTarget:self withObject:nil];
-//		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultTracksImported"];
-	} else {
-		[self populateOutlineContents];
-	}
-	
 	// set date slider
 	[self setupSlider];
 
@@ -568,10 +573,6 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	
 	[treeController addObserver:self forKeyPath:@"selectionIndexPaths" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:nil];
 	
-	// we want to refresh treeController when adding or removing tracks or trackSets
-	[tracksController addObserver:self forKeyPath:@"arrangedObjects" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:nil];
-	[tracksSetController addObserver:self forKeyPath:@"arrangedObjects" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:nil];
-
 	[slider setFloatValue:[fromDate timeIntervalSince1970]];
 	
 	[[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"disableRulerAntiAliasing" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:nil];
@@ -641,6 +642,11 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	[self setValue:to forKey:@"toDate"];
 }
 
+- (void)setSearchImmediately:(id)sender {
+	//NSLog(@"-> %d", [sender state]);
+	[[searchField cell] setSendsSearchStringImmediately:[sender state]];
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary *)change
@@ -672,12 +678,10 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 		[toDesactivate minusSet:[NSSet setWithArray:[treeController selectedObjects]]];
 		
 		if(initialTracksUsageCounter > 0) {
-			//NSLog(@"initialTracksUsageCounter");
 			initialTracksUsageCounter--;
 			[toDesactivate minusSet:[NSSet setWithArray:initialTracks]];
-			if(initialTracksUsageCounter == 0) {
-				[initialTracks release]; initialTracks = nil;
-			}
+		} else {
+			[initialTracks release]; initialTracks = nil;
 		}
 		
 		for(SLTrackSet *ts in [tracksSetController selectedObjects]) {
@@ -690,12 +694,24 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	}
 	
 	if((object == tracksController) && [keyPath isEqualToString:@"arrangedObjects"]) {
-		[treeController rearrangeObjects];
+		NSSet *activeTracks = [activeTracksController arrangedObjects];
+		[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
+		[treeController insertObject:tracksController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
+		if([[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTracks"]) {
+			[outlineView expandItem:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:1]]];
+		}
+		for (SLTrack *t in activeTracks) {
+			t.isActive = [NSNumber numberWithBool:YES];
+		}
 		return;
 	}
 
 	if((object == tracksSetController) && [keyPath isEqualToString:@"arrangedObjects"]) {
-		[treeController rearrangeObjects];
+		[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
+		[treeController insertObject:tracksSetController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
+		if([[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTrackGroups"]) {
+			[outlineView expandItem:[[treeController arrangedObjects] descendantNodeAtIndexPath:[NSIndexPath indexPathWithIndex:0]]];
+		}
 		return;
 	}
 
@@ -718,16 +734,19 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 }
 
 - (IBAction)addNewGroup:(id)sender {
+	NSLog(@"%d groups before", [[tracksSetController arrangedObjects] count]);
 	SLTrackSet *ts = [NSEntityDescription insertNewObjectForEntityForName:@"SLTrackSet" inManagedObjectContext:[self managedObjectContext]];
 	ts.name = @"New Group";
 	ts.tracks = [NSSet setWithArray:[activeTracksController arrangedObjects]];
-
+	
 	[tracksSetController insertObject:ts atArrangedObjectIndex:0];
-
+	
 	NSUInteger indexes[2] = {0, 0};
 	NSIndexPath *ip = [NSIndexPath indexPathWithIndexes:indexes length:2];   
-
+	
 	[treeController setSelectionIndexPaths:[NSArray arrayWithObject:ip]];
+	NSLog(@"%d groups after", [[tracksSetController arrangedObjects] count]);
+
 }
 
 - (IBAction)addNewTrack:(id)sender {

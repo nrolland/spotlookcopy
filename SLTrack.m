@@ -134,6 +134,7 @@ static NSImage *unknownImage = nil;
 	//NSLog(@"-setUp %@", self.name);
 	
 	NSMetadataQuery *q = [[[NSMetadataQuery alloc] init] autorelease];
+	[q setValueListAttributes:[NSArray arrayWithObject:NSMetadataQueryResultContentRelevanceAttribute]];
 	[self setValue:q forKey:@"query"];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(queryNotification:) name:nil object:query];
@@ -293,6 +294,8 @@ static NSImage *unknownImage = nil;
 	
 	[query setPredicate:predicateToRun];
 //	[query setPredicate:p2];
+	
+	// NSMetadataQueryResultContentRelevanceAttribute
 	
 	BOOL noScopeFromDefaults = [[NSUserDefaults standardUserDefaults] boolForKey:@"ignoreTracksSearchScopes"];
 	NSArray *scopes = (noScopeFromDefaults || ![self.useScope boolValue]) ? nil : [NSArray arrayWithObject:[self interpretedScope]];

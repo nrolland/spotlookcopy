@@ -33,7 +33,7 @@
     IBOutlet NSView *searchView;
     IBOutlet NSView *dateTypeView;
     IBOutlet NSView *sliderView;
-	
+		
 	NSUInteger initialTracksUsageCounter;
 	NSArray *initialTracks;
 	
@@ -111,6 +111,8 @@
 - (IBAction)openUTIDiscoverer:(id)sender;
 
 - (void)didFindUti:(NSString *)uti description:(NSString *)description;
+
+- (void)setSearchImmediately:(id)sender;
 
 @property (retain) NSArrayController *allResultsController;
 @property (retain) NSPopUpButton *dateTypesMenu;
