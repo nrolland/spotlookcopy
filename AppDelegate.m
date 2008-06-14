@@ -694,6 +694,8 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	}
 	
 	if((object == tracksController) && [keyPath isEqualToString:@"arrangedObjects"]) {
+		if([[treeController arrangedObjects] count] == 0) return;
+
 		NSSet *activeTracks = [activeTracksController arrangedObjects];
 		[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
 		[treeController insertObject:tracksController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:1]];
@@ -707,6 +709,8 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	}
 
 	if((object == tracksSetController) && [keyPath isEqualToString:@"arrangedObjects"]) {
+		if([[treeController arrangedObjects] count] == 0) return;
+		
 		[treeController removeObjectAtArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
 		[treeController insertObject:tracksSetController atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:0]];
 		if([[NSUserDefaults standardUserDefaults] boolForKey:@"outlineExpandTrackGroups"]) {

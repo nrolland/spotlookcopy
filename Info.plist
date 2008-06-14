@@ -21,15 +21,13 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2008-04-14</string>
+	<string>2008-06-14</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>FeedbackEmail</key>
 	<string>spotlook@seriot.ch</string>
-	<key>CFBundleShortVersionString</key>
-	<string>${SHORT_VERSION_STRING}</string>
 	<key>UpdaterURL</key>
 	<string>http://spotlook.googlecode.com/svn/trunk/VersionCheck.plist</string>
 	<key>UserGuideURL</key>
